@@ -65,6 +65,7 @@ export class ValidadorLoginService {
     // 5. Redirigir según rol (utilizando el rol decodificado)
     switch (decoded.rol) {
       case 'ROLE_USUARIO':
+        console.log(this.tokenService.getUserRole());
         this.router.navigate(['/usuario']); // Redirige a la ruta de usuario estándar.
         break;
       case 'ROLE_ADMIN':
