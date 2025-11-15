@@ -21,6 +21,11 @@ export const JwtInterceptor: HttpInterceptorFn = (req, next) => {
   // Obtiene el token JWT del almacenamiento local.
   const token = tokenService.getToken();
 
+  // Ignorar endpoints públicos
+  if (req.url.includes('/api/auth/')) {
+    return next(req);
+  }
+
   // Verifica si un token válido está presente.
   if (token) {
     // Clona la solicitud original para poder modificarla (las peticiones HTTP son inmutables).
