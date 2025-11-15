@@ -30,7 +30,7 @@
  * Estas clases cambian el color de fondo según el tipo de mensaje.
  */
 .toast.success {
-  background-color: #4caf50; /* Color de fondo verde oscuro para mensajes de éxito. */
+  background-color: #087f32; /* Color de fondo verde oscuro para mensajes de éxito. */
 }
 .toast.error {
   background-color: #f44336; /* Color de fondo rojo oscuro para mensajes de error. */
@@ -44,12 +44,16 @@
  * Regla que describe el comportamiento de la animación de entrada 'slide-in'.
  */
 @keyframes slide-in {
-  from {
-    opacity: 0; /* Inicia completamente transparente (invisible). */
-    transform: translateX(100%); /* Mueve el elemento 100% de su propio ancho hacia la derecha (fuera de la vista). */
-  }
-  to {
-    opacity: 1; /* Termina completamente opaco (visible). */
-    transform: translateX(0); /* Mueve el elemento a su posición original (dentro del contenedor). */
-  }
+  from {
+    opacity: 0; /* Inicia completamente transparente (invisible). */
+    transform: translateX(
+      100%
+    ); /* Mueve el elemento 100% de su propio ancho hacia la derecha (fuera de la vista). */
+  }
+  to {
+    opacity: 1; /* Termina completamente opaco (visible). */
+    transform: translateX(
+      0
+    ); /* Mueve el elemento a su posición original (dentro del contenedor). */
+  }
 }

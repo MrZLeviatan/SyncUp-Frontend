@@ -1,0 +1,120 @@
+/* wrapper to center all / contenedor para centrar todo */
+.page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #e9e7e7b4;
+}
+
+/* Contenedor principal */
+.auth-container {
+  width: 380px;
+  padding: 25px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Imagen superior */
+.auth-image {
+  width: 120px;
+  height: auto;
+  margin: 0 auto 2px auto; /* centrado horizontal */
+  display: block; /* permite el centrado */
+}
+
+/* Tabs superiores */
+.auth-tabs {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 25px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 12px 0;
+  background: #f5f5f5;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 10px;
+}
+
+.tab-btn.active {
+  background: #087f32;
+  color: white;
+}
+
+/* Formularios */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  animation: fade 0.3s ease;
+}
+
+.auth-form input {
+  margin-top: 5px;
+  margin-bottom: 15px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #c7c7c7;
+  transition: 0.2s;
+  font-size: 15px;
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: #087f32;
+  box-shadow: 0 0 6px rgba(29, 185, 84, 0.4);
+}
+
+/* Botón principal */
+.submit-btn {
+  background: #087f32;
+  color: white;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 10px;
+}
+
+.submit-btn:hover {
+  background: #17a548;
+}
+
+/* Texto de términos sobre el botón */
+.terms-text {
+  font-size: 13px;
+  color: #555;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.terms-text a {
+  color: #1db954; /* Verde estilo Spotify */
+  text-decoration: none;
+}
+
+.terms-text a:hover {
+  text-decoration: underline;
+}
+
+/* Animación */
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
