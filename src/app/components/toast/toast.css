@@ -1,0 +1,55 @@
+/**
+ * ESTILOS DEL CONTENEDOR PRINCIPAL (.toast-container)
+ * Esta sección define cómo se agrupan las notificaciones y su posición fija en la pantalla.
+ */
+.toast-container {
+  position: fixed; /* Posiciona el contenedor relativo a la ventana del navegador; permanece visible al desplazarse. */
+  top: 20px; /* Lo coloca a 20 píxeles del borde superior. */
+  right: 20px; /* Coloca el contenedor a 20 píxeles del borde derecho de la ventana. */
+  z-index: 9999; /* Asegura que el contenedor esté por encima de casi todos los demás elementos. */
+  display: flex; /* Habilita el modelo Flexbox para el contenedor. */
+  flex-direction: column; /* Apila las notificaciones (ítems) verticalmente. */
+  gap: 10px; /* Establece una separación de 10 píxeles entre los elementos apilados (notificaciones). */
+}
+
+/**
+ * ESTILOS BASE DE LA NOTIFICACIÓN INDIVIDUAL (.toast)
+ * Esta sección define la apariencia general, el formato de texto y la animación de cada mensaje.
+ */
+.toast {
+  padding: 12px 20px; /* Relleno interno: 12px en vertical (arriba/abajo) y 20px en horizontal (izquierda/derecha). */
+  border-radius: 6px; /* Redondea las esquinas de la notificación. */
+  color: white; /* Establece el color del texto a blanco. */
+  font-weight: bold; /* Hace que el texto dentro de la notificación sea negrita. */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Añade una sombra sutil para dar relieve y profundidad. */
+  animation: slide-in 0.3s ease-out; /* Aplica la animación 'slide-in' con duración de 0.3s y desaceleración al final. */
+}
+
+/**
+ * MODIFICADORES DE ESTADO (COLORES)
+ * Estas clases cambian el color de fondo según el tipo de mensaje.
+ */
+.toast.success {
+  background-color: #4caf50; /* Color de fondo verde oscuro para mensajes de éxito. */
+}
+.toast.error {
+  background-color: #f44336; /* Color de fondo rojo oscuro para mensajes de error. */
+}
+.toast.info {
+  background-color: #2196f3; /* Color de fondo azul brillante para mensajes informativos. */
+}
+
+/**
+ * DEFINICIÓN DE ANIMACIÓN
+ * Regla que describe el comportamiento de la animación de entrada 'slide-in'.
+ */
+@keyframes slide-in {
+  from {
+    opacity: 0; /* Inicia completamente transparente (invisible). */
+    transform: translateX(100%); /* Mueve el elemento 100% de su propio ancho hacia la derecha (fuera de la vista). */
+  }
+  to {
+    opacity: 1; /* Termina completamente opaco (visible). */
+    transform: translateX(0); /* Mueve el elemento a su posición original (dentro del contenedor). */
+  }
+}

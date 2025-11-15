@@ -1,0 +1,21 @@
+<div class="toast-container">
+  <!-- Contenedor principal para todas las notificaciones. 
+       Su clase CSS (.toast-container) asegura que esté fijo en la esquina de la pantalla. -->
+
+  <div *ngFor="let toast of toastService.toasts" class="toast" [ngClass]="toast.type">
+    <!-- Directiva estructural de Angular (*ngFor):
+         Itera sobre la lista 'toasts' que reside dentro del 'toastService'.
+         Cada elemento de la lista se nombra temporalmente como 'toast'. -->
+
+    <!-- Clase Base CSS:
+         Aplica la clase 'toast', que define el padding, color del texto, sombreado y la animación base (slide-in). -->
+
+    <!-- Binding de Clase ([ngClass]):
+         Asigna dinámicamente una clase adicional (success, error, o info) basada en el valor de 'toast.type'. 
+         Esto es lo que define el color de fondo específico para cada notificación. -->
+
+    {{ toast.message }}
+    <!-- Interpolación de Angular:
+         Muestra el contenido del mensaje de la notificación actual. -->
+  </div>
+</div>
