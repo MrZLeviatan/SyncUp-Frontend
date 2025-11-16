@@ -1,0 +1,25 @@
+/* Mantiene la tabla arriba y el botón debajo */
+.contenedor-interno {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Estilo del botón igual al de eliminar canción */
+.btn-eliminar {
+  background-color: #d9534f;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-eliminar:hover {
+  background-color: #c9302c;
+}

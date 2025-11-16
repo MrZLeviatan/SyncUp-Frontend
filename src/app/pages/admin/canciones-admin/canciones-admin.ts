@@ -108,7 +108,6 @@ export class CancionesAdminComponent implements OnInit {
     this.cancionService.obtenerCancionesGeneral().subscribe({
       next: (res) => {
         this.canciones = res;
-        console.log(this.canciones);
       },
       error: (err) => console.error(err),
     });
@@ -142,8 +141,6 @@ export class CancionesAdminComponent implements OnInit {
           this.titulo = cancion.titulo;
           this.genero = cancion.generoMusical;
           this.fecha = cancion.fechaLanzamiento;
-
-          console.log('Artista cargado:', artista);
         },
         error: (err) => {
           console.error('Error obteniendo artista:', err);

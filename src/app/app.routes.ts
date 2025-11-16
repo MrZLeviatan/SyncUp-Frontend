@@ -23,6 +23,11 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'usuarios',
+        loadComponent: () =>
+          import('./pages/admin/gestion-usuarios/gestion-usuarios').then((m) => m.GestionUsuarios),
+      },
+      {
         path: 'metricas',
         loadComponent: () =>
           import('./pages/admin/metricas-sistema/metricas-sistema').then((m) => m.MetricasSistema),

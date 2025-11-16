@@ -14,6 +14,4 @@ export interface UsuarioDto {
   nombre: string;
   username: string;
   password: string;
-  cancionesFavoritas: CancionDto[];
-  usuariosSeguidos: UsuarioDto[];
 }
