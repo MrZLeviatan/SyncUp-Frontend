@@ -37,9 +37,15 @@
         <span>ó</span>
 
         <!-- Botón para seleccionar archivo manualmente -->
-        <label class="upload-btn">
+        <label class="upload-btn" [class.disabled]="editarMode">
           Seleccionar Portada
-          <input type="file" accept="image/*" (change)="onImagenSeleccionada($event)" hidden />
+          <input
+            type="file"
+            accept="image/*"
+            (change)="onImagenSeleccionada($event)"
+            hidden
+            [disabled]="editarMode"
+          />
         </label>
       </ng-container>
 
@@ -48,7 +54,7 @@
         <img [src]="previewImagen" alt="Portada" class="preview-img" />
 
         <!-- Botón para eliminar la imagen cargada -->
-        <button class="btn-remove-img" (click)="eliminarImagen()">✕</button>
+        <button class="btn-remove-img" [disabled]="editarMode" (click)="eliminarImagen()">✕</button>
       </div>
     </div>
 
@@ -57,9 +63,15 @@
          ------------------------------- -->
     <div class="audio-row">
       <!-- Botón para seleccionar archivo MP3 -->
-      <label class="upload-btn">
+      <label class="upload-btn" [class.disabled]="editarMode">
         Seleccionar MP3
-        <input type="file" accept="audio/mp3" (change)="onAudioSeleccionado($event)" hidden />
+        <input
+          type="file"
+          accept="audio/mp3"
+          (change)="onAudioSeleccionado($event)"
+          hidden
+          [disabled]="editarMode"
+        />
       </label>
 
       <!-- Reproductor visible solo si hay un MP3 cargado -->
@@ -72,7 +84,13 @@
     <form class="formulario-cancion" #formCancion="ngForm">
       <!-- Campo título -->
       <label>Título de la Canción:</label>
-      <input type="text" name="titulo" ngModel placeholder="Título de la canción" />
+      <input
+        type="text"
+        name="titulo"
+        [(ngModel)]="titulo"
+        required
+        placeholder="Título de la canción"
+      />
 
       <!-- -------------------------------
            ARTISTA + BUSCADOR
@@ -88,10 +106,16 @@
           placeholder="Buscar artista..."
           (input)="buscarArtistas($event)"
           [(ngModel)]="textoArtista"
+          [disabled]="editarMode"
         />
 
         <!-- Botón para abrir el modal de registrar un artista -->
-        <button type="button" class="btn-agregar-artista" (click)="abrirModalArtista()">
+        <button
+          type="button"
+          class="btn-agregar-artista"
+          (click)="abrirModalArtista()"
+          [disabled]="editarMode"
+        >
           Agregar Artista
         </button>
       </div>
@@ -110,7 +134,7 @@
         <!-- Selector de género -->
         <div class="campo-genero">
           <label>Género Musical:</label>
-          <select name="genero" ngModel>
+          <select name="genero" [(ngModel)]="genero" required [disabled]="editarMode">
             <option value="">Seleccione género</option>
             <option *ngFor="let g of generos" [value]="g">{{ g }}</option>
           </select>
@@ -119,7 +143,7 @@
         <!-- Selección de fecha -->
         <div class="campo-fecha">
           <label>Fecha de Lanzamiento:</label>
-          <input type="date" name="fecha" ngModel />
+          <input type="date" name="fecha" [(ngModel)]="fecha" required />
         </div>
       </div>
 
@@ -131,18 +155,13 @@
         <button
           type="button"
           class="btn-guardar"
-          (click)="guardarCancion(formCancion)"
-          [disabled]="
-            cargando ||
-            !formCancion.valid ||
-            !previewImagen ||
-            !audioArchivo ||
-            !artistaSeleccionadoId
-          "
+          (click)="editarMode ? actualizarCancion(formCancion) : guardarCancion(formCancion)"
+          [disabled]="cargando || !formCancion.valid || !artistaSeleccionadoId"
         >
-          <ng-container *ngIf="!cargando">Guardar Canción</ng-container>
+          <ng-container *ngIf="!cargando">
+            {{ editarMode ? 'Actualizar Canción' : 'Guardar Canción' }}
+          </ng-container>
 
-          <!-- Spinner -->
           <div *ngIf="cargando" class="spinner"></div>
         </button>
       </div>

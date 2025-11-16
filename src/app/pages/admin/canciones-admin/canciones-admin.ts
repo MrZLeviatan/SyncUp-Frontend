@@ -10,6 +10,7 @@ import { ArtistaService } from '../../../core/services/artista.service';
 import { RegistrarArtistasDto } from '../../../core/models/dto/artista/registrar-artista.dto';
 import { ToastService } from '../../../components/toast/toast.service';
 import { RegistrarCancionDto } from '../../../core/models/dto/cancion/registrar-cancion.dto';
+import { EditarCancionDto } from '../../../core/models/dto/cancion/editar-cancion.dto';
 
 @Component({
   selector: 'app-canciones-admin',
@@ -49,6 +50,11 @@ export class CancionesAdminComponent implements OnInit {
   /** Controla el estado del modal para registrar artista */
   mostrarModalArtista: boolean = false;
 
+  /** Validar campos */
+  titulo: string = '';
+  genero: string = '';
+  fecha: string = '';
+
   /** DTO temporal para registrar un artista */
   nuevoArtista: RegistrarArtistasDto = {
     nombreArtistico: '',
@@ -65,6 +71,12 @@ export class CancionesAdminComponent implements OnInit {
 
   /** Proceso de carga al actualizar / guardar una canción */
   cargando: boolean = false;
+
+  // Indica si estamos editando una canción existente
+  editarMode: boolean = false;
+
+  // Canción seleccioanda de la lista
+  cancionSeleccionada?: CancionDto;
 
   // =======================================================
   // CONSTRUCTOR + ONINIT
@@ -105,8 +117,10 @@ export class CancionesAdminComponent implements OnInit {
    * @param cancion Canción seleccionada
    */
   recibirCancionSeleccionada(cancion: CancionDto) {
-    console.log('Cancion seleccionada:', cancion);
+    this.cancionSeleccionada = cancion; // Guardamos referencia
 
+    // Activar modo edición
+    this.editarMode = true;
     // ============================
     // 1. TÍTULO
     // ============================
@@ -123,6 +137,9 @@ export class CancionesAdminComponent implements OnInit {
 
           this.textoArtista = artista.nombreArtistico;
           this.artistaSeleccionadoId = artista.id;
+          this.titulo = cancion.titulo;
+          this.genero = cancion.generoMusical;
+          this.fecha = cancion.fechaLanzamiento;
 
           console.log('Artista cargado:', artista);
         },
@@ -252,6 +269,8 @@ export class CancionesAdminComponent implements OnInit {
    * resetea inputs y elimina archivos cargados.
    */
   cancelarFormulario() {
+    this.editarMode = false; // desbloquear campos
+    this.cancionSeleccionada = undefined;
     this.previewImagen = null;
     this.archivoImagen = null;
 
@@ -379,6 +398,42 @@ export class CancionesAdminComponent implements OnInit {
         this.cargando = false;
         this.cancelarFormulario();
         this.cargarCancionesGenerales();
+      },
+    });
+  }
+
+  // ACTUALIZA LA CANCIÓN MEDIANTE LA SELECCIÓN DE ESTA EN LA TABLA.
+  actualizarCancion(form: any) {
+    if (!form.valid) {
+      this.toastService.show('Completa todos los campos obligatorios', 'error');
+      return;
+    }
+    if (!this.artistaSeleccionadoId) {
+      this.toastService.show('Debes seleccionar un artista válido', 'error');
+      return;
+    }
+
+    // Construir DTO de edición
+    const dto: EditarCancionDto = {
+      id: this.cancionSeleccionada?.id!, // ID de la canción seleccionada
+      titulo: form.value.titulo,
+      fechaLanzamiento: form.value.fecha,
+      // Puedes agregar más campos si deseas
+    };
+
+    this.cargando = true;
+
+    this.cancionService.actualizarCancion(dto).subscribe({
+      next: () => {
+        this.toastService.show('Canción actualizada correctamente', 'success');
+        this.cargando = false;
+        this.cancelarFormulario(); // Resetea formulario y vuelve al botón de guardar
+        this.cargarCancionesGenerales(); // Refresca lista
+      },
+      error: (err) => {
+        this.cargando = false;
+        console.error(err);
+        this.toastService.show('Error al actualizar la canción', 'error');
       },
     });
   }

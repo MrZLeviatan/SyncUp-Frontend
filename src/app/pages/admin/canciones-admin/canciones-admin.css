@@ -257,10 +257,7 @@
   background: #32c356;
 }
 
-/* ============================================================
-   PANEL DERECHO
-   Lista de sugerencias y títulos.
-   ============================================================ */
+/* PANEL DERECHO:  Lista de sugerencias y títulos. */
 .panel-derecho {
   width: 65%;
 }
@@ -305,10 +302,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
   cursor: pointer;
 }
 
-/* ============================================================
-   MODAL
-   Ventana emergente para agregar artista.
-   ============================================================ */
+/* MODAL: Ventana emergente para agregar artista.*/
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -332,9 +326,34 @@ input[type='date']::-webkit-calendar-picker-indicator {
   animation: fadeIn 0.25s ease;
 }
 
-/* ============================================================
-   SPINNER DE CARGA PARA BOTÓN GUARDAR
-   ============================================================ */
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.modal-body input {
+  padding: 10px;
+  border-radius: 8px;
+  background: #2b2b2b;
+  border: none;
+  color: #fff;
+}
+
+.modal-botones {
+  margin-top: 18px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.upload-btn.disabled {
+  background-color: #555 !important;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* SPINNER DE CARGA PARA BOTÓN GUARDAR */
 .spinner {
   width: 22px;
   height: 22px;
@@ -366,25 +385,4 @@ input[type='date']::-webkit-calendar-picker-indicator {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.modal-body {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.modal-body input {
-  padding: 10px;
-  border-radius: 8px;
-  background: #2b2b2b;
-  border: none;
-  color: #fff;
-}
-
-.modal-botones {
-  margin-top: 18px;
-  display: flex;
-  justify-content: space-between;
 }
