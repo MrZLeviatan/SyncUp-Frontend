@@ -386,3 +386,76 @@ input[type='date']::-webkit-calendar-picker-indicator {
     transform: translateY(0);
   }
 }
+
+/* BOTON PARA DESCARGAR CANCIONES TEXTO PLANO */
+
+/* Contenedor del botón centrado */
+.boton-descargar-canciones {
+  margin-top: 25px;
+  text-align: center;
+}
+
+/* Estilo principal del botón */
+.boton-descargar-canciones button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px; /* espacio entre ícono y texto */
+  padding: 12px 25px;
+  background: linear-gradient(135deg, #4caf50, #2e7d32); /* degradado moderno */
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+/* Efecto hover */
+.boton-descargar-canciones button:hover {
+  background: linear-gradient(135deg, #66bb6a, #388e3c);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+/* Efecto click */
+.boton-descargar-canciones button:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Ícono dentro del botón */
+.boton-descargar-canciones i {
+  font-size: 18px;
+}
+
+/* BOTON PARA ELIMINAR CANCIONES */
+
+/* Botón de eliminar canción */
+.boton-descargar-canciones .btn-eliminar {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 25px;
+  background: linear-gradient(135deg, #e53935, #b71c1c);
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.boton-descargar-canciones .btn-eliminar:hover {
+  background: linear-gradient(135deg, #ef5350, #c62828);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.boton-descargar-canciones .btn-eliminar:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}

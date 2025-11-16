@@ -11,6 +11,7 @@ import { RegistrarArtistasDto } from '../../../core/models/dto/artista/registrar
 import { ToastService } from '../../../components/toast/toast.service';
 import { RegistrarCancionDto } from '../../../core/models/dto/cancion/registrar-cancion.dto';
 import { EditarCancionDto } from '../../../core/models/dto/cancion/editar-cancion.dto';
+import { CancionArchivoService } from '../../../core/services/canciones/cancion-archivo.service';
 
 @Component({
   selector: 'app-canciones-admin',
@@ -85,7 +86,8 @@ export class CancionesAdminComponent implements OnInit {
   constructor(
     private cancionService: CancionService,
     private artistaService: ArtistaService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private cancionArchivoService: CancionArchivoService
   ) {}
 
   /**
@@ -434,6 +436,40 @@ export class CancionesAdminComponent implements OnInit {
         this.cargando = false;
         console.error(err);
         this.toastService.show('Error al actualizar la canción', 'error');
+      },
+    });
+  }
+
+  descargarCancionesTxt() {
+    this.cancionArchivoService.descargarReporteGeneralCanciones().subscribe({
+      next: (blob) => {
+        // Llama a la función auxiliar del servicio para iniciar descarga
+        this.cancionArchivoService.descargarArchivo(blob, 'canciones.txt');
+      },
+      error: (err) => {
+        console.error('Error descargando el archivo', err);
+        this.toastService.show('Error al descargar el archivo', 'error');
+      },
+    });
+  }
+
+  /**
+   * Elimina la canción que está actualmente seleccionada.
+   */
+  eliminarCancionSeleccionada() {
+    if (!this.cancionSeleccionada) return;
+
+    const id = this.cancionSeleccionada.id;
+
+    this.cancionService.eliminarCancion(id).subscribe({
+      next: () => {
+        this.toastService.show('Canción eliminada correctamente', 'success');
+        this.cancelarFormulario(); // Resetea todo y vuelve al botón de descargar
+        this.cargarCancionesGenerales(); // Refresca lista de canciones
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastService.show('Error al eliminar la canción', 'error');
       },
     });
   }

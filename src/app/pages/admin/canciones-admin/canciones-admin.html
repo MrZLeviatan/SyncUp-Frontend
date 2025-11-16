@@ -13,6 +13,22 @@
       (cancionSeleccionada)="recibirCancionSeleccionada($event)"
     >
     </app-lista-canciones>
+
+    <!-- Botón dinámico: descarga o elimina -->
+    <div class="boton-descargar-canciones">
+      <button type="button" *ngIf="!cancionSeleccionada" (click)="descargarCancionesTxt()">
+        <i class="fa fa-download"></i> Descargar Canciones TXT
+      </button>
+
+      <button
+        type="button"
+        *ngIf="cancionSeleccionada"
+        class="btn-eliminar"
+        (click)="eliminarCancionSeleccionada()"
+      >
+        <i class="fa fa-trash"></i> Eliminar Canción
+      </button>
+    </div>
   </div>
 
   <!-- ==============================
