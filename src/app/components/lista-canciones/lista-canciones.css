@@ -1,0 +1,97 @@
+.lista-canciones-container {
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  justify-content: flex-start; /* alinea al lado izquierdo */
+}
+
+.lista {
+  width: 750px; /* un poco más ancha */
+  max-width: 100%;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Cabecera de la tabla */
+.tabla-cabecera {
+  display: flex;
+  font-weight: bold;
+  padding: 12px 10px;
+  border-bottom: 2px solid #ccc;
+  background-color: #087f32;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 14px;
+  border-radius: 6px 6px 0 0;
+}
+
+/* Cada fila */
+.cancion-item {
+  display: flex;
+  padding: 6px 10px; /* menos padding vertical */
+  border-bottom: 1px solid #ddd;
+  transition: background-color 0.25s, box-shadow 0.25s;
+  cursor: default;
+  align-items: center;
+  font-size: 14px;
+  color: #333;
+  min-height: 70px; /* altura mínima para filas más grandes */
+}
+
+.cancion-item:hover {
+  background-color: #e6f2e6;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Columnas */
+.col {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 6px;
+}
+
+/* Nueva columna para la portada */
+.col.portada {
+  flex: 0.8;
+  text-align: center;
+  padding-right: 8px;
+}
+
+/* Nueva columna para la portada */
+.col.portada {
+  flex: 0 0 70px; /* ancho fijo para portada */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 6px;
+}
+
+/* Imagen de la portada */
+.imagen-portada {
+  width: 60px; /* más grande que antes */
+  height: 60px; /* casi llena la altura de la fila */
+  object-fit: cover; /* recorta manteniendo proporción */
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* Ajustes de otras columnas para que encajen */
+.col.titulo {
+  flex: 2;
+}
+.col.artista {
+  flex: 1.5;
+}
+.col.genero {
+  flex: 1;
+}
+.col.duracion {
+  flex: 0.8;
+  text-align: right;
+}

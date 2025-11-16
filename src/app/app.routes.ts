@@ -15,6 +15,13 @@ export const routes: Routes = [
     component: LayoutTopBarAdmin,
     children: [
       { path: '', redirectTo: 'canciones', pathMatch: 'full' }, // Redirección automática al cargar la ruta 'admin'
+      {
+        path: 'canciones',
+        loadComponent: () =>
+          import('./pages/admin/canciones-admin/canciones-admin').then(
+            (m) => m.CancionesAdminComponent
+          ),
+      },
     ],
   },
 ];

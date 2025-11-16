@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { API_URL } from '../../../app.config';
 import { RegistrarCancionDto } from '../../models/dto/cancion/registrar-cancion.dto';
 import { EditarCancionDto } from '../../models/dto/cancion/editar-cancion.dto';
@@ -85,6 +85,18 @@ export class CancionService {
   obtenerCancion(idCancion: number): Observable<CancionDto> {
     // Petición GET al endpoint: /api/cancion/{idCancion}
     return this.http.get<CancionDto>(`${this.apiUrl}/${idCancion}`);
+  }
+
+  /**
+   * @method obtenerCancionesGeneral
+   * @description Obtiene todas las canciones generales
+   *
+   * @returns Un {@link Observable} que emite una lista de {@link CancionDto}.
+   */
+  obtenerCancionesGeneral(): Observable<CancionDto[]> {
+    return this.http.get<{ error: boolean; mensaje: CancionDto[] }>(`${this.apiUrl}/listar`).pipe(
+      map((res) => res.mensaje) // solo retorna el array
+    );
   }
 
   /**

@@ -1,0 +1,27 @@
+<div class="lista-canciones-container">
+  <div class="lista" [style.max-height.px]="alturaLista">
+    <!-- Cabecera de la tabla -->
+    <div class="tabla-cabecera">
+      <span class="col portada">Portada</span>
+      <span class="col titulo">Título</span>
+      <span class="col artista">Artista</span>
+      <span class="col genero">Género</span>
+      <span class="col duracion">Duración</span>
+    </div>
+
+    <!-- Filas de canciones -->
+    <div class="cancion-item" *ngFor="let c of canciones">
+      <span class="col portada">
+        <img
+          [src]="c.urlPortada || 'assets/placeholder.png'"
+          alt="Portada {{ c.titulo }}"
+          class="imagen-portada"
+        />
+      </span>
+      <span class="col titulo">{{ c.titulo }}</span>
+      <span class="col artista">{{ artistasMap[c.idArtista] || 'Cargando...' }}</span>
+      <span class="col genero">{{ c.generoMusical }}</span>
+      <span class="col duracion">{{ c.duracion }}</span>
+    </div>
+  </div>
+</div>
