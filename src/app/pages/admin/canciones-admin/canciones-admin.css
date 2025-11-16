@@ -332,6 +332,31 @@ input[type='date']::-webkit-calendar-picker-indicator {
   animation: fadeIn 0.25s ease;
 }
 
+/* ============================================================
+   SPINNER DE CARGA PARA BOTÓN GUARDAR
+   ============================================================ */
+.spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid #ffffff55;
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Botón deshabilitado */
+.btn-guardar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

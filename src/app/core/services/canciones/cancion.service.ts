@@ -38,14 +38,14 @@ export class CancionService {
     const formData = new FormData();
 
     // 1. Añadir los campos de texto/número.
-    formData.append('titulo', dto.titulo);
-    formData.append('genero', dto.generoMusical);
-    formData.append('anioLanzamiento', dto.fechaLanzamiento);
-    formData.append('artistaId', dto.artistaId.toString());
+    formData.append('titulo', dto.titulo); // Título de la canción
+    formData.append('generoMusical', dto.generoMusical); // Debe coincidir con el nombre del DTO backend
+    formData.append('fechaLanzamiento', dto.fechaLanzamiento); // Fecha exacta enviada como string
+    formData.append('artistaId', dto.artistaId.toString()); // ID del artista
 
     // 2. Añadir los archivos binarios (File) solo si están presentes.
-    if (dto.archivoCancion) formData.append('archivoAudio', dto.archivoCancion);
-    if (dto.imagenPortada) formData.append('portada', dto.imagenPortada);
+    formData.append('archivoCancion', dto.archivoCancion); // Archivo de audio
+    formData.append('imagenPortada', dto.imagenPortada); // Imagen de portada
 
     // Petición POST al endpoint: /api/cancion/registrar
     return this.http.post(`${this.apiUrl}/registrar`, formData);

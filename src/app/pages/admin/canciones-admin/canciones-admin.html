@@ -123,7 +123,23 @@
            ------------------------------- -->
       <div class="fila-botones">
         <button type="button" class="btn-cancelar" (click)="cancelarFormulario()">Cancelar</button>
-        <button class="btn-guardar">Guardar Canción</button>
+        <button
+          type="button"
+          class="btn-guardar"
+          (click)="guardarCancion(formCancion)"
+          [disabled]="
+            cargando ||
+            !formCancion.valid ||
+            !previewImagen ||
+            !audioArchivo ||
+            !artistaSeleccionadoId
+          "
+        >
+          <ng-container *ngIf="!cargando">Guardar Canción</ng-container>
+
+          <!-- Spinner -->
+          <div *ngIf="cargando" class="spinner"></div>
+        </button>
       </div>
     </form>
 

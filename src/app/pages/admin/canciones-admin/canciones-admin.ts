@@ -8,6 +8,8 @@ import { GeneroMusical } from '../../../core/models/enum/genero-musical.enum';
 import { FormsModule } from '@angular/forms';
 import { ArtistaService } from '../../../core/services/artista.service';
 import { RegistrarArtistasDto } from '../../../core/models/dto/artista/registrar-artista.dto';
+import { ToastService } from '../../../components/toast/toast.service';
+import { RegistrarCancionDto } from '../../../core/models/dto/cancion/registrar-cancion.dto';
 
 @Component({
   selector: 'app-canciones-admin',
@@ -52,20 +54,27 @@ export class CancionesAdminComponent implements OnInit {
     nombreArtistico: '',
   };
 
+  /** Guarda el ID del artista elegido */
+  artistaSeleccionadoId: number | null = null;
+
   /** Indica si el área drag & drop está activa */
   isDragOver: boolean = false;
 
   /** Archivo de imagen arrastrado */
   archivoImagen: File | null = null;
 
+  /** Proceso de carga al actualizar / guardar una canción */
+  cargando: boolean = false;
+
   // =======================================================
-  // 🟦 CONSTRUCTOR + ONINIT
+  // CONSTRUCTOR + ONINIT
   // =======================================================
 
   constructor(
     private cancionService: CancionService,
     private cancionBusquedaService: CancionBusquedaService,
-    private artistaService: ArtistaService
+    private artistaService: ArtistaService,
+    private toastService: ToastService
   ) {}
 
   /**
@@ -76,7 +85,7 @@ export class CancionesAdminComponent implements OnInit {
   }
 
   // =======================================================
-  // 🟩 CARGAR CANCIONES
+  // CARGAR CANCIONES
   // =======================================================
 
   /**
@@ -101,7 +110,7 @@ export class CancionesAdminComponent implements OnInit {
   }
 
   // =======================================================
-  // 🟧 MANEJO DE AUDIO
+  // MANEJO DE AUDIO
   // =======================================================
 
   /**
@@ -117,7 +126,7 @@ export class CancionesAdminComponent implements OnInit {
   }
 
   // =======================================================
-  // 🟪 MANEJO DE IMAGEN (DRAG & DROP + FILE)
+  // MANEJO DE IMAGEN (DRAG & DROP + FILE)
   // =======================================================
 
   /**
@@ -182,7 +191,7 @@ export class CancionesAdminComponent implements OnInit {
   }
 
   // =======================================================
-  // 🟥 FORMULARIO: LIMPIEZA Y RESET
+  // FORMULARIO: LIMPIEZA Y RESET
   // =======================================================
 
   /**
@@ -211,7 +220,7 @@ export class CancionesAdminComponent implements OnInit {
   }
 
   // =======================================================
-  // 🟨 AUTOCOMPLETAR ARTISTAS
+  // AUTOCOMPLETAR ARTISTAS
   // =======================================================
 
   /**
@@ -241,11 +250,12 @@ export class CancionesAdminComponent implements OnInit {
    */
   seleccionarArtista(artista: any) {
     this.textoArtista = artista.nombreArtistico;
+    this.artistaSeleccionadoId = artista.id; // Guardamos el ID real
     this.listaArtistas = [];
   }
 
   // =======================================================
-  // 🟦 MODAL PARA REGISTRAR ARTISTA
+  //  MODAL PARA REGISTRAR ARTISTA
   // =======================================================
 
   /** Abre el modal para registro de artista */
@@ -267,10 +277,56 @@ export class CancionesAdminComponent implements OnInit {
 
     this.artistaService.registrarArtista(this.nuevoArtista).subscribe({
       next: (res) => {
-        alert('Artista registrado correctamente');
+        this.toastService.show('Artista registrado correctamente', 'success');
         this.cerrarModalArtista();
       },
       error: (err) => console.error(err),
+    });
+  }
+
+  // =======================================================
+  //  REGISTRO DE CANCIONES
+  // =======================================================
+
+  guardarCancion(form: any) {
+    // VALIDAR FORMULARIO COMPLETO
+    if (!form.valid) {
+      this.toastService.show('Completa todos los campos del formulario', 'error');
+      return;
+    }
+    if (!this.archivoImagen) {
+      this.toastService.show('Debes seleccionar una imagen de portada', 'error');
+      return;
+    }
+    if (!this.audioArchivo) {
+      this.toastService.show('Debes seleccionar un archivo MP3', 'error');
+      return;
+    }
+    if (!this.artistaSeleccionadoId) {
+      this.toastService.show('Debes seleccionar un artista válido', 'error');
+      return;
+    }
+
+    // ARMAR DTO COMPLETO
+    const dto: RegistrarCancionDto = {
+      titulo: form.value.titulo,
+      generoMusical: form.value.genero,
+      fechaLanzamiento: form.value.fecha,
+      archivoCancion: this.audioArchivo,
+      imagenPortada: this.archivoImagen,
+      artistaId: this.artistaSeleccionadoId,
+    };
+
+    this.cargando = true; // Activar spinner
+
+    // LLAMADA AL SERVICIO
+    this.cancionService.registrarCancion(dto).subscribe({
+      next: () => {
+        this.toastService.show('Canción registrada correctamente', 'success');
+        this.cargando = false;
+        this.cancelarFormulario();
+        this.cargarCancionesGenerales();
+      },
     });
   }
 }
