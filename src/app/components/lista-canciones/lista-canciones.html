@@ -114,7 +114,7 @@
     <!-- ========================================================= -->
     <!-- LISTA DE CANCIONES (UNA FILA POR CADA CANCIÓN) -->
     <!-- ========================================================= -->
-    <div class="cancion-item" *ngFor="let c of canciones">
+    <div class="cancion-item" *ngFor="let c of canciones" (click)="seleccionarCancion(c)">
       <!-- Portada de la canción -->
       <span class="col portada">
         <img

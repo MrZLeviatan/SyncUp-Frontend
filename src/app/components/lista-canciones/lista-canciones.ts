@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, Output } from '@angular/core';
 import { CancionDto } from '../../core/models/dto/cancion/cancion.dto';
 import { ArtistaService } from '../../core/services/artista.service';
 import { CommonModule } from '@angular/common';
@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { CancionBusquedaService } from '../../core/services/canciones/cancion-busqueda.service';
 import { ArtistaDto } from '../../core/models/dto/artista/artista.dto';
 import { GeneroMusical } from '../../core/models/enum/genero-musical.enum';
+import { EventEmitter } from '@angular/core';
 
 /**
  * Componente encargado de mostrar y administrar la lista de canciones,
@@ -93,6 +94,13 @@ export class ListaCanciones implements OnInit, OnChanges {
       this.cancionesGenerales = [...changes['canciones'].currentValue];
       this.cargarArtistas();
     }
+  }
+
+  @Output() cancionSeleccionada = new EventEmitter<CancionDto>();
+
+  // Cuando se hace clic en una canción
+  seleccionarCancion(cancion: CancionDto) {
+    this.cancionSeleccionada.emit(cancion);
   }
 
   /**

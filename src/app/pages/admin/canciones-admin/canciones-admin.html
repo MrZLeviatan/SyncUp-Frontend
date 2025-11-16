@@ -7,7 +7,12 @@
     <h2>Gestión de Canciones (Admin)</h2>
 
     <!-- Componente que muestra la lista de canciones -->
-    <app-lista-canciones [alturaLista]="alturaLista" [canciones]="canciones"> </app-lista-canciones>
+    <app-lista-canciones
+      [alturaLista]="alturaLista"
+      [canciones]="canciones"
+      (cancionSeleccionada)="recibirCancionSeleccionada($event)"
+    >
+    </app-lista-canciones>
   </div>
 
   <!-- ==============================

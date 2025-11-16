@@ -72,7 +72,6 @@ export class CancionesAdminComponent implements OnInit {
 
   constructor(
     private cancionService: CancionService,
-    private cancionBusquedaService: CancionBusquedaService,
     private artistaService: ArtistaService,
     private toastService: ToastService
   ) {}
@@ -107,6 +106,60 @@ export class CancionesAdminComponent implements OnInit {
    */
   recibirCancionSeleccionada(cancion: CancionDto) {
     console.log('Cancion seleccionada:', cancion);
+
+    // ============================
+    // 1. TÍTULO
+    // ============================
+    const inputTitulo = document.querySelector('input[name="titulo"]') as HTMLInputElement;
+    if (inputTitulo) inputTitulo.value = cancion.titulo;
+
+    // ============================
+    // 2. ARTISTA
+    // ============================
+    if (cancion.idArtista) {
+      this.artistaService.obtenerArtistaPorId(cancion.idArtista).subscribe({
+        next: (res) => {
+          const artista = res.mensaje;
+
+          this.textoArtista = artista.nombreArtistico;
+          this.artistaSeleccionadoId = artista.id;
+
+          console.log('Artista cargado:', artista);
+        },
+        error: (err) => {
+          console.error('Error obteniendo artista:', err);
+          this.toastService.show('No se pudo cargar la información del artista', 'error');
+        },
+      });
+    }
+
+    // ============================
+    // 3. GÉNERO
+    // ============================
+    const selectGenero = document.querySelector('select[name="genero"]') as HTMLSelectElement;
+    if (selectGenero) selectGenero.value = cancion.generoMusical;
+
+    // ============================
+    // 4. FECHA DE LANZAMIENTO
+    // ============================
+    const inputFecha = document.querySelector('input[name="fecha"]') as HTMLInputElement;
+    if (inputFecha) inputFecha.value = cancion.fechaLanzamiento;
+
+    // ============================
+    // 5. IMAGEN (desde Cloudinary)
+    // ============================
+    if (cancion.urlPortada) {
+      this.previewImagen = cancion.urlPortada;
+      this.archivoImagen = null; // porque viene por URL
+    }
+
+    // ============================
+    // 6. AUDIO MP3 (desde Cloudinary)
+    // ============================
+    if (cancion.urlCancion) {
+      this.audioURL = cancion.urlCancion;
+      this.audioArchivo = null;
+    }
   }
 
   // =======================================================
