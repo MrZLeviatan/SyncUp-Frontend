@@ -1,97 +1,284 @@
+/* =========================================================
+   CONTENEDOR PRINCIPAL DE LA LISTA DE CANCIONES
+   ========================================================= */
 .lista-canciones-container {
-  font-family: 'Segoe UI', sans-serif;
-  display: flex;
-  justify-content: flex-start; /* alinea al lado izquierdo */
+  font-family: 'Segoe UI', sans-serif; /* Fuente principal del módulo */
+  display: flex; /* Layout horizontal */
+  justify-content: flex-start; /* Alinea todo hacia la izquierda */
 }
 
+/* =========================================================
+   CONTENEDOR DE LA LISTA / TABLA
+   ========================================================= */
 .lista {
-  width: 750px; /* un poco más ancha */
-  max-width: 100%;
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 12px;
-  background-color: #ffffff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 750px; /* Ancho principal de la tabla */
+  max-width: 100%; /* Evita que exceda el contenedor */
+  overflow-y: auto; /* Scroll vertical */
+  border: 1px solid #ccc; /* Borde gris claro */
+  border-radius: 8px; /* Bordes redondeados */
+  padding: 12px; /* Separación interna */
+  background-color: #ffffff; /* Fondo blanco */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
-/* Cabecera de la tabla */
+/* =========================================================
+   CABECERA DE LA TABLA
+   ========================================================= */
 .tabla-cabecera {
-  display: flex;
-  font-weight: bold;
-  padding: 12px 10px;
-  border-bottom: 2px solid #ccc;
-  background-color: #087f32;
-  color: #ffffff;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-size: 14px;
-  border-radius: 6px 6px 0 0;
+  display: flex; /* Columnas lado a lado */
+  font-weight: bold; /* Texto fuerte */
+  padding: 12px 10px; /* Espaciado interno */
+  border-bottom: 2px solid #ccc; /* Línea inferior */
+  background-color: #087f32; /* Verde del sistema */
+  color: #ffffff; /* Texto blanco */
+  text-transform: uppercase; /* Todo en mayúsculas */
+  letter-spacing: 0.5px; /* Separación entre letras */
+  font-size: 14px; /* Tamaño de fuente */
+  border-radius: 6px 6px 0 0; /* Bordes superiores redondeados */
 }
 
-/* Cada fila */
+/* =========================================================
+   FILAS DE LAS CANCIONES
+   ========================================================= */
 .cancion-item {
-  display: flex;
-  padding: 6px 10px; /* menos padding vertical */
-  border-bottom: 1px solid #ddd;
-  transition: background-color 0.25s, box-shadow 0.25s;
-  cursor: default;
-  align-items: center;
-  font-size: 14px;
-  color: #333;
-  min-height: 70px; /* altura mínima para filas más grandes */
+  display: flex; /* Columnas lado a lado */
+  align-items: center; /* Alineación vertical centrada */
+  padding: 6px 10px; /* Espaciado interno */
+  font-size: 14px; /* Tamaño de fuente */
+  color: #333; /* Texto gris oscuro */
+  min-height: 70px; /* Altura mínima */
+  border-bottom: 1px solid #ddd; /* Separador entre filas */
+  cursor: default; /* Cursor estándar */
+  transition: background-color 0.25s, box-shadow 0.25s; /* Animaciones suaves */
 }
 
 .cancion-item:hover {
-  background-color: #e6f2e6;
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+  background-color: #e6f2e6; /* Verde suave */
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05); /* Efecto de hundido */
 }
 
-/* Columnas */
+/* =========================================================
+   COLUMNAS GENERALES
+   ========================================================= */
 .col {
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  padding: 0 6px;
+  flex: 1; /* Todas ocupan espacio equitativo por defecto */
+  overflow: hidden; /* Oculta texto que exceda */
+  text-overflow: ellipsis; /* (...) cuando el texto es muy largo */
+  white-space: nowrap; /* No permite saltos de línea */
+  padding: 0 6px; /* Margen interno lateral */
 }
 
-/* Nueva columna para la portada */
+/* =========================================================
+   COLUMNA DE PORTADA (IMAGEN)
+   ========================================================= */
 .col.portada {
-  flex: 0.8;
-  text-align: center;
-  padding-right: 8px;
+  flex: 0 0 70px; /* Ancho fijo para la portada */
+  display: flex; /* Centra contenido */
+  justify-content: center;
+  align-items: center;
+  padding-right: 6px; /* Separación lateral */
 }
 
-/* Nueva columna para la portada */
-.col.portada {
-  flex: 0 0 70px; /* ancho fijo para portada */
+.imagen-portada {
+  width: 60px; /* Tamaño de portada */
+  height: 60px; /* Proporción cuadrada */
+  object-fit: cover; /* Recorte manteniendo proporción */
+  border-radius: 6px; /* Esquinas redondeadas */
+  border: 1px solid #ccc; /* Borde sutil */
+}
+
+/* =========================================================
+   COLUMNAS ESPECÍFICAS
+   ========================================================= */
+.col.titulo {
+  flex: 2; /* Más espacio para el título */
+}
+
+.col.artista {
+  flex: 1.5; /* Espacio intermedio */
+}
+
+.col.genero {
+  flex: 1; /* Espacio estándar */
+}
+
+.col.duracion {
+  flex: 0.8; /* Un poco más angosta */
+  text-align: right; /* Alineación a la derecha */
+}
+
+/* =========================================================
+   BUSCADOR PRINCIPAL
+   ========================================================= */
+.buscador-container {
+  position: sticky; /* Se mantiene arriba al hacer scroll */
+  top: 0; /* Se pega al borde superior */
+  z-index: 10; /* Se mantiene sobre las filas */
+  background-color: #ffffff; /* Evita mezcla de colores */
+  padding-bottom: 10px; /* Espaciado inferior */
+}
+
+.buscador-input {
+  width: 95%; /* Se adapta al contenedor */
+  padding: 8px 12px; /* Espaciado interno */
+  border-radius: 6px; /* Esquinas redondeadas */
+  border: 2px solid #087f32; /* Borde verde */
+  font-size: 14px; /* Tamaño de fuente */
+  outline: none; /* Elimina borde azul del navegador */
+  transition: box-shadow 0.2s; /* Animación suave */
+}
+
+.buscador-input:focus {
+  box-shadow: 0 0 5px rgba(0, 127, 50, 0.5); /* Glow verde */
+  border-color: #087f32; /* Reafirma color */
+}
+
+/* =========================================================
+   BUSCADOR DE ARTISTA (AUTOCOMPLETADO)
+   ========================================================= */
+.buscador-artista-container {
+  position: relative; /* Permite posicionar la lista flotante */
+  margin-top: 8px; /* Separación superior */
+  padding-bottom: 10px; /* Separación inferior */
+}
+
+.buscador-artista-input {
+  width: 95%; /* Ocupa el ancho del contenedor */
+  padding: 8px 12px; /* Espaciado interno */
+  border-radius: 6px; /* Bordes redondeados */
+  border: 2px solid #0059b3; /* Borde azul */
+  font-size: 14px; /* Tamaño de texto */
+  outline: none;
+  transition: box-shadow 0.2s; /* Animación suave */
+}
+
+.buscador-artista-input:focus {
+  box-shadow: 0 0 5px rgba(0, 100, 200, 0.4); /* Glow azul */
+  border-color: #004a99; /* Azul más oscuro */
+}
+
+/* Lista desplegable del autocompletado */
+.lista-artistas {
+  position: absolute; /* Se posiciona debajo del input */
+  top: 40px; /* Separación vertical */
+  width: 95%; /* Igual ancho que input */
+  max-height: 180px; /* Altura máxima */
+  overflow-y: auto; /* Scroll interno */
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.15); /* Sombra */
+  z-index: 50; /* Encima de otros elementos */
+}
+
+/* Item dentro del autocompletado */
+.item-artista {
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 14px;
+}
+
+.item-artista:hover {
+  background: #e5f1ff; /* Azul suave */
+}
+
+/* =========================================================
+   FILTROS Y ACCIONES
+   ========================================================= */
+.fila-buscador,
+.filtros-container {
+  display: flex; /* Elementos en fila */
+  align-items: center;
+  gap: 10px; /* Espaciado entre controles */
+}
+
+/* Botones de filtros principales */
+.btn-hamburguesa,
+.btn-year,
+.btn-filtrar {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: #087f32; /* Verde */
+  color: white;
+  transition: opacity 0.2s;
+}
+
+.btn-hamburguesa:hover,
+.btn-year:hover,
+.btn-filtrar:hover {
+  opacity: 0.85; /* Efecto hover */
+}
+
+/* =========================================================
+   MENÚS DESPLEGABLES (AÑO, GÉNERO, ETC.)
+   ========================================================= */
+.dropdown {
+  position: relative; /* Necesario para el menú interno */
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 38px; /* Ubicación debajo del botón */
+  width: 150px; /* Ancho estándar */
+  max-height: 200px; /* Límite del scroll */
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  z-index: 100; /* Muy por encima del contenido */
+}
+
+.dropdown-item {
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.dropdown-item:hover {
+  background-color: #e6f2e6; /* Verde suave */
+}
+
+/* =========================================================
+   BOTONES DE ACCIONES (ICONOS)
+   ========================================================= */
+.acciones-filtro {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.btn-icono {
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #087f32; /* Verde */
+  color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-right: 6px;
+  transition: opacity 0.2s;
 }
 
-/* Imagen de la portada */
-.imagen-portada {
-  width: 60px; /* más grande que antes */
-  height: 60px; /* casi llena la altura de la fila */
-  object-fit: cover; /* recorta manteniendo proporción */
-  border-radius: 6px;
-  border: 1px solid #ccc;
+.btn-icono:hover {
+  opacity: 0.85; /* Efecto hover */
 }
 
-/* Ajustes de otras columnas para que encajen */
-.col.titulo {
-  flex: 2;
+/* Botón rojo para limpiar filtros */
+.btn-icono.limpiar {
+  background-color: #b30000; /* Rojo fuerte */
 }
-.col.artista {
-  flex: 1.5;
-}
-.col.genero {
+
+/* Evita que el input se reduzca demasiado */
+.buscador-artista-input {
   flex: 1;
-}
-.col.duracion {
-  flex: 0.8;
-  text-align: right;
 }

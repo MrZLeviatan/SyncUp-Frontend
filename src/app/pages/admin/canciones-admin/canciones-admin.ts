@@ -12,7 +12,7 @@ import { CancionService } from '../../../core/services/canciones/cancion.service
 })
 export class CancionesAdminComponent implements OnInit {
   canciones: CancionDto[] = []; // Arreglo de canciones cargadas
-  alturaLista = 250;
+  alturaLista = 450;
 
   constructor(private cancionService: CancionService) {}
 

@@ -1,5 +1,64 @@
 <div class="lista-canciones-container">
   <div class="lista" [style.max-height.px]="alturaLista">
+    <!-- Buscador -->
+    <div class="buscador-container">
+      <input
+        type="text"
+        placeholder="Buscar canciones..."
+        [(ngModel)]="textoBusqueda"
+        (input)="buscarCanciones()"
+        class="buscador-input"
+      />
+    </div>
+
+    <!-- Buscador de Artistas -->
+    <div class="buscador-artista-container">
+      <div class="fila-buscador">
+        <!-- Input de artista -->
+        <input
+          type="text"
+          placeholder="Buscar artista..."
+          [(ngModel)]="textoArtista"
+          (input)="buscarArtistas()"
+          class="buscador-artista-input"
+        />
+
+        <!-- Botones e iconos al lado izquierdo -->
+        <div class="filtros-container">
+          <!-- Botón hamburguesa (géneros) -->
+          <div class="dropdown">
+            <button class="btn-icono" (click)="toggleGenero()">☰</button>
+            <div class="dropdown-menu" *ngIf="mostrarGenero">
+              <div class="dropdown-item" *ngFor="let g of generos" (click)="seleccionarGenero(g)">
+                {{ g }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Selector de año -->
+          <div class="dropdown">
+            <button class="btn-icono" (click)="toggleAnios()">⧖</button>
+            <div class="dropdown-menu" *ngIf="mostrarAnios">
+              <div class="dropdown-item" *ngFor="let y of anios" (click)="seleccionarAnio(y)">
+                {{ y }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Botones aplicar y limpiar -->
+          <button class="btn-icono" (click)="aplicarFiltros()">✓</button>
+          <button class="btn-icono limpiar" (click)="limpiarFiltros()">✖</button>
+        </div>
+      </div>
+
+      <!-- Lista flotante -->
+      <div class="lista-artistas" *ngIf="listaArtistas.length > 0">
+        <div class="item-artista" *ngFor="let a of listaArtistas" (click)="seleccionarArtista(a)">
+          {{ a.nombreArtistico }}
+        </div>
+      </div>
+    </div>
+
     <!-- Cabecera de la tabla -->
     <div class="tabla-cabecera">
       <span class="col portada">Portada</span>
