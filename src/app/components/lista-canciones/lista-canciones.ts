@@ -7,6 +7,11 @@ import { CancionBusquedaService } from '../../core/services/canciones/cancion-bu
 import { ArtistaDto } from '../../core/models/dto/artista/artista.dto';
 import { GeneroMusical } from '../../core/models/enum/genero-musical.enum';
 
+/**
+ * Componente encargado de mostrar y administrar la lista de canciones,
+ * permitiendo búsquedas por título, filtrado por artista, género y año.
+ * También carga información de artistas según las canciones mostradas.
+ */
 @Component({
   imports: [CommonModule, FormsModule],
   selector: 'app-lista-canciones',
@@ -14,40 +19,75 @@ import { GeneroMusical } from '../../core/models/enum/genero-musical.enum';
   styleUrls: ['./lista-canciones.css'],
 })
 export class ListaCanciones implements OnInit, OnChanges {
+  /** Altura definida desde el componente padre para ajustar el tamaño visual de la lista.*/
   @Input() alturaLista: number = 300;
+
+  /** Lista inicial de canciones proporcionada por el componente padre.*/
   @Input() canciones: CancionDto[] = [];
 
+  /** Mapa que almacena los nombres de artistas según su ID para evitar múltiples consultas repetidas. */
   artistasMap: Record<number, string> = {};
-  textoBusqueda: string = '';
-  cancionesGenerales: CancionDto[] = []; // para restaurar
 
+  /** Texto ingresado por el usuario para la búsqueda por título de canción.*/
+  textoBusqueda: string = '';
+
+  /** Copia de todas las canciones recibidas inicialmente, usada para restaurar resultados. */
+  cancionesGenerales: CancionDto[] = [];
+
+  /** Texto ingresado para buscar artistas por autocompletar.*/
   textoArtista: string = '';
+
+  /** Lista de artistas sugeridos por autocompletado. */
   listaArtistas: ArtistaDto[] = [];
+
+  /** ID del artista actualmente seleccionado en el filtro. */
   artistaSeleccionadoId: number | null = null;
 
+  /** Lista de géneros musicales obtenidos del enum. */
   generos = Object.values(GeneroMusical);
+
+  /** Lista de años generada dinámicamente desde el año actual hasta 1950. */
   anios: number[] = [];
+
+  /** Controla la visibilidad del menú de selección de género. */
   mostrarGenero = false;
+
+  /** Controla la visibilidad del menú de años.*/
   mostrarAnios = false;
 
+  /** Género seleccionado para el filtro.*/
   generoSeleccionado: string | null = null;
+
+  /** Año seleccionado para el filtro.*/
   anioSeleccionado: number | null = null;
 
+  /**
+   * @constructor
+   * @param artistaService Servicio para obtener información de artistas.
+   * @param busquedaService Servicio para búsquedas y filtros de canciones.
+   */
   constructor(
     private artistaService: ArtistaService,
     private busquedaService: CancionBusquedaService
   ) {}
 
+  /**
+   * Método del ciclo de vida de Angular que se ejecuta al inicializar el componente.
+   * Carga la copia general de canciones, obtiene artistas asociados y genera la lista de años.
+   */
   ngOnInit() {
-    // Guardamos las canciones generales al inicializar
     this.cancionesGenerales = [...this.canciones];
     this.cargarArtistas();
 
-    // generar años dinámicos
     const actual = new Date().getFullYear();
     for (let y = actual; y >= 1950; y--) this.anios.push(y);
   }
 
+  /**
+   * Método del ciclo de vida que se ejecuta cuando cambian los @Input.
+   * Se actualiza la lista de canciones generales y se recarga la información de artistas.
+   * @param changes Representa los cambios detectados en propiedades de entrada.
+   */
   ngOnChanges(changes: SimpleChanges) {
     if (changes['canciones'] && changes['canciones'].currentValue) {
       this.cancionesGenerales = [...changes['canciones'].currentValue];
@@ -55,6 +95,10 @@ export class ListaCanciones implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Carga los nombres de los artistas asociados a cada canción actual.
+   * Se optimiza cargando solo los artistas no registrados previamente.
+   */
   cargarArtistas() {
     this.canciones.forEach((c) => {
       if (!this.artistasMap[c.idArtista]) {
@@ -65,22 +109,21 @@ export class ListaCanciones implements OnInit, OnChanges {
     });
   }
 
+  /**
+   * Realiza la búsqueda de canciones por título.
+   * Si el texto está vacío, restaura la lista original.
+   */
   buscarCanciones() {
     const texto = this.textoBusqueda.trim();
     if (!texto) {
-      // Si el buscador está vacío, restauramos canciones generales
       this.canciones = [...this.cancionesGenerales];
-
       this.cargarArtistas();
       return;
     }
 
-    // Llamamos al servicio de búsqueda
     this.busquedaService.autocompletarCanciones(texto).subscribe({
       next: (res: any) => {
-        // Asegúrate de usar el array real
         this.canciones = res?.mensaje || [];
-        console.log(res);
       },
       error: (err) => {
         console.error('Error buscando canciones', err);
@@ -88,6 +131,9 @@ export class ListaCanciones implements OnInit, OnChanges {
     });
   }
 
+  /**
+   * Busca artistas según el texto ingresado para autocompletar.
+   */
   buscarArtistas() {
     const texto = this.textoArtista.trim();
 
@@ -106,34 +152,48 @@ export class ListaCanciones implements OnInit, OnChanges {
     });
   }
 
+  /**
+   * Selecciona un artista desde la lista de autocompletado.
+   * @param artista Artista elegido por el usuario.
+   */
   seleccionarArtista(artista: ArtistaDto) {
-    this.textoArtista = artista.nombreArtistico; // Mostrar el nombre
-    this.artistaSeleccionadoId = artista.id; // Guardar el ID
-    this.listaArtistas = []; // Ocultar lista
-
-    console.log('ID del artista seleccionado:', this.artistaSeleccionadoId);
+    this.textoArtista = artista.nombreArtistico;
+    this.artistaSeleccionadoId = artista.id;
+    this.listaArtistas = [];
   }
 
+  /** Alterna la visibilidad del menú de géneros. */
   toggleGenero() {
     this.mostrarGenero = !this.mostrarGenero;
   }
 
+  /** Alterna la visibilidad del menú de años. */
   toggleAnios() {
     this.mostrarAnios = !this.mostrarAnios;
   }
 
+  /**
+   * Selecciona un género musical como filtro.
+   * @param g Género musical seleccionado.
+   */
   seleccionarGenero(g: string) {
     this.generoSeleccionado = g;
     this.mostrarGenero = false;
-    console.log('Género seleccionado:', g);
   }
 
+  /**
+   * Selecciona un año de lanzamiento como filtro.
+   * @param y Año seleccionado.
+   */
   seleccionarAnio(y: number) {
     this.anioSeleccionado = y;
     this.mostrarAnios = false;
-    console.log('Año seleccionado:', y);
   }
 
+  /**
+   * Aplica los filtros seleccionados (artista, género y año)
+   * realizando una búsqueda avanzada en el backend.
+   */
   aplicarFiltros() {
     const artista = this.artistaSeleccionadoId ? this.artistaSeleccionadoId.toString() : undefined;
     const genero = this.generoSeleccionado || undefined;
@@ -141,8 +201,6 @@ export class ListaCanciones implements OnInit, OnChanges {
 
     this.busquedaService.listarCancionesFiltro(artista, genero, anio, 0, 20).subscribe({
       next: (res: any) => {
-        console.log('Respuesta filtros:', res);
-
         this.canciones = res || [];
         this.cargarArtistas();
       },
@@ -152,6 +210,9 @@ export class ListaCanciones implements OnInit, OnChanges {
     });
   }
 
+  /**
+   * Restablece todos los filtros y campos de búsqueda devolviendo la lista original.
+   */
   limpiarFiltros() {
     this.textoBusqueda = '';
     this.textoArtista = '';
