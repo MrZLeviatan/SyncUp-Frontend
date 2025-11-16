@@ -30,6 +30,10 @@ export class TopBarAdmin {
     this.router.navigate(['/admin/usuarios']);
   }
 
+  verMetricas() {
+    this.router.navigate(['/admin/metricas']);
+  }
+
   // Cerrar sesión usando el servicio de logout
   cerrarSesion() {
     this.logoutService.logout();

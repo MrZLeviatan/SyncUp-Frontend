@@ -22,6 +22,11 @@ export const routes: Routes = [
             (m) => m.CancionesAdminComponent
           ),
       },
+      {
+        path: 'metricas',
+        loadComponent: () =>
+          import('./pages/admin/metricas-sistema/metricas-sistema').then((m) => m.MetricasSistema),
+      },
     ],
   },
 ];

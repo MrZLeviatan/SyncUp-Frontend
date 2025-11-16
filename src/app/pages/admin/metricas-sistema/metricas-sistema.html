@@ -1,0 +1,35 @@
+<div class="metricas-container">
+  <h2>Métricas del Sistema</h2>
+
+  <!-- Pantalla de carga -->
+  <div *ngIf="!totalCanciones" class="loading">
+    <div class="spinner"></div>
+    <p>Cargando métricas...</p>
+  </div>
+
+  <!-- Contenido de métricas -->
+  <div *ngIf="totalCanciones" class="metricas-content">
+    <div class="metricas-resumen">
+      <div class="resumen-card">
+        <h3>Total de Canciones</h3>
+        <p>{{ totalCanciones }}</p>
+      </div>
+      <div class="resumen-card">
+        <h3>Artista con más Canciones</h3>
+        <p>{{ artistaTop }}</p>
+      </div>
+    </div>
+
+    <div class="charts-container">
+      <div class="chart-card">
+        <h3>Canciones por Género (Pie)</h3>
+        <canvas baseChart [data]="pieChartData" [type]="'pie'"></canvas>
+      </div>
+
+      <div class="chart-card">
+        <h3>Canciones por Género (Bar)</h3>
+        <canvas baseChart [data]="barChartData" [type]="'bar'"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
