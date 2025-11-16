@@ -1,5 +1,3 @@
-import { CancionDto } from '../cancion/cancion.dto';
-
 /**
  * @interface UsuarioDto
  * @description Data Transfer Object (DTO) que representa la información completa de un Usuario

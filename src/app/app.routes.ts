@@ -3,6 +3,7 @@ import path from 'path';
 import { LoginComponente } from './pages/home/login/login';
 import { AuthGuard } from './core/auth/guard/auth.guard';
 import { LayoutTopBarAdmin } from './layouts/private/admin/layout-top-bat.component';
+import { LayoutTopBarUsuario } from './layouts/private/user/layout-top-bat.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponente },
@@ -31,6 +32,26 @@ export const routes: Routes = [
         path: 'metricas',
         loadComponent: () =>
           import('./pages/admin/metricas-sistema/metricas-sistema').then((m) => m.MetricasSistema),
+      },
+    ],
+  },
+
+  // Rutas privadas Usuario
+  {
+    path: 'usuario',
+    canActivate: [AuthGuard],
+    component: LayoutTopBarUsuario,
+    children: [
+      { path: '', redirectTo: 'menu-principal', pathMatch: 'full' }, // Redirección automática al cargar la ruta 'admin'
+      {
+        path: 'menu-principal',
+        loadComponent: () =>
+          import('./pages/users/menu-usuario/menu-usuario').then((m) => m.MenuUsuario),
+      },
+      {
+        path: 'perfil',
+        loadComponent: () =>
+          import('./pages/users/perfil-usuario/perfil-usuario').then((m) => m.PerfilUsuario),
       },
     ],
   },

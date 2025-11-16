@@ -1,0 +1,159 @@
+/* Layout general */
+.perfil-container {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  margin: 40px auto;
+  max-width: 1200px;
+  padding: 20px;
+}
+
+/* Tarjetas modernas estilo top-bar */
+.perfil-card {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  width: 380px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #000000;
+}
+
+/* Tarjeta izquierda */
+.info-card {
+  max-width: 330px;
+}
+
+/* Icono de perfil */
+.perfil-foto {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.perfil-foto i {
+  font-size: 95px;
+  color: #087f32;
+  transition: 0.3s;
+}
+
+.perfil-foto i:hover {
+  transform: scale(1.05);
+}
+
+/* Datos usuario */
+.info-usuario p {
+  font-size: 17px;
+  margin: 6px 0;
+  color: #000000;
+}
+
+/* Botones generales */
+.btn-accion {
+  background-color: #ffffff;
+  color: #087f32;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  transition: 0.25s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.btn-accion:hover {
+  background-color: #17a548;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.btn-accion.rojo {
+  color: #d32f2f;
+}
+
+.btn-accion.rojo:hover {
+  background-color: #d32f2f;
+  color: white;
+}
+
+/* Acciones */
+.acciones {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Formulario */
+.form-card {
+  width: 450px;
+}
+
+.subtitulo {
+  color: #087f32;
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+/* Inputs */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+input {
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid #087f3250;
+  font-size: 15px;
+  outline: none;
+  transition: 0.3s;
+}
+
+input:focus {
+  border-color: #087f32;
+  box-shadow: 0 0 6px #087f3260;
+}
+
+/* Botón guardar */
+.btn-guardar {
+  background-color: #087f32;
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 600;
+  transition: 0.25s;
+}
+
+.btn-guardar:hover {
+  background-color: #0a9e3b;
+  transform: translateY(-2px);
+}
+
+.btn-guardar.rojo {
+  background-color: #d9534f;
+}
+
+.btn-guardar.rojo:hover {
+  background-color: #c9302c;
+}
+
+/* Línea divisoria */
+hr {
+  border: 1px solid #087f3235;
+  margin: 25px 0;
+}

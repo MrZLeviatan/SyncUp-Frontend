@@ -1,0 +1,29 @@
+<!-- Barra superior del panel de administración -->
+<div class="top-bar">
+  <!-- Sección de información del usuario -->
+  <div class="user-info" (click)="goToPerfil()" style="cursor: pointer">
+    <!-- Icono de perfil del usuario -->
+    <i class="fa fa-user-circle user-icon"></i>
+    <!-- Nombre de usuario dinámico -->
+    <span class="username">{{ username }}</span>
+  </div>
+
+  <!-- Botones de navegación central -->
+  <div class="nav-buttons">
+    <!-- Botón para ir a la gestión de canciones -->
+    <button class="nav-btn" (click)="goToCanciones()">
+      <i class="fa fa-music"></i> Menú Principal
+    </button>
+    <!-- Botón para ir a la gestión de usuarios -->
+    <button class="nav-btn" (click)="goToUsuarios()">
+      <i class="fa fa-users"></i> Conectate...
+    </button>
+  </div>
+
+  <!-- Botón de cerrar sesión alineado a la derecha -->
+  <div class="logout-btn-container">
+    <button class="nav-btn logout-btn" (click)="cerrarSesion()">
+      <i class="fa fa-sign-out-alt"></i> Cerrar Sesión
+    </button>
+  </div>
+</div>
