@@ -26,11 +26,6 @@ export class TopBarUsuarios {
     this.router.navigate(['/usuario/menu-principal']);
   }
 
-  // Navegar a la sección de gestión de usuarios
-  goToUsuarios() {
-    this.router.navigate(['/admin/usuarios']);
-  }
-
   goToPerfil() {
     this.router.navigate(['/usuario/perfil']);
   }

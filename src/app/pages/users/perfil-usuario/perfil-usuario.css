@@ -197,6 +197,28 @@ hr {
   min-width: 160px;
 }
 
+.btn-aceptacion {
+  background: linear-gradient(to right, #087f32, #8bb699);
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: 0.3s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn-aceptacion:hover {
+  background: linear-gradient(to right, #0aa645, #9ee5af);
+  transform: translateY(-2px);
+}
+
 /* Botón azul con efecto degradado */
 .btn-azul-plateado {
   background: linear-gradient(to right, #607d8b, #90a4ae);
@@ -265,4 +287,39 @@ hr {
   justify-content: flex-end;
   gap: 10px;
   margin-top: 15px;
+}
+
+/* --- Sección social --- */
+/* Social section layout | Sección Social Layout */
+.social-wrapper {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+/* Card container | Contenedor tipo tarjeta */
+.social-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+}
+
+/* Title | Título */
+.social-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  border-left: 5px solid #3f87f5;
+  padding-left: 10px;
+}
+
+.botones-sugerencia {
+  margin-top: 10px;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
