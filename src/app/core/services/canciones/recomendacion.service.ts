@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { API_URL } from '../../../app.config';
 import { RadioDto } from '../../models/dto/playList/radio.dto';
 import { PlayListDto } from '../../models/dto/playList/play-list.dto';
@@ -36,7 +36,9 @@ export class RecomendacionService {
    */
   iniciarRadio(cancionId: number): Observable<RadioDto> {
     // Petición GET al endpoint: /api/recomendacion/radio/{cancionId}
-    return this.http.get<RadioDto>(`${this.apiUrl}/radio/${cancionId}`);
+    return this.http
+      .get<{ error: boolean; mensaje: RadioDto }>(`${this.apiUrl}/radio/${cancionId}`)
+      .pipe(map((res) => res.mensaje));
   }
 
   /**
