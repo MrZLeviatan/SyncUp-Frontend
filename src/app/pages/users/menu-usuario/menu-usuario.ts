@@ -9,12 +9,8 @@ import { TokenService } from '../../../core/auth/services/token.services';
 import { RecomendacionService } from '../../../core/services/canciones/recomendacion.service';
 
 /**
- * @class MenuUsuario
- * @description Componente principal del menú de usuario, encargado de:
- * - Mostrar lista de canciones
- * - Reproducir canciones
- * - Control de reproducción, tiempo y volumen
- * - Manejo de favoritos
+ * Componente principal del menú de usuario.
+ * Gestiona la lista de canciones, la reproducción, favoritos y radio/recomendaciones.
  */
 @Component({
   selector: 'app-menu-usuario',
@@ -24,44 +20,61 @@ import { RecomendacionService } from '../../../core/services/canciones/recomenda
   styleUrls: ['./menu-usuario.css'],
 })
 export class MenuUsuario implements OnInit {
+  // ----------------------------
+  // Variables de canciones y artistas
+  // ----------------------------
+
   /** Lista de canciones disponibles */
   canciones: CancionDto[] = [];
 
   /** Canción actualmente seleccionada */
   cancionActual: CancionDto | null = null;
 
-  /** Artista de la canción actual */
+  /** Artista de la canción seleccionada */
   artistaActual: ArtistaDto | null = null;
 
-  /** Elemento HTML del reproductor */
+  /** Elemento HTML del reproductor de audio */
   audioPlayer!: HTMLAudioElement;
 
-  /** Control del tiempo */
+  /** Variables de control de tiempo de reproducción */
   tiempoActual: string = '0:00';
   duracionTotal: string = '0:00';
   progreso: number = 0;
 
-  /** Índice actual en la lista */
+  /** Índice de la canción actualmente seleccionada en la lista */
   indiceActual: number = -1;
 
-  /** ▶ Estado de reproducción */
+  /** Estado de reproducción */
   reproduciendo: boolean = false;
 
-  /** Indica si la canción actual es favorita */
+  /** Indica si la canción actual está marcada como favorita */
   esFavorita: boolean = false;
 
-  /** ID del usuario logueado */
+  /** Identificador del usuario logueado */
   idUsuarioLogueado: number = 1;
+
+  // ----------------------------
+  // Variables de filtros y radio
+  // ----------------------------
 
   reproducirRadio: boolean = false;
   tituloRadio: string = '';
 
+  reproducirFavoritas: boolean = false;
+  tituloFavoritas: string = '';
+
+  /** Filtro activo para la lista de canciones */
+  filtroActivo: 'general' | 'favoritas' | 'descubrimiento' | 'radio' = 'general';
+
+  // ----------------------------
+  // Constructor
+  // ----------------------------
+
   /**
-   * @constructor
-   * @param cancionService Servicio para manejar canciones
-   * @param artistaService Servicio para manejar artistas
+   * @param cancionService Servicio para la gestión de canciones
+   * @param artistaService Servicio para la gestión de artistas
    * @param tokenService Servicio para obtener información del usuario
-   * @param recomendacionesService Servicio para la radio y recomendaciones semanales.
+   * @param recomendacionService Servicio para radio y recomendaciones semanales
    */
   constructor(
     private cancionService: CancionService,
@@ -70,9 +83,12 @@ export class MenuUsuario implements OnInit {
     private recomendacionService: RecomendacionService
   ) {}
 
+  // ----------------------------
+  // Inicialización del componente
+  // ----------------------------
+
   /**
-   * @method ngOnInit
-   * @description Inicializa el componente cargando las canciones
+   * Inicializa el componente cargando la lista de canciones
    * y obteniendo el ID del usuario logueado.
    */
   ngOnInit(): void {
@@ -84,10 +100,7 @@ export class MenuUsuario implements OnInit {
   // Gestión de canciones
   // ----------------------------
 
-  /**
-   * @method cargarCanciones
-   * @description Obtiene la lista de canciones del backend
-   */
+  /** Obtiene la lista de canciones generales desde el backend */
   cargarCanciones() {
     this.cancionService.obtenerCancionesGeneral().subscribe({
       next: (lista) => (this.canciones = lista),
@@ -96,8 +109,8 @@ export class MenuUsuario implements OnInit {
   }
 
   /**
-   * @method onSeleccionarCancion
-   * @description Selecciona una canción y actualiza la información de artista y favoritos
+   * Selecciona una canción y actualiza los datos de artista y favoritos.
+   * Inicializa el reproductor de audio.
    * @param cancion Canción seleccionada
    */
   onSeleccionarCancion(cancion: CancionDto) {
@@ -111,13 +124,11 @@ export class MenuUsuario implements OnInit {
       });
     }
 
-    // Verificar si está en favoritos
     this.cancionService.listarFavoritasUsuario(this.idUsuarioLogueado).subscribe({
       next: (favoritas) => (this.esFavorita = favoritas.some((fav) => fav.id === cancion.id)),
       error: () => (this.esFavorita = false),
     });
 
-    // Configurar reproductor
     setTimeout(() => {
       this.audioPlayer = document.getElementById('player-audio') as HTMLAudioElement;
       this.audioPlayer.ontimeupdate = () => this.actualizarProgreso();
@@ -131,10 +142,7 @@ export class MenuUsuario implements OnInit {
   // Gestión de favoritos
   // ----------------------------
 
-  /**
-   * @method toggleFavorito
-   * @description Agrega o quita la canción actual de favoritos
-   */
+  /** Agrega o quita la canción actual de la lista de favoritos del usuario */
   toggleFavorito() {
     if (!this.cancionActual) return;
 
@@ -157,10 +165,7 @@ export class MenuUsuario implements OnInit {
   // Reproducción
   // ----------------------------
 
-  /**
-   * @method togglePlay
-   * @description Pausa o reproduce la canción actual
-   */
+  /** Pausa o reproduce la canción actual */
   togglePlay() {
     if (!this.audioPlayer) return;
 
@@ -173,10 +178,7 @@ export class MenuUsuario implements OnInit {
     }
   }
 
-  /**
-   * @method actualizarProgreso
-   * @description Actualiza el tiempo y progreso de la canción
-   */
+  /** Actualiza el progreso y el tiempo actual de reproducción */
   actualizarProgreso() {
     if (!this.audioPlayer) return;
 
@@ -187,18 +189,14 @@ export class MenuUsuario implements OnInit {
     this.tiempoActual = this.formatoTiempo(actual);
   }
 
-  /**
-   * @method duracionMetadata
-   * @description Establece la duración total cuando cargan los metadatos
-   */
+  /** Establece la duración total cuando los metadatos del audio se cargan */
   duracionMetadata() {
     if (!this.audioPlayer) return;
     this.duracionTotal = this.formatoTiempo(this.audioPlayer.duration);
   }
 
   /**
-   * @method cambiarTiempo
-   * @description Cambia el tiempo de reproducción al mover el slider
+   * Cambia el tiempo de reproducción al mover el slider
    * @param event Evento del input range
    */
   cambiarTiempo(event: any) {
@@ -207,12 +205,9 @@ export class MenuUsuario implements OnInit {
     this.audioPlayer.currentTime = nuevoTiempo;
   }
 
-  /**
-   * @method siguienteCancion
-   * @description Reproduce la siguiente canción en la lista
-   */
+  /** Reproduce la siguiente canción en la lista */
   siguienteCancion() {
-    if (!this.canciones || this.canciones.length === 0) return; // <-- protección
+    if (!this.canciones || this.canciones.length === 0) return;
 
     if (this.indiceActual >= this.canciones.length - 1) {
       this.onSeleccionarCancion(this.canciones[0]);
@@ -221,10 +216,7 @@ export class MenuUsuario implements OnInit {
     }
   }
 
-  /**
-   * @method anteriorCancion
-   * @description Reproduce la canción anterior en la lista
-   */
+  /** Reproduce la canción anterior en la lista */
   anteriorCancion() {
     if (!this.canciones || this.canciones.length === 0) return;
 
@@ -236,8 +228,7 @@ export class MenuUsuario implements OnInit {
   }
 
   /**
-   * @method formatoTiempo
-   * @description Formatea segundos a mm:ss
+   * Formatea segundos a formato mm:ss
    * @param segundos Número de segundos
    * @returns String en formato mm:ss
    */
@@ -250,8 +241,7 @@ export class MenuUsuario implements OnInit {
   }
 
   /**
-   * @method cambiarVolumen
-   * @description Cambia el volumen del reproductor
+   * Cambia el volumen del reproductor
    * @param event Evento del input range
    */
   cambiarVolumen(event: any) {
@@ -262,31 +252,76 @@ export class MenuUsuario implements OnInit {
   }
 
   // ----------------------------
-  // RADIO
+  // Radio y recomendaciones
   // ----------------------------
 
-  /**
-   * @method iniciarRadio
-   * @description Inicia la radio basada en la canción actual
-   */
+  /** Inicia la radio basada en la canción actual */
   iniciarRadio() {
     if (!this.cancionActual) return;
 
-    const cancionBase = this.cancionActual; // 🔹 guardar la canción que inicia la radio
+    const cancionBase = this.cancionActual;
     const idCancion = cancionBase.id!;
 
     this.recomendacionService.iniciarRadio(idCancion).subscribe({
       next: (radioDto) => {
         if (radioDto && radioDto.colaReproduccion?.length) {
-          this.canciones = radioDto.colaReproduccion; // reemplaza la lista con la radio
+          this.canciones = radioDto.colaReproduccion;
           this.indiceActual = 0;
           this.onSeleccionarCancion(this.canciones[0]);
 
           this.reproducirRadio = true;
           this.tituloRadio = `Radio ${cancionBase.titulo}`;
+          this.filtroActivo = 'radio';
         }
       },
       error: (err) => console.error('Error iniciando radio', err),
+    });
+  }
+
+  /** Muestra la lista general de canciones y oculta radio o filtros activos */
+  mostrarCancionesGenerales() {
+    this.reproducirRadio = false;
+    this.filtroActivo = 'general';
+    this.cargarCanciones();
+    this.cancionActual = null;
+  }
+
+  /** Muestra las canciones favoritas del usuario */
+  mostrarFavoritas() {
+    if (!this.idUsuarioLogueado) return;
+
+    this.reproducirRadio = false;
+    this.filtroActivo = 'favoritas';
+
+    this.cancionService.listarFavoritasUsuario(this.idUsuarioLogueado).subscribe({
+      next: (favoritas) => {
+        this.canciones = favoritas;
+        this.cancionActual = null;
+        this.indiceActual = -1;
+      },
+      error: (err) => console.error('Error cargando favoritas', err),
+    });
+  }
+
+  /** Muestra las canciones del descubrimiento semanal del usuario */
+  mostrarDescubrimiento() {
+    if (!this.idUsuarioLogueado) return;
+
+    this.reproducirRadio = false;
+    this.filtroActivo = 'descubrimiento';
+    this.tituloRadio = 'Tu descubrimiento semanal';
+
+    this.recomendacionService.generarDescubrimientoSemanal(this.idUsuarioLogueado).subscribe({
+      next: (playListDto) => {
+        if (playListDto && playListDto.canciones?.length) {
+          this.canciones = playListDto.canciones;
+          this.cancionActual = null;
+          this.indiceActual = -1;
+        } else {
+          this.canciones = [];
+        }
+      },
+      error: (err) => console.error('Error cargando descubrimiento semanal', err),
     });
   }
 }

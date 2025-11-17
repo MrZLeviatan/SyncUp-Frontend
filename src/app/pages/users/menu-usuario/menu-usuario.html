@@ -1,11 +1,29 @@
-<!-- Contenedor principal centrado -->
+<!-- Contenedor principal del menú de usuario -->
 <div class="contenedor-menu">
-  <!-- Título de Radio si se está reproduciendo -->
-  <h2 *ngIf="reproducirRadio" class="titulo-radio animar-titulo">
-    <i class="fa fa-broadcast-tower"></i> {{ tituloRadio }}
+  <!-- Título dinámico de la lista: solo visible para radio o descubrimiento semanal -->
+  <h2
+    *ngIf="filtroActivo === 'radio' || filtroActivo === 'descubrimiento'"
+    class="titulo-radio animar-titulo"
+  >
+    <!-- Icono dinámico según tipo de filtro -->
+    <i class="fa" [ngClass]="filtroActivo === 'radio' ? 'fa-broadcast-tower' : 'fa-music'"></i>
+    {{ tituloRadio }}
   </h2>
 
-  <!-- Lista de canciones centrada -->
+  <!-- Sección de botones para filtrar la lista de canciones -->
+  <div class="botones-filtros">
+    <button (click)="mostrarCancionesGenerales()" [class.active]="filtroActivo === 'general'">
+      Canciones Generales
+    </button>
+    <button (click)="mostrarFavoritas()" [class.active]="filtroActivo === 'favoritas'">
+      Tus Favoritas
+    </button>
+    <button (click)="mostrarDescubrimiento()" [class.active]="filtroActivo === 'descubrimiento'">
+      Descubrimiento Semanal
+    </button>
+  </div>
+
+  <!-- Lista de canciones centrada en la UI -->
   <div class="lista-wrapper">
     <app-lista-canciones
       [canciones]="canciones"
@@ -15,9 +33,9 @@
   </div>
 </div>
 
-<!-- Reproductor fijo estilo Spotify -->
+<!-- Reproductor de música fijo estilo Spotify -->
 <div class="player-container" *ngIf="cancionActual">
-  <!-- Izquierda: portada + info -->
+  <!-- Sección izquierda: portada y detalles de la canción -->
   <div class="player-left">
     <img [src]="cancionActual.urlPortada" class="player-cover" />
     <div class="player-info">
@@ -27,31 +45,40 @@
     </div>
   </div>
 
-  <!-- Centro: controles + barra de progreso -->
+  <!-- Sección central: controles de reproducción y barra de progreso -->
   <div class="player-center">
     <div class="controls">
+      <!-- Botón canción anterior -->
       <button class="control-btn" (click)="anteriorCancion()">
         <i class="fa fa-step-backward"></i>
       </button>
 
+      <!-- Botón play/pause -->
       <button class="control-btn play-btn" (click)="togglePlay()">
         <i class="fa" [ngClass]="reproduciendo ? 'fa-pause' : 'fa-play'"></i>
       </button>
 
+      <!-- Botón canción siguiente -->
       <button class="control-btn" (click)="siguienteCancion()">
         <i class="fa fa-step-forward"></i>
       </button>
 
-      <!-- Iniciar Radio -->
-      <button class="control-btn" (click)="iniciarRadio()">
+      <!-- Botón iniciar radio basado en la canción actual -->
+      <button
+        class="control-btn"
+        (click)="iniciarRadio()"
+        [class.active]="filtroActivo === 'radio'"
+      >
         <i class="fa fa-broadcast-tower"></i>
       </button>
 
+      <!-- Botón agregar/quitar de favoritos -->
       <button class="control-btn" (click)="toggleFavorito()">
         <i [ngClass]="esFavorita ? 'fas fa-heart' : 'far fa-heart'"></i>
       </button>
     </div>
 
+    <!-- Barra de progreso de la canción -->
     <div class="progress-wrapper">
       <span class="time">{{ tiempoActual }}</span>
       <input type="range" class="progress-bar" [value]="progreso" (input)="cambiarTiempo($event)" />
@@ -59,7 +86,7 @@
     </div>
   </div>
 
-  <!-- Derecha: control de volumen -->
+  <!-- Sección derecha: control de volumen -->
   <div class="player-right">
     <i class="fa fa-volume-up"></i>
     <input
@@ -72,5 +99,6 @@
     />
   </div>
 
+  <!-- Elemento de audio HTML para reproducir la canción -->
   <audio id="player-audio" [src]="cancionActual.urlCancion"></audio>
 </div>

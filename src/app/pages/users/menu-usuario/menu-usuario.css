@@ -215,3 +215,28 @@ audio {
     transform: translateY(0) scale(1);
   }
 }
+
+.botones-filtros {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  justify-content: center;
+}
+
+.botones-filtros button {
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  background: #282828;
+  color: #fff;
+  transition: 0.2s;
+}
+
+.botones-filtros button:hover,
+.botones-filtros button.active {
+  background: #1db954;
+  color: #fff;
+}

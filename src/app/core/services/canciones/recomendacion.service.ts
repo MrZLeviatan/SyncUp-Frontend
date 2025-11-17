@@ -51,6 +51,8 @@ export class RecomendacionService {
    */
   generarDescubrimientoSemanal(idUsuario: number): Observable<PlayListDto> {
     // Petición GET al endpoint: /api/recomendacion/descubrimiento/{idUsuario}
-    return this.http.get<PlayListDto>(`${this.apiUrl}/descubrimiento/${idUsuario}`);
+    return this.http
+      .get<{ error: boolean; mensaje: PlayListDto }>(`${this.apiUrl}/descubrimiento/${idUsuario}`)
+      .pipe(map((res) => res.mensaje));
   }
 }
