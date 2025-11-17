@@ -108,7 +108,9 @@ export class CancionService {
    */
   listarFavoritasUsuario(idUsuario: number): Observable<CancionDto[]> {
     // Petición GET al endpoint: /api/cancion/favoritas/{idUsuario}
-    return this.http.get<CancionDto[]>(`${this.apiUrl}/favoritas/${idUsuario}`);
+    return this.http
+      .get<{ error: boolean; mensaje: CancionDto[] }>(`${this.apiUrl}/favoritas/${idUsuario}`)
+      .pipe(map((res) => res.mensaje));
   }
 
   /**

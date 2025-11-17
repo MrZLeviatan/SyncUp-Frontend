@@ -23,7 +23,7 @@ export class TopBarUsuarios {
 
   // Navegar a la sección de gestión de canciones
   goToCanciones() {
-    this.router.navigate(['/admin/canciones']);
+    this.router.navigate(['/usuario/menu-principal']);
   }
 
   // Navegar a la sección de gestión de usuarios

@@ -1,1 +1,73 @@
-<p>menu-usuario works!</p>
+<!-- Componente lista de canciones -->
+<div class="lista-wrapper">
+  <app-lista-canciones
+    [canciones]="canciones"
+    [alturaLista]="600"
+    (cancionSeleccionada)="onSeleccionarCancion($event)"
+  ></app-lista-canciones>
+</div>
+
+<!-- REPRODUCTOR ESTILO SPOTIFY -->
+<div class="player-container" *ngIf="cancionActual">
+  <!-- IZQUIERDA: portada + info -->
+  <div class="player-left">
+    <img [src]="cancionActual.urlPortada" class="player-cover" />
+
+    <div class="player-info">
+      <h3>{{ cancionActual.titulo }}</h3>
+      <p *ngIf="artistaActual">{{ artistaActual.nombreArtistico }}</p>
+      <p *ngIf="!artistaActual">Artista desconocido</p>
+    </div>
+  </div>
+
+  <!-- CENTRO: controles + barra -->
+  <div class="player-center">
+    <div class="controls">
+      <button class="control-btn" (click)="anteriorCancion()">
+        <i class="fa fa-step-backward"></i>
+      </button>
+
+      <button class="control-btn play-btn" (click)="togglePlay()">
+        <i class="fa" [ngClass]="reproduciendo ? 'fa-pause' : 'fa-play'"></i>
+      </button>
+
+      <button class="control-btn" (click)="siguienteCancion()">
+        <i class="fa fa-step-forward"></i>
+      </button>
+
+      <!-- 🔥 NUEVO: Iniciar Radio -->
+      <button class="control-btn">
+        <i class="fa fa-broadcast-tower"></i>
+      </button>
+
+      <!-- 🔥 NUEVO: Favoritos -->
+      <button class="control-btn" (click)="toggleFavorito()">
+        <i class="fa" [ngClass]="esFavorita ? 'fa-heart' : 'fa-heart-o'"></i>
+      </button>
+    </div>
+
+    <!-- BARRA DE PROGRESO -->
+    <div class="progress-wrapper">
+      <span class="time">{{ tiempoActual }}</span>
+
+      <input type="range" class="progress-bar" [value]="progreso" (input)="cambiarTiempo($event)" />
+
+      <span class="time">{{ duracionTotal }}</span>
+    </div>
+  </div>
+
+  <!-- DERECHA: control de volumen -->
+  <div class="player-right">
+    <i class="fa fa-volume-up"></i>
+    <input
+      type="range"
+      class="volume-bar"
+      min="0"
+      max="1"
+      step="0.01"
+      (input)="cambiarVolumen($event)"
+    />
+  </div>
+
+  <audio id="player-audio" [src]="cancionActual.urlCancion"></audio>
+</div>

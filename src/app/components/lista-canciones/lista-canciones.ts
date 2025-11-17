@@ -23,6 +23,8 @@ export class ListaCanciones implements OnInit, OnChanges {
   /** Altura definida desde el componente padre para ajustar el tamaño visual de la lista.*/
   @Input() alturaLista: number = 300;
 
+  @Output() cancionSeleccionada = new EventEmitter<CancionDto>();
+
   /** Lista inicial de canciones proporcionada por el componente padre.*/
   @Input() canciones: CancionDto[] = [];
 
@@ -95,8 +97,6 @@ export class ListaCanciones implements OnInit, OnChanges {
       this.cargarArtistas();
     }
   }
-
-  @Output() cancionSeleccionada = new EventEmitter<CancionDto>();
 
   // Cuando se hace clic en una canción
   seleccionarCancion(cancion: CancionDto) {

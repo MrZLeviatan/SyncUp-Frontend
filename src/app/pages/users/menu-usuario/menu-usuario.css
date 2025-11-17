@@ -1,0 +1,173 @@
+/* 🇪🇸 Contenedor centrado / 🇺🇸 Centered container */
+.contenedor-menu {
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 🇪🇸 Título centrado y grande / 🇺🇸 Large centered title */
+.titulo-seccion {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* 🇪🇸 Centrar lista de canciones / 🇺🇸 Center song list */
+.lista-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* 🇪🇸 Reproductor fijo inferior más compacto 
+   🇺🇸 Compact bottom fixed player */
+.player-container {
+  width: 100%;
+  height: 95px; /* 🔥 Reducido */
+  background: #121212;
+  border-top: 1px solid #282828;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 25px; /* 🔥 Más pequeño */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  gap: 20px; /* 🔥 Más espacio entre secciones */
+}
+
+/* 🇪🇸 Sección izquierda / 🇺🇸 Left section */
+.player-left {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* 🔥 Menos separación */
+}
+
+/* 🇪🇸 Imagen portada / 🇺🇸 Cover */
+.player-cover {
+  width: 60px; /* 🔥 Más pequeña */
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* 🇪🇸 Info canción / 🇺🇸 Info */
+.player-info h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 1rem; /* 🔥 Texto más pequeño */
+  font-weight: 600;
+}
+
+.player-info p {
+  margin: 0;
+  color: #b3b3b3;
+  font-size: 0.75rem;
+}
+
+/* 🇪🇸 Centro / 🇺🇸 Center */
+.player-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px; /* 🔥 Menos espacio vertical */
+  flex: 1;
+}
+
+/* 🇪🇸 Controles / 🇺🇸 Controls */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 14px; /* 🔥 Más juntos */
+}
+
+.control-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 17px; /* 🔥 Más pequeño */
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.play-btn {
+  font-size: 22px; /* 🔥 Ajustado */
+}
+
+.control-btn:hover {
+  color: #1db954;
+}
+
+/* Barra de progreso */
+.progress-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 75%; /* 🔥 Más corta */
+}
+
+.time {
+  color: #b3b3b3;
+  font-size: 0.7rem; /* 🔥 Más pequeño */
+}
+
+.progress-bar {
+  flex: 1;
+  height: 3px; /* 🔥 Más fina */
+  border-radius: 5px;
+  background: #535353;
+  appearance: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.progress-bar::-webkit-slider-thumb {
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  background: #1db954;
+  border-radius: 50%;
+}
+
+/* 🎶 Nuevos botones */
+.control-btn i.fa-heart:hover {
+  color: #e74c3c;
+}
+.control-btn i.fa-broadcast-tower:hover {
+  color: #1db954;
+}
+
+/* 🎚 Volumen */
+.player-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  margin-right: 65px; /* 🔥 No pega al borde */
+}
+
+.volume-bar {
+  width: 90px; /* 🔥 Más corta */
+  height: 4px;
+  background: #535353;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  appearance: none;
+}
+
+.volume-bar::-webkit-slider-thumb {
+  width: 10px;
+  height: 10px;
+  background: #1db954;
+  border-radius: 50%;
+}
+
+/* Ocultar audio nativo */
+audio {
+  display: none;
+}
