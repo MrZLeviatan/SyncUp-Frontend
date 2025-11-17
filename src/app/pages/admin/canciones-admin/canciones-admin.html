@@ -1,0 +1,211 @@
+<!-- CONTENEDOR GENERAL DE LA VISTA DE ADMIN -->
+<div class="canciones-admin-layout">
+  <!-- ==============================
+       PANEL DERECHO: LISTA DE CANCIONES
+       ============================== -->
+  <div class="panel-derecho">
+    <h2>Gestión de Canciones...</h2>
+
+    <!-- Componente que muestra la lista de canciones -->
+    <app-lista-canciones
+      [alturaLista]="alturaLista"
+      [canciones]="canciones"
+      (cancionSeleccionada)="recibirCancionSeleccionada($event)"
+    >
+    </app-lista-canciones>
+
+    <!-- Botón dinámico: descarga o elimina -->
+    <div class="boton-descargar-canciones">
+      <button type="button" *ngIf="!cancionSeleccionada" (click)="descargarCancionesTxt()">
+        <i class="fa fa-download"></i> Descargar Canciones TXT
+      </button>
+
+      <button
+        type="button"
+        *ngIf="cancionSeleccionada"
+        class="btn-eliminar"
+        (click)="eliminarCancionSeleccionada()"
+      >
+        <i class="fa fa-trash"></i> Eliminar Canción
+      </button>
+    </div>
+  </div>
+
+  <!-- ==============================
+       PANEL IZQUIERDO: FORMULARIO
+       ============================== -->
+  <div class="panel-izquierdo">
+    <h3>Registrar Canción</h3>
+
+    <!-- -------------------------------
+         SECCIÓN DRAG & DROP DE PORTADA
+         ------------------------------- -->
+    <div
+      class="drop-zone"
+      (drop)="onDropImagen($event)"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+      [class.dragover]="isDragOver"
+    >
+      <!-- Si NO hay imagen cargada se muestran instrucciones -->
+      <ng-container *ngIf="!previewImagen">
+        <p>Arrastra la portada de la canción aquí</p>
+        <span>ó</span>
+
+        <!-- Botón para seleccionar archivo manualmente -->
+        <label class="upload-btn" [class.disabled]="editarMode">
+          Seleccionar Portada
+          <input
+            type="file"
+            accept="image/*"
+            (change)="onImagenSeleccionada($event)"
+            hidden
+            [disabled]="editarMode"
+          />
+        </label>
+      </ng-container>
+
+      <!-- Vista previa cuando la imagen ya fue cargada -->
+      <div class="preview-wrapper" *ngIf="previewImagen">
+        <img [src]="previewImagen" alt="Portada" class="preview-img" />
+
+        <!-- Botón para eliminar la imagen cargada -->
+        <button class="btn-remove-img" [disabled]="editarMode" (click)="eliminarImagen()">✕</button>
+      </div>
+    </div>
+
+    <!-- -------------------------------
+         SUBIR MP3 + REPRODUCTOR
+         ------------------------------- -->
+    <div class="audio-row">
+      <!-- Botón para seleccionar archivo MP3 -->
+      <label class="upload-btn" [class.disabled]="editarMode">
+        Seleccionar MP3
+        <input
+          type="file"
+          accept="audio/mp3"
+          (change)="onAudioSeleccionado($event)"
+          hidden
+          [disabled]="editarMode"
+        />
+      </label>
+
+      <!-- Reproductor visible solo si hay un MP3 cargado -->
+      <audio *ngIf="audioURL" class="audio-player" controls [src]="audioURL"></audio>
+    </div>
+
+    <!-- ==============================
+         FORMULARIO PRINCIPAL
+         ============================== -->
+    <form class="formulario-cancion" #formCancion="ngForm">
+      <!-- Campo título -->
+      <label>Título de la Canción:</label>
+      <input
+        type="text"
+        name="titulo"
+        [(ngModel)]="titulo"
+        required
+        placeholder="Título de la canción"
+      />
+
+      <!-- -------------------------------
+           ARTISTA + BUSCADOR
+           ------------------------------- -->
+      <label>Artista Principal:</label>
+
+      <div class="fila-artista">
+        <!-- Input que busca artistas -->
+        <input
+          type="text"
+          name="artista"
+          ngModel
+          placeholder="Buscar artista..."
+          (input)="buscarArtistas($event)"
+          [(ngModel)]="textoArtista"
+          [disabled]="editarMode"
+        />
+
+        <!-- Botón para abrir el modal de registrar un artista -->
+        <button
+          type="button"
+          class="btn-agregar-artista"
+          (click)="abrirModalArtista()"
+          [disabled]="editarMode"
+        >
+          Agregar Artista
+        </button>
+      </div>
+
+      <!-- Lista de sugerencias de artistas -->
+      <div class="lista-artistas" *ngIf="listaArtistas.length > 0">
+        <div class="item-artista" *ngFor="let a of listaArtistas" (click)="seleccionarArtista(a)">
+          {{ a.nombreArtistico }}
+        </div>
+      </div>
+
+      <!-- -------------------------------
+           GÉNERO + FECHA DE LANZAMIENTO
+           ------------------------------- -->
+      <div class="fila-genero-fecha">
+        <!-- Selector de género -->
+        <div class="campo-genero">
+          <label>Género Musical:</label>
+          <select name="genero" [(ngModel)]="genero" required [disabled]="editarMode">
+            <option value="">Seleccione género</option>
+            <option *ngFor="let g of generos" [value]="g">{{ g }}</option>
+          </select>
+        </div>
+
+        <!-- Selección de fecha -->
+        <div class="campo-fecha">
+          <label>Fecha de Lanzamiento:</label>
+          <input type="date" name="fecha" [(ngModel)]="fecha" required />
+        </div>
+      </div>
+
+      <!-- -------------------------------
+           BOTONES DEL FORMULARIO
+           ------------------------------- -->
+      <div class="fila-botones">
+        <button type="button" class="btn-cancelar" (click)="cancelarFormulario()">Cancelar</button>
+        <button
+          type="button"
+          class="btn-guardar"
+          (click)="editarMode ? actualizarCancion(formCancion) : guardarCancion(formCancion)"
+          [disabled]="cargando || !formCancion.valid || !artistaSeleccionadoId"
+        >
+          <ng-container *ngIf="!cargando">
+            {{ editarMode ? 'Actualizar Canción' : 'Guardar Canción' }}
+          </ng-container>
+
+          <div *ngIf="cargando" class="spinner"></div>
+        </button>
+      </div>
+    </form>
+
+    <!-- ==============================
+         MODAL PARA REGISTRAR ARTISTA
+         ============================== -->
+    <div class="modal-backdrop" *ngIf="mostrarModalArtista">
+      <div class="modal-artista">
+        <h3>Registrar Nuevo Artista</h3>
+
+        <div class="modal-body">
+          <!-- Campo para nombre artístico -->
+          <label>Nombre Artístico:</label>
+          <input
+            type="text"
+            [(ngModel)]="nuevoArtista.nombreArtistico"
+            placeholder="Ej: Bad Bunny, Karol G..."
+          />
+        </div>
+
+        <!-- Botones del modal -->
+        <div class="modal-botones">
+          <button class="btn-cancelar" (click)="cerrarModalArtista()">Cancelar</button>
+          <button class="btn-guardar" (click)="registrarArtista()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

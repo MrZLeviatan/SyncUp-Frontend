@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { API_URL } from '../../../app.config';
 import { RegistrarCancionDto } from '../../models/dto/cancion/registrar-cancion.dto';
 import { EditarCancionDto } from '../../models/dto/cancion/editar-cancion.dto';
@@ -38,14 +38,14 @@ export class CancionService {
     const formData = new FormData();
 
     // 1. Añadir los campos de texto/número.
-    formData.append('titulo', dto.titulo);
-    formData.append('genero', dto.generoMusical);
-    formData.append('anioLanzamiento', dto.fechaLanzamiento);
-    formData.append('artistaId', dto.artistaId.toString());
+    formData.append('titulo', dto.titulo); // Título de la canción
+    formData.append('generoMusical', dto.generoMusical); // Debe coincidir con el nombre del DTO backend
+    formData.append('fechaLanzamiento', dto.fechaLanzamiento); // Fecha exacta enviada como string
+    formData.append('artistaId', dto.artistaId.toString()); // ID del artista
 
     // 2. Añadir los archivos binarios (File) solo si están presentes.
-    if (dto.archivoCancion) formData.append('archivoAudio', dto.archivoCancion);
-    if (dto.imagenPortada) formData.append('portada', dto.imagenPortada);
+    formData.append('archivoCancion', dto.archivoCancion); // Archivo de audio
+    formData.append('imagenPortada', dto.imagenPortada); // Imagen de portada
 
     // Petición POST al endpoint: /api/cancion/registrar
     return this.http.post(`${this.apiUrl}/registrar`, formData);
@@ -88,6 +88,18 @@ export class CancionService {
   }
 
   /**
+   * @method obtenerCancionesGeneral
+   * @description Obtiene todas las canciones generales
+   *
+   * @returns Un {@link Observable} que emite una lista de {@link CancionDto}.
+   */
+  obtenerCancionesGeneral(): Observable<CancionDto[]> {
+    return this.http.get<{ error: boolean; mensaje: CancionDto[] }>(`${this.apiUrl}/listar`).pipe(
+      map((res) => res.mensaje) // solo retorna el array
+    );
+  }
+
+  /**
    * @method listarFavoritasUsuario
    * @description Obtiene la lista de canciones favoritas de un usuario específico.
    *
@@ -96,7 +108,9 @@ export class CancionService {
    */
   listarFavoritasUsuario(idUsuario: number): Observable<CancionDto[]> {
     // Petición GET al endpoint: /api/cancion/favoritas/{idUsuario}
-    return this.http.get<CancionDto[]>(`${this.apiUrl}/favoritas/${idUsuario}`);
+    return this.http
+      .get<{ error: boolean; mensaje: CancionDto[] }>(`${this.apiUrl}/favoritas/${idUsuario}`)
+      .pipe(map((res) => res.mensaje));
   }
 
   /**

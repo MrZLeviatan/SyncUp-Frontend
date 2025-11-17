@@ -5,6 +5,8 @@ import { API_URL } from '../../../app.config';
 import { UsuarioDto } from '../../models/dto/usuario/usuario.dto';
 import { EditarUsuarioDto } from '../../models/dto/usuario/editar-usuario.dto';
 import { EditarPasswordDto } from '../../models/dto/usuario/editar-password.dto';
+import { map } from 'rxjs/operators';
+import { MensajeDto } from '../../models/dto/mensaje.dto';
 
 /**
  * @injectable
@@ -70,8 +72,9 @@ export class UsuarioService {
    * @returns Un {@link Observable} que emite el objeto {@link UsuarioDto}.
    */
   obtenerUsuarioPorId(idUsuario: number): Observable<UsuarioDto> {
-    // Petición GET al endpoint: /api/usuario/{idUsuario}
-    return this.http.get<UsuarioDto>(`${this.apiUrl}/${idUsuario}`);
+    return this.http
+      .get<MensajeDto<UsuarioDto>>(`${this.apiUrl}/${idUsuario}`)
+      .pipe(map((resp) => resp.mensaje));
   }
 
   /**
@@ -95,7 +98,8 @@ export class UsuarioService {
    * @returns Un {@link Observable} que emite un array de {@link UsuarioDto}.
    */
   listarUsuarios(): Observable<UsuarioDto[]> {
-    // Petición GET al endpoint: /api/usuario/listar
-    return this.http.get<UsuarioDto[]>(`${this.apiUrl}/listar`);
+    return this.http.get<any>(`${this.apiUrl}/listar`).pipe(
+      map((resp) => resp.mensaje) // ← EXTRAEMOS SOLO LA LISTA
+    );
   }
 }

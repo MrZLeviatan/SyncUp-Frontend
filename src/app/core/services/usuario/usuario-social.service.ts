@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { API_URL } from '../../../app.config';
 import { UsuarioDto } from '../../models/dto/usuario/usuario.dto';
 import { UsuarioConexionDto } from '../../models/dto/usuario/usuario.conexion.dto';
@@ -53,8 +53,24 @@ export class UsuarioSocialService {
    * @param idUsuario ID del usuario para el cual se generan las sugerencias.
    * @returns Un {@link Observable} que emite un array de {@link SugerenciaUsuariosDto}.
    */
-  obtenerSugerencias(idUsuario: number): Observable<SugerenciaUsuariosDto[]> {
-    return this.http.get<SugerenciaUsuariosDto[]>(`${this.apiUrl}/sugerencias/${idUsuario}`);
+  obtenerSugerencias(idUsuario: number): Observable<UsuarioDto[]> {
+    return this.http
+      .get<{ error: boolean; mensaje: SugerenciaUsuariosDto[] }>(
+        `${this.apiUrl}/sugerencias/${idUsuario}`
+      )
+      .pipe(
+        // mapeamos cada sugerencia a UsuarioDto
+        map((res) =>
+          res.mensaje.map(
+            (sugerencia): UsuarioDto => ({
+              id: sugerencia.id,
+              nombre: sugerencia.nombre,
+              username: sugerencia.username,
+              password: '', // password por defecto vacío (no viene del backend)
+            })
+          )
+        )
+      );
   }
 
   /**
@@ -65,6 +81,8 @@ export class UsuarioSocialService {
    * @returns Un {@link Observable} que emite un array de {@link UsuarioDto}.
    */
   obtenerUsuariosSeguidos(idUsuario: number): Observable<UsuarioDto[]> {
-    return this.http.get<UsuarioDto[]>(`${this.apiUrl}/seguidos/${idUsuario}`);
+    return this.http
+      .get<{ error: boolean; mensaje: UsuarioDto[] }>(`${this.apiUrl}/seguidos/${idUsuario}`)
+      .pipe(map((res) => res.mensaje));
   }
 }

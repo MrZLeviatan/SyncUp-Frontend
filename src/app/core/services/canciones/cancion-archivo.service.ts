@@ -18,7 +18,7 @@ import { API_URL } from '../../../app.config';
 })
 export class CancionArchivoService {
   // URL base del endpoint de cancion en el backend.
-  private apiUrl = `${API_URL.baseUrl}/api/cancion`;
+  private apiUrl = `${API_URL.baseUrl}/api/canciones`;
 
   /**
    * @constructor

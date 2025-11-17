@@ -1,0 +1,140 @@
+<!-- 
+  Contenedor principal que envuelve toda la lista de canciones.
+  Permite controlar la estructura visual general del componente.
+-->
+<div class="lista-canciones-container">
+  <!-- 
+    Contenedor que controla la altura máxima de la lista.
+    La variable "alturaLista" viene del componente padre.
+  -->
+  <div class="lista" [style.max-height.px]="alturaLista">
+    <!-- ========================================================= -->
+    <!-- BUSCADOR PRINCIPAL POR TÍTULO DE CANCIÓN -->
+    <!-- ========================================================= -->
+    <div class="buscador-container">
+      <input
+        type="text"
+        placeholder="Buscar canciones..."
+        [(ngModel)]="textoBusqueda"
+        (input)="buscarCanciones()"
+        class="buscador-input"
+      />
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- BUSCADOR DE ARTISTAS + FILTROS DE GÉNERO Y AÑO -->
+    <!-- ========================================================= -->
+    <div class="buscador-artista-container">
+      <!-- 
+        Contenedor que agrupa el input del artista y los botones de filtros.
+      -->
+      <div class="fila-buscador">
+        <!-- 
+          Input de autocompletado de artistas.
+          Muestra coincidencias y permite seleccionar uno.
+        -->
+        <input
+          type="text"
+          placeholder="Buscar artista..."
+          [(ngModel)]="textoArtista"
+          (input)="buscarArtistas()"
+          class="buscador-artista-input"
+        />
+
+        <!-- ========================================================= -->
+        <!-- CONTENEDOR DE FILTROS (GÉNERO, AÑO, APLICAR, LIMPIAR) -->
+        <!-- ========================================================= -->
+        <div class="filtros-container">
+          <!-- ============================== -->
+          <!-- FILTRO DE GÉNERO (Menú Hamburguesa) -->
+          <!-- ============================== -->
+          <div class="dropdown">
+            <!-- Botón que abre/cierra el menú de géneros -->
+            <button class="btn-icono" (click)="toggleGenero()">☰</button>
+
+            <!-- Menú flotante con la lista de géneros disponibles -->
+            <div class="dropdown-menu" *ngIf="mostrarGenero">
+              <div class="dropdown-item" *ngFor="let g of generos" (click)="seleccionarGenero(g)">
+                {{ g }}
+              </div>
+            </div>
+          </div>
+
+          <!-- ============================== -->
+          <!-- FILTRO DE AÑO (Icono de reloj) -->
+          <!-- ============================== -->
+          <div class="dropdown">
+            <!-- Botón para mostrar/esconder lista de años -->
+            <button class="btn-icono" (click)="toggleAnios()">⧖</button>
+
+            <!-- Lista dinámica de años generada desde el componente -->
+            <div class="dropdown-menu" *ngIf="mostrarAnios">
+              <div class="dropdown-item" *ngFor="let y of anios" (click)="seleccionarAnio(y)">
+                {{ y }}
+              </div>
+            </div>
+          </div>
+
+          <!-- ============================== -->
+          <!-- BOTÓN APLICAR FILTROS -->
+          <!-- ============================== -->
+          <button class="btn-icono" (click)="aplicarFiltros()">✓</button>
+
+          <!-- ============================== -->
+          <!-- BOTÓN LIMPIAR FILTROS -->
+          <!-- ============================== -->
+          <button class="btn-icono limpiar" (click)="limpiarFiltros()">✖</button>
+        </div>
+        <!-- fin filtros-container -->
+      </div>
+      <!-- fin fila-buscador -->
+
+      <!-- ========================================================= -->
+      <!-- LISTA DE ARTISTAS (AUTOCOMPLETADO) -->
+      <!-- Aparece únicamente cuando existen coincidencias -->
+      <!-- ========================================================= -->
+      <div class="lista-artistas" *ngIf="listaArtistas.length > 0">
+        <div class="item-artista" *ngFor="let a of listaArtistas" (click)="seleccionarArtista(a)">
+          {{ a.nombreArtistico }}
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- CABECERA DE LA TABLA DE CANCIONES -->
+    <!-- ========================================================= -->
+    <div class="tabla-cabecera">
+      <span class="col portada">Portada</span>
+      <span class="col titulo">Título</span>
+      <span class="col artista">Artista</span>
+      <span class="col genero">Género</span>
+      <span class="col duracion">Duración</span>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- LISTA DE CANCIONES (UNA FILA POR CADA CANCIÓN) -->
+    <!-- ========================================================= -->
+    <div class="cancion-item" *ngFor="let c of canciones" (click)="seleccionarCancion(c)">
+      <!-- Portada de la canción -->
+      <span class="col portada">
+        <img
+          [src]="c.urlPortada || 'assets/placeholder.png'"
+          alt="Portada {{ c.titulo }}"
+          class="imagen-portada"
+        />
+      </span>
+
+      <!-- Título -->
+      <span class="col titulo">{{ c.titulo }}</span>
+
+      <!-- Nombre del artista desde el mapa cargado -->
+      <span class="col artista">{{ artistasMap[c.idArtista] || 'Cargando...' }}</span>
+
+      <!-- Género musical -->
+      <span class="col genero">{{ c.generoMusical }}</span>
+
+      <!-- Duración formateada -->
+      <span class="col duracion">{{ c.duracion }}</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="lista-usuarios-container">
+  <!-- Contenedor de la tabla scrollable -->
+  <!-- Scrollable table container -->
+  <div class="lista" [style.max-height.px]="alturaLista">
+    <!-- CABECERA -->
+    <div class="tabla-cabecera">
+      <span class="col username">Username</span>
+      <span class="col nombre">Nombre</span>
+    </div>
+
+    <!-- FILAS DE USUARIOS -->
+    <div class="usuario-item" *ngFor="let u of usuariosFiltrados" (click)="seleccionarUsuario(u)">
+      <span class="col username">{{ u.username }}</span>
+
+      <span class="col nombre">{{ u.nombre }}</span>
+    </div>
+  </div>
+</div>

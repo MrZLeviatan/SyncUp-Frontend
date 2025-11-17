@@ -12,5 +12,6 @@ export interface CancionDto {
   fechaLanzamiento: string; // Se representa como una cadena de fecha ISO (YYYY-MM-DD).
   urlCancion: string;
   urlPortada: string;
+  duracion: string;
   idArtista: number;
 }

@@ -1,0 +1,88 @@
+<div class="page-wrapper">
+  <!-- Contenedor principal que envuelve toda la página, típicamente usado para centrar el contenido vertical y horizontalmente. -->
+
+  <div class="auth-container">
+    <!-- Contenedor del módulo de autenticación (login/registro). 
+         Define el ancho y el estilo visual (como el fondo y la sombra) del formulario. -->
+
+    <!-- Tabs / Pestañas para alternar entre Login y Registro -->
+    <div class="auth-tabs">
+      <!-- Botón para la vista de Login. -->
+      <button class="tab-btn" [class.active]="mostrarLogin" (click)="showLogin()">
+        <!-- Binding de Clase ([class.active]): 
+             Aplica la clase 'active' CSS si la propiedad 'mostrarLogin' es verdadera (true). -->
+        <!-- Manejador de Evento ((click)): 
+             Ejecuta el método 'showLogin()' del componente al hacer clic. -->
+        Login
+      </button>
+
+      <!-- Botón para la vista de Registro. -->
+      <button class="tab-btn" [class.active]="!mostrarLogin" (click)="showRegister()">
+        <!-- Binding de Clase ([class.active]): 
+             Aplica la clase 'active' CSS si la negación de 'mostrarLogin' es verdadera (es decir, si se muestra el Registro). -->
+        <!-- Manejador de Evento ((click)): 
+             Ejecuta el método 'showRegister()' del componente al hacer clic. -->
+        Registro
+      </button>
+    </div>
+
+    <!-- Login Form -->
+    <form class="auth-form" *ngIf="mostrarLogin" [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <!-- Directiva Estructural (*ngIf): 
+           Renderiza este bloque de formulario solo si la propiedad 'mostrarLogin' es verdadera. -->
+
+      <!-- Imagen de logo/marca -->
+      <img
+        src="https://res.cloudinary.com/dehltwwbu/image/upload/v1763232927/IconoMusica_fiotax.png"
+        alt="Logo"
+        class="auth-image"
+      />
+
+      <h2>Bienvenido a Sync-Up</h2>
+
+      <!-- Campo de Username -->
+      <label>Username</label>
+      <input type="text" formControlName="username" placeholder="Ingresa tu username" />
+
+      <!-- Campo de Password -->
+      <label>Password</label>
+      <input type="password" formControlName="password" placeholder="Ingresa tu password" />
+
+      <button class="submit-btn" type="submit">Ingresar</button>
+    </form>
+
+    <!-- Register Form -->
+    <form
+      class="auth-form"
+      *ngIf="!mostrarLogin"
+      [formGroup]="registerForm"
+      (ngSubmit)="onRegister()"
+    >
+      <!-- Directiva Estructural (*ngIf): 
+           Renderiza este bloque de formulario solo si la propiedad 'mostrarLogin' es falsa (mostrando el registro). -->
+
+      <h2>Crear Cuenta</h2>
+
+      <!-- Campo de Nombre Completo -->
+      <label>Nombre</label>
+      <input type="text" formControlName="nombre" placeholder="Ingresa tu nombre" />
+
+      <!-- Campo de Username -->
+      <label>Username</label>
+      <input type="text" formControlName="username" placeholder="Ingresa tu username (Propio)" />
+
+      <!-- Campo de Password -->
+      <label>Password</label>
+      <input type="password" formControlName="password" placeholder="Ingresa tu contraseña" />
+
+      <!-- Párrafo de términos y condiciones -->
+      <p class="terms-text">
+        Al registrarse, usted acepta los
+        <a href="#">términos y condiciones</a>
+        <!-- Enlace ficticio para los términos. -->
+      </p>
+
+      <button class="submit-btn" type="submit">Registrarse</button>
+    </form>
+  </div>
+</div>

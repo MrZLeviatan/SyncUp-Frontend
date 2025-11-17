@@ -1,0 +1,242 @@
+/* Contenedor principal centrado */
+.contenedor-menu {
+  width: 90%;
+  margin: 40px auto 0 auto;
+  display: flex;
+  flex-direction: column; /* columna para que título quede arriba de lista */
+  align-items: center;
+  gap: 20px; /* separa título y lista */
+
+  /* ESPACIO INFERIOR para que la lista no quede debajo del reproductor */
+  padding-bottom: 120px; /* 95px del reproductor + 25px de margen */
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+/* Título de sección centrado */
+.titulo-seccion {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Wrapper para centrar la lista de canciones */
+.lista-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Reproductor fijo inferior compacto */
+.player-container {
+  width: 100%;
+  height: 95px;
+  background: #121212;
+  border-top: 1px solid #282828;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 25px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  gap: 20px;
+}
+
+/* Sección izquierda: portada + info canción */
+.player-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Imagen de portada */
+.player-cover {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Información de la canción */
+.player-info h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.player-info p {
+  margin: 0;
+  color: #b3b3b3;
+  font-size: 0.75rem;
+}
+
+/* Sección central: controles y barra de progreso */
+.player-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+/* Controles de reproducción */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.control-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 17px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.play-btn {
+  font-size: 22px;
+}
+
+.control-btn:hover {
+  color: #1db954;
+}
+
+/* Barra de progreso */
+.progress-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 75%;
+}
+
+.time {
+  color: #b3b3b3;
+  font-size: 0.7rem;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 3px;
+  border-radius: 5px;
+  background: #535353;
+  appearance: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.progress-bar::-webkit-slider-thumb {
+  width: 10px;
+  height: 10px;
+  background: #1db954;
+  border-radius: 50%;
+}
+
+/* Botones adicionales */
+.control-btn i.fa-heart:hover {
+  color: #e74c3c;
+}
+.control-btn i.fa-broadcast-tower:hover {
+  color: #1db954;
+}
+
+/* Sección derecha: volumen */
+.player-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  margin-right: 65px;
+}
+
+.volume-bar {
+  width: 90px;
+  height: 4px;
+  background: #535353;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.volume-bar::-webkit-slider-thumb {
+  width: 10px;
+  height: 10px;
+  background: #1db954;
+  border-radius: 50%;
+}
+
+/* Oculta el audio nativo */
+audio {
+  display: none;
+}
+
+/* Iconos favoritos */
+.fas.fa-heart {
+  color: #e74c3c; /* marcado */
+}
+
+.far.fa-heart {
+  color: white; /* no marcado */
+}
+
+/* Título de radio llamativo */
+.titulo-radio {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  background: linear-gradient(90deg, #000000, #000000, #000000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Animación de entrada */
+.animar-titulo {
+  animation: entrada-titulo 1s ease-out forwards;
+}
+
+@keyframes entrada-titulo {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.8);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateY(5px) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.botones-filtros {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  justify-content: center;
+}
+
+.botones-filtros button {
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  background: #282828;
+  color: #fff;
+  transition: 0.2s;
+}
+
+.botones-filtros button:hover,
+.botones-filtros button.active {
+  background: #1db954;
+  color: #fff;
+}
