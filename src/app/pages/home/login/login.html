@@ -1,25 +1,26 @@
 <!-- AUTH LAYOUT -->
 <div class="auth-page">
   <div class="auth-wrapper">
-    <!-- LEFT PANEL -->
+    <!-- LEFT SIDE ILLUSTRATION -->
     <div class="auth-left">
       <img
         src="https://res.cloudinary.com/dehltwwbu/image/upload/v1763460660/ImagenLoginSpoky_ujh5gj.png"
-        alt="Imagen decorativa"
+        alt="Ilustración"
         class="auth-illustration"
       />
     </div>
 
-    <!-- RIGHT PANEL -->
+    <!-- RIGHT SIDE FORM -->
     <div class="auth-right">
       <div class="auth-card">
+        <!-- LOGO -->
         <img
-          src="https://res.cloudinary.com/dehltwwbu/image/upload/v1763232927/IconoMusica_fiotax.png"
+          src="https://res.cloudinary.com/dehltwwbu/image/upload/v1763501088/20251115_1816_Calabaza_Espeluznante_y_Tierna_remix_01ka4wsyhgf13sb21znmny077w_1_exm3od.png"
           alt="Logo"
           class="logo-corner"
         />
 
-        <!-- SWITCH TABS -->
+        <!-- TABS -->
         <div class="auth-tabs">
           <button class="tab-btn" [class.active]="mostrarLogin" (click)="showLogin()">Login</button>
           <button class="tab-btn" [class.active]="!mostrarLogin" (click)="showRegister()">
@@ -29,7 +30,7 @@
 
         <!-- LOGIN FORM -->
         <form *ngIf="mostrarLogin" [formGroup]="loginForm" (ngSubmit)="onLogin()" class="auth-form">
-          <h2 class="title">¡Bienvenido a Spookify!</h2>
+          <h2 class="title">Bienvenido</h2>
 
           <label>Username</label>
           <input type="text" formControlName="username" placeholder="Tu usuario" />
@@ -47,36 +48,24 @@
           (ngSubmit)="onRegister()"
           class="auth-form"
         >
-          <h2 class="title">Crear cuenta</h2>
+          <h2 class="title">Crear Cuenta</h2>
 
-          <!-- PROFILE IMAGE SECTION -->
           <label>Imagen de perfil</label>
-
           <div class="profile-upload">
-            <img
-              *ngIf="previewImage"
-              [src]="previewImage"
-              alt="Vista previa"
-              class="profile-preview"
-            />
-
-            <!-- Input con conexión correcta -->
+            <img *ngIf="previewImage" [src]="previewImage" class="profile-preview" />
             <input type="file" accept="image/*" (change)="onImageSelected($event)" />
           </div>
 
-          <!-- TEXT FIELDS -->
           <label>Nombre</label>
-          <input type="text" formControlName="nombre" placeholder="Ingresa tu nombre" />
+          <input type="text" formControlName="nombre" placeholder="Tu nombre" />
 
           <label>Username</label>
           <input type="text" formControlName="username" placeholder="Usuario único" />
 
           <label>Password</label>
-          <input type="password" formControlName="password" placeholder="Crea tu contraseña" />
+          <input type="password" formControlName="password" placeholder="Tu contraseña" />
 
-          <p class="terms">
-            Al registrarte, aceptas ser poseído por tres espectros musicales ancestrales.
-          </p>
+          <p class="terms">Al registrarte aceptas nuestros términos y políticas.</p>
 
           <button class="submit-btn" type="submit">Crear cuenta</button>
         </form>

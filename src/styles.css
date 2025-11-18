@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+html,
+body {
+  margin: 0; /* quitar margen */
+  padding: 0; /* quitar padding */
+  background-color: #000; /* poner fondo negro */
+  width: 100%;
+  height: 100%;
+}
+
+/* Force Angular root container to fill the screen / Forzar contenedor raíz */
+app-root {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: #000; /* fondo negro */
+}
