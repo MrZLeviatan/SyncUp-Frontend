@@ -45,6 +45,9 @@ export class LoginComponente {
    */
   registerForm: FormGroup;
 
+  // Preview image / Vista previa de la imagen
+  previewImage: string | null = null;
+
   /**
    * @description
    * Constructor que inyecta los servicios necesarios y inicializa los formularios reactivos.
@@ -73,6 +76,7 @@ export class LoginComponente {
       nombre: ['', Validators.required],
       username: ['', Validators.required],
       password: ['', Validators.required],
+      fotoPerfil: [null], // campo necesario
     });
   }
 
@@ -157,5 +161,22 @@ export class LoginComponente {
       },
       // Nota: El manejo de errores (e.g., Elemento repetido) es gestionado por el Interceptor de Toast.
     });
+  }
+
+  // Image selection handler / Manejo de selección de imagen
+  onImageSelected(event: any) {
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    // Add file to form
+    this.registerForm.patchValue({ fotoPerfil: file });
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.previewImage = reader.result as string;
+    };
+
+    reader.readAsDataURL(file);
   }
 }

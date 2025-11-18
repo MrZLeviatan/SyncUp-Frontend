@@ -7,4 +7,5 @@ export interface RegistrarUsuarioDto {
   nombre: string;
   username: string;
   password: string;
+  fotoPerfil: File;
 }

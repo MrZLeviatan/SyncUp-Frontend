@@ -1,88 +1,86 @@
-<div class="page-wrapper">
-  <!-- Contenedor principal que envuelve toda la página, típicamente usado para centrar el contenido vertical y horizontalmente. -->
-
-  <div class="auth-container">
-    <!-- Contenedor del módulo de autenticación (login/registro). 
-         Define el ancho y el estilo visual (como el fondo y la sombra) del formulario. -->
-
-    <!-- Tabs / Pestañas para alternar entre Login y Registro -->
-    <div class="auth-tabs">
-      <!-- Botón para la vista de Login. -->
-      <button class="tab-btn" [class.active]="mostrarLogin" (click)="showLogin()">
-        <!-- Binding de Clase ([class.active]): 
-             Aplica la clase 'active' CSS si la propiedad 'mostrarLogin' es verdadera (true). -->
-        <!-- Manejador de Evento ((click)): 
-             Ejecuta el método 'showLogin()' del componente al hacer clic. -->
-        Login
-      </button>
-
-      <!-- Botón para la vista de Registro. -->
-      <button class="tab-btn" [class.active]="!mostrarLogin" (click)="showRegister()">
-        <!-- Binding de Clase ([class.active]): 
-             Aplica la clase 'active' CSS si la negación de 'mostrarLogin' es verdadera (es decir, si se muestra el Registro). -->
-        <!-- Manejador de Evento ((click)): 
-             Ejecuta el método 'showRegister()' del componente al hacer clic. -->
-        Registro
-      </button>
+<!-- AUTH LAYOUT -->
+<div class="auth-page">
+  <div class="auth-wrapper">
+    <!-- LEFT PANEL -->
+    <div class="auth-left">
+      <img
+        src="https://res.cloudinary.com/dehltwwbu/image/upload/v1763460660/ImagenLoginSpoky_ujh5gj.png"
+        alt="Imagen decorativa"
+        class="auth-illustration"
+      />
     </div>
 
-    <!-- Login Form -->
-    <form class="auth-form" *ngIf="mostrarLogin" [formGroup]="loginForm" (ngSubmit)="onLogin()">
-      <!-- Directiva Estructural (*ngIf): 
-           Renderiza este bloque de formulario solo si la propiedad 'mostrarLogin' es verdadera. -->
+    <!-- RIGHT PANEL -->
+    <div class="auth-right">
+      <div class="auth-card">
+        <img
+          src="https://res.cloudinary.com/dehltwwbu/image/upload/v1763232927/IconoMusica_fiotax.png"
+          alt="Logo"
+          class="logo-corner"
+        />
 
-      <!-- Imagen de logo/marca -->
-      <img
-        src="https://res.cloudinary.com/dehltwwbu/image/upload/v1763232927/IconoMusica_fiotax.png"
-        alt="Logo"
-        class="auth-image"
-      />
+        <!-- SWITCH TABS -->
+        <div class="auth-tabs">
+          <button class="tab-btn" [class.active]="mostrarLogin" (click)="showLogin()">Login</button>
+          <button class="tab-btn" [class.active]="!mostrarLogin" (click)="showRegister()">
+            Registro
+          </button>
+        </div>
 
-      <h2>Bienvenido a Sync-Up</h2>
+        <!-- LOGIN FORM -->
+        <form *ngIf="mostrarLogin" [formGroup]="loginForm" (ngSubmit)="onLogin()" class="auth-form">
+          <h2 class="title">¡Bienvenido a Spookify!</h2>
 
-      <!-- Campo de Username -->
-      <label>Username</label>
-      <input type="text" formControlName="username" placeholder="Ingresa tu username" />
+          <label>Username</label>
+          <input type="text" formControlName="username" placeholder="Tu usuario" />
 
-      <!-- Campo de Password -->
-      <label>Password</label>
-      <input type="password" formControlName="password" placeholder="Ingresa tu password" />
+          <label>Password</label>
+          <input type="password" formControlName="password" placeholder="Tu contraseña" />
 
-      <button class="submit-btn" type="submit">Ingresar</button>
-    </form>
+          <button class="submit-btn" type="submit">Ingresar</button>
+        </form>
 
-    <!-- Register Form -->
-    <form
-      class="auth-form"
-      *ngIf="!mostrarLogin"
-      [formGroup]="registerForm"
-      (ngSubmit)="onRegister()"
-    >
-      <!-- Directiva Estructural (*ngIf): 
-           Renderiza este bloque de formulario solo si la propiedad 'mostrarLogin' es falsa (mostrando el registro). -->
+        <!-- REGISTER FORM -->
+        <form
+          *ngIf="!mostrarLogin"
+          [formGroup]="registerForm"
+          (ngSubmit)="onRegister()"
+          class="auth-form"
+        >
+          <h2 class="title">Crear cuenta</h2>
 
-      <h2>Crear Cuenta</h2>
+          <!-- PROFILE IMAGE SECTION -->
+          <label>Imagen de perfil</label>
 
-      <!-- Campo de Nombre Completo -->
-      <label>Nombre</label>
-      <input type="text" formControlName="nombre" placeholder="Ingresa tu nombre" />
+          <div class="profile-upload">
+            <img
+              *ngIf="previewImage"
+              [src]="previewImage"
+              alt="Vista previa"
+              class="profile-preview"
+            />
 
-      <!-- Campo de Username -->
-      <label>Username</label>
-      <input type="text" formControlName="username" placeholder="Ingresa tu username (Propio)" />
+            <!-- Input con conexión correcta -->
+            <input type="file" accept="image/*" (change)="onImageSelected($event)" />
+          </div>
 
-      <!-- Campo de Password -->
-      <label>Password</label>
-      <input type="password" formControlName="password" placeholder="Ingresa tu contraseña" />
+          <!-- TEXT FIELDS -->
+          <label>Nombre</label>
+          <input type="text" formControlName="nombre" placeholder="Ingresa tu nombre" />
 
-      <!-- Párrafo de términos y condiciones -->
-      <p class="terms-text">
-        Al registrarse, usted acepta los
-        <a href="#">términos y condiciones</a>
-        <!-- Enlace ficticio para los términos. -->
-      </p>
+          <label>Username</label>
+          <input type="text" formControlName="username" placeholder="Usuario único" />
 
-      <button class="submit-btn" type="submit">Registrarse</button>
-    </form>
+          <label>Password</label>
+          <input type="password" formControlName="password" placeholder="Crea tu contraseña" />
+
+          <p class="terms">
+            Al registrarte, aceptas ser poseído por tres espectros musicales ancestrales.
+          </p>
+
+          <button class="submit-btn" type="submit">Crear cuenta</button>
+        </form>
+      </div>
+    </div>
   </div>
 </div>

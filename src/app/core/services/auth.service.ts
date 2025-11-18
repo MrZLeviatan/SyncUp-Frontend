@@ -30,18 +30,22 @@ export class AuthService {
   /**
    * @method registrarUsuario
    * @description Envía una petición POST para crear una nueva cuenta de usuario en el sistema.
-   *
-   * Este es un endpoint **público** (no requiere token).
-   *
-   * @param registrarUsuarioDto DTO con el nombre, username y password del nuevo usuario.
-   * @returns Un {@link Observable} que emite la respuesta del backend, tipificada como {@link MensajeDto<string>}.
+   * Convierte el DTO en un FormData porque el backend usa @ModelAttribute.
    */
   registrarUsuario(registrarUsuarioDto: RegistrarUsuarioDto): Observable<MensajeDto<string>> {
-    // Petición POST al endpoint: /api/auth/registro-usuario
-    return this.http.post<MensajeDto<string>>(
-      `${this.apiUrl}/registro-usuario`,
-      registrarUsuarioDto
-    );
+    const formData = new FormData();
+
+    // Add text fields / Agregar campos de texto
+    formData.append('nombre', registrarUsuarioDto.nombre);
+    formData.append('username', registrarUsuarioDto.username);
+    formData.append('password', registrarUsuarioDto.password);
+
+    // Add file only if exists / Agregar archivo solo si existe
+    if (registrarUsuarioDto.fotoPerfil) {
+      formData.append('fotoPerfil', registrarUsuarioDto.fotoPerfil);
+    }
+
+    return this.http.post<MensajeDto<string>>(`${this.apiUrl}/registro-usuario`, formData);
   }
 
   /**
