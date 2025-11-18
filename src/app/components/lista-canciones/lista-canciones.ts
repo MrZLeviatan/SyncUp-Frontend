@@ -123,6 +123,7 @@ export class ListaCanciones implements OnInit, OnChanges {
    */
   buscarCanciones() {
     const texto = this.textoBusqueda.trim();
+
     if (!texto) {
       this.canciones = [...this.cancionesGenerales];
       this.cargarArtistas();
@@ -131,7 +132,9 @@ export class ListaCanciones implements OnInit, OnChanges {
 
     this.busquedaService.autocompletarCanciones(texto).subscribe({
       next: (res: any) => {
-        this.canciones = res?.mensaje || [];
+        const lista = res?.mensaje || [];
+        this.canciones = this.filtrarContraListaPadre(lista);
+        this.cargarArtistas();
       },
       error: (err) => {
         console.error('Error buscando canciones', err);
@@ -209,13 +212,23 @@ export class ListaCanciones implements OnInit, OnChanges {
 
     this.busquedaService.listarCancionesFiltro(artista, genero, anio, 0, 20).subscribe({
       next: (res: any) => {
-        this.canciones = res || [];
+        const lista = res || [];
+        this.canciones = this.filtrarContraListaPadre(lista);
         this.cargarArtistas();
       },
       error: (err) => {
         console.error('Error filtrando canciones', err);
       },
     });
+  }
+
+  /**
+   * Filtra cualquier lista externa para que solo muestre canciones
+   * que existan en la lista actual del componente padre.
+   */
+  private filtrarContraListaPadre(lista: CancionDto[]): CancionDto[] {
+    const idsPadre = new Set(this.cancionesGenerales.map((c) => c.id));
+    return lista.filter((c) => idsPadre.has(c.id));
   }
 
   /**
