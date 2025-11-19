@@ -1,92 +1,144 @@
-/* Barra superior principal */
+/* ===== TOP BAR ===== */
 .top-bar {
-  display: flex; /* Layout flexible horizontal */
-  justify-content: space-between; /* Espacio entre secciones */
-  align-items: center; /* Alineación vertical centrada */
-  background-color: #087f32; /* Verde principal */
-  padding: 12px 25px; /* Espaciado interno */
-  color: white; /* Color de texto */
-  font-family: 'Segoe UI', sans-serif; /* Fuente moderna */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25); /* Sombra suave */
-  max-width: 1200px; /* Ancho máximo */
-  margin: 0 auto; /* Centrado horizontal */
-  border-radius: 8px; /* Bordes redondeados */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 32px;
+  background: linear-gradient(120deg, #640b88, #9a3bbf, #3d0d50);
+  border-radius: 20px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.55);
+  color: #e6e6e6;
+  font-family: 'Segoe UI', sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  backdrop-filter: blur(5px);
+  position: relative;
+  transition: all 0.3s ease;
 }
 
-/* Contenedor de la información del usuario */
+/* ===== USER INFO ===== */
 .user-info {
-  display: flex; /* Layout flexible */
-  align-items: center; /* Centrado vertical */
-  gap: 12px; /* Espacio entre icono y nombre */
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
-/* Icono de perfil */
+.user-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #9a3bbf, #640b88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(154, 59, 191, 0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ajusta imagen externa de Cloudinary */
+}
+
+.user-avatar:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 25px rgba(154, 59, 191, 0.9);
+}
+
 .user-icon {
-  font-size: 46px; /* Tamaño del icono */
-  color: white; /* Color blanco */
-  transition: transform 0.3s; /* Transición suave para hover */
+  font-size: 28px;
+  color: #fff;
 }
 
-.user-icon:hover {
-  transform: scale(1.1); /* Agrandar ligeramente al pasar el mouse */
-}
-
-/* Nombre de usuario */
 .username {
-  font-weight: 600; /* Negrita moderada */
-  font-size: 20px; /* Tamaño de fuente */
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
 }
 
-/* Contenedor de los botones de navegación */
+/* ===== NAV BUTTONS ===== */
 .nav-buttons {
-  display: flex; /* Layout flexible horizontal */
-  gap: 14px; /* Espacio entre botones */
-  justify-content: center; /* Centrado de los botones */
-  flex: 1; /* Ocupa todo el espacio disponible */
+  display: flex;
+  gap: 16px;
+  flex: 1;
+  justify-content: center;
 }
 
-/* Botones generales de navegación */
 .nav-btn {
-  background-color: #ffffff; /* Fondo blanco */
-  color: #087f32; /* Texto verde */
-  border: none; /* Sin borde */
-  padding: 10px 20px; /* Espaciado interno */
-  border-radius: 10px; /* Bordes redondeados */
-  cursor: pointer; /* Cursor puntero */
-  font-weight: 600; /* Texto semi-negrita */
-  font-size: 16px; /* Tamaño legible */
-  display: flex; /* Layout flexible para icono y texto */
-  align-items: center; /* Alineación vertical centrada */
-  gap: 8px; /* Espacio entre icono y texto */
-  transition: all 0.3s ease; /* Transición suave al interactuar */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Sombra sutil */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  background: #1c1c1c;
+  color: #9a3bbf;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(154, 59, 191, 0.2);
+  transform: skewX(-20deg);
+  transition: all 0.4s ease;
+}
+
+.nav-btn:hover::after {
+  left: 100%;
 }
 
 .nav-btn:hover {
-  background-color: #17a548; /* Fondo verde al pasar el mouse */
-  color: white; /* Texto blanco */
-  transform: translateY(-2px); /* Efecto de elevación */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra más marcada */
+  background: #3d0d50;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
 }
 
-/* Botón de cerrar sesión */
+/* ===== LOGOUT BUTTON ===== */
+.logout-btn-container {
+  display: flex;
+  align-items: center;
+}
+
 .logout-btn {
-  background-color: #ffffff; /* Fondo blanco */
-  color: #d32f2f; /* Texto rojo */
-  border-radius: 10px; /* Bordes redondeados */
-  font-weight: 600; /* Texto semi-negrita */
-  transition: all 0.3s ease; /* Transición suave al interactuar */
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #1c1c1c;
+  color: #d32f2f;
+  border: none;
+  cursor: pointer;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+  position: relative;
 }
 
 .logout-btn:hover {
-  background-color: #d32f2f; /* Fondo rojo al pasar el mouse */
-  color: white; /* Texto blanco */
-  transform: translateY(-2px); /* Efecto de elevación */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra más marcada */
+  background: #d32f2f;
+  color: #fff;
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45), 0 0 15px rgba(154, 59, 191, 0.7);
 }
 
-/* Contenedor del botón de cerrar sesión */
-.logout-btn-container {
-  display: flex; /* Layout flexible */
-  align-items: center; /* Centrado vertical */
+.logout-btn i {
+  pointer-events: none;
+  text-shadow: 0 0 8px rgba(154, 59, 191, 0.7);
 }

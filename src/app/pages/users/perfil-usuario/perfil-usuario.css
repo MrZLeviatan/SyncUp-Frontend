@@ -1,325 +1,228 @@
-/* Contenedor principal del perfil */
-.perfil-container {
+/* ===== CARD HORIZONTAL ===== */
+.rediseño-card-horizontal {
   display: flex;
-  flex-direction: column; /* Organiza verticalmente */
-  gap: 30px;
-  justify-content: center;
-  margin: 40px auto;
-  max-width: 1200px;
-  padding: 20px;
-}
-
-/* Fila que contiene las tarjetas del perfil (izquierda y derecha) */
-.perfil-fila {
-  display: flex;
-  gap: 30px;
-  flex-wrap: wrap; /* Ajusta verticalmente en pantallas pequeñas */
-  justify-content: center;
-}
-
-/* Tarjetas de información y formularios */
-.perfil-card {
-  background: #ffffff;
+  background: linear-gradient(145deg, #3d0d50, #640b88, #9a3bbf);
+  color: #f0f0f0;
   padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
-  width: 380px;
+  border-radius: 20px;
+  max-width: 900px;
+  margin: 25px auto 0;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.55);
   font-family: 'Segoe UI', sans-serif;
-  color: #000000;
+  transition: all 0.3s ease;
+  gap: 30px;
 }
 
-/* Tarjeta izquierda con información del usuario */
-.info-card {
-  max-width: 330px;
+.rediseño-card-horizontal:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.65);
 }
 
-/* Tarjeta derecha con formulario */
-.form-card {
-  width: 450px;
-}
-
-/* Icono de perfil centrado */
-.perfil-foto {
-  text-align: center;
-  margin-bottom: 15px;
-}
-
-.perfil-foto i {
-  font-size: 95px;
-  color: #087f32;
-  transition: 0.3s;
-}
-
-.perfil-foto i:hover {
-  transform: scale(1.05);
-}
-
-/* Información textual del usuario */
-.info-usuario p {
-  font-size: 17px;
-  margin: 6px 0;
-  color: #000000;
-}
-
-/* Botones generales de acción */
-.btn-accion {
-  background-color: #ffffff;
-  color: #087f32;
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
+/* ===== FOTO PERFIL LATERAL ===== */
+.perfil-foto-lateral {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: linear-gradient(135deg, #9a3bbf, #640b88);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
-  transition: 0.25s;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+  box-shadow: 0 0 20px rgba(154, 59, 191, 0.6);
 }
 
-.btn-accion:hover {
-  background-color: #17a548;
+.perfil-foto-lateral img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.perfil-foto-lateral i {
+  font-size: 100px;
   color: #fff;
-  transform: translateY(-2px);
 }
 
-/* Botón de acción de color rojo */
-.btn-accion.rojo {
-  color: #d32f2f;
-}
-
-.btn-accion.rojo:hover {
-  background-color: #d32f2f;
-  color: white;
-}
-
-/* Contenedor de acciones */
-.acciones {
-  margin-top: 25px;
+/* ===== CONTENEDOR INFO Y FORMULARIOS ===== */
+.perfil-info-form {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 20px;
 }
 
-/* Subtítulo de formulario */
-.subtitulo {
-  color: #087f32;
-  font-size: 22px;
-  margin-bottom: 12px;
-}
-
-/* Grupos de inputs en formulario */
-.form-group {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  font-weight: 600;
+/* ===== INFO USUARIO ===== */
+.info-usuario-red h2 {
+  font-size: 24px;
+  font-weight: 700;
   margin-bottom: 6px;
 }
 
-input {
-  padding: 12px;
-  border-radius: 10px;
-  border: 2px solid #087f3250;
-  font-size: 15px;
-  outline: none;
-  transition: 0.3s;
-}
-
-input:focus {
-  border-color: #087f32;
-  box-shadow: 0 0 6px #087f3260;
-}
-
-/* Botón de guardar cambios */
-.btn-guardar {
-  background-color: #087f32;
-  color: white;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
+.info-usuario-red p {
   font-size: 16px;
-  font-weight: 600;
-  transition: 0.25s;
+  margin: 3px 0;
 }
 
-.btn-guardar:hover {
-  background-color: #0a9e3b;
-  transform: translateY(-2px);
-}
-
-/* Botón guardar de tipo rojo (alerta) */
-.btn-guardar.rojo {
-  background-color: #d9534f;
-}
-
-.btn-guardar.rojo:hover {
-  background-color: #c9302c;
-}
-
-/* Línea divisoria */
-hr {
-  border: 1px solid #087f3235;
-  margin: 25px 0;
-}
-
-/* Sección de canciones favoritas */
-.perfil-favoritas {
-  margin-top: 30px;
-  width: 100%;
-  margin-left: 30px;
-}
-
-/* Layout horizontal: lista de canciones + botones */
-.favoritas-layout {
+/* ===== ACCIONES ===== */
+.acciones-red {
   display: flex;
-  gap: 20px;
-  align-items: flex-start;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
-/* Lista de canciones ocupa la mayor parte del espacio */
-.lista-canciones {
-  flex: 2;
-}
-
-/* Contenedor de botones al lado derecho de la lista */
-.favoritas-botones {
+/* ===== FORMULARIOS PROFESIONALES ===== */
+.formulario-red {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 18px;
+  padding: 25px 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  min-width: 160px;
+  gap: 18px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(154, 59, 191, 0.4);
+  backdrop-filter: blur(6px);
+  transition: all 0.4s ease;
 }
 
-.btn-aceptacion {
-  background: linear-gradient(to right, #087f32, #8bb699);
-  color: white;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  transition: 0.3s;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+.formulario-red:hover {
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.55);
+  border-color: rgba(154, 59, 191, 0.6);
 }
 
-.btn-aceptacion:hover {
-  background: linear-gradient(to right, #0aa645, #9ee5af);
-  transform: translateY(-2px);
-}
-
-/* Botón azul con efecto degradado */
-.btn-azul-plateado {
-  background: linear-gradient(to right, #607d8b, #90a4ae);
-  color: white;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  transition: 0.3s;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-.btn-azul-plateado:hover {
-  background: linear-gradient(to right, #546e7a, #78909c);
-  transform: translateY(-2px);
-}
-
-/* Botón rojo de acciones profesionales */
-.btn-rojo {
-  background-color: #d9534f;
-  color: white;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  transition: 0.3s;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-.btn-rojo:hover {
-  background-color: #c9302c;
-  transform: translateY(-2px);
-}
-
-/* Contenedor de botones debajo de la lista de favoritas */
-.favoritas-botones-inferior {
-  display: flex; /* Alinea botones horizontalmente */
-  gap: 10px;
-  margin-top: 15px;
-}
-
-/* Información de la canción seleccionada */
-.cancion-info {
-  flex: 1;
-  background: #f5f5f5;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-/* Botones dentro del panel de canción */
-.botones-cancion {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 15px;
-}
-
-/* --- Sección social --- */
-/* Social section layout | Sección Social Layout */
-.social-wrapper {
-  margin-top: 40px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 30px;
-}
-
-/* Card container | Contenedor tipo tarjeta */
-.social-card {
-  background: #ffffff;
-  border-radius: 14px;
-  padding: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
-}
-
-/* Title | Título */
-.social-title {
-  font-size: 20px;
+/* ===== ENCABEZADOS FORMULARIO ===== */
+.formulario-red h3 {
+  font-size: 22px;
   font-weight: 700;
-  margin-bottom: 15px;
-  border-left: 5px solid #3f87f5;
-  padding-left: 10px;
+  color: #ffffff;
+  margin-bottom: 12px;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
 }
 
-.botones-sugerencia {
-  margin-top: 10px;
-  padding: 10px;
-  border-top: 1px solid #ddd;
+/* ===== LABELS PROFESIONALES ===== */
+.formulario-red label {
+  font-size: 12px; /* compacto */
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+  display: block;
+  margin-bottom: 6px;
+  max-width: 30%; /* evita que sobresalgan */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== INPUTS ELEGANTES ===== */
+.formulario-red input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.formulario-red input:focus {
+  border-color: #9a3bbf;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 12px rgba(154, 59, 191, 0.6), inset 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+.formulario-red input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+/* ===== BOTONES PERFIL ===== */
+.btn-accion-red,
+.btn-guardar-red,
+.btn-accion-red.rojo,
+.btn-guardar-red.rojo {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 18px; /* ancho y alto reducido */
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  min-width: 140px; /* consistencia */
+  background: #1c1c1c;
+  color: #9a3bbf;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* ===== EFECTO SHINE ===== */
+.btn-accion-red::after,
+.btn-guardar-red::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 40%; /* más compacto */
+  height: 100%;
+  background: rgba(154, 59, 191, 0.2);
+  transform: skewX(-20deg);
+  transition: all 0.4s ease;
+}
+
+.btn-accion-red:hover::after,
+.btn-guardar-red:hover::after {
+  left: 100%;
+}
+
+.btn-accion-red:hover,
+.btn-guardar-red:hover {
+  background: #3d0d50;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+/* ===== BOTONES ROJOS ===== */
+.btn-accion-red.rojo,
+.btn-guardar-red.rojo {
+  background: #1c1c1c;
+  color: #d32f2f;
+}
+
+.btn-accion-red.rojo::after,
+.btn-guardar-red.rojo::after {
+  background: rgba(211, 47, 47, 0.2);
+}
+
+.btn-accion-red.rojo:hover,
+.btn-guardar-red.rojo:hover {
+  background: #d32f2f;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), 0 0 12px rgba(154, 59, 191, 0.5);
+}
+
+/* ===== TRANSICIONES SUAVES ===== */
+.formulario-red,
+.formulario-red input,
+.btn-guardar-red,
+.btn-guardar-red.rojo {
+  transition: all 0.3s ease-in-out;
+}
+
+.labels-nombre {
+  width: 95%;
+}
+
+/* Contador de seguidos junto al username */
+.contador-seguidos {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  margin-left: 8px; /* separación del username */
 }

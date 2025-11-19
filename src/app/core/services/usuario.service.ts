@@ -167,4 +167,17 @@ export class UsuarioService {
       .get<{ error: boolean; mensaje: UsuarioDto[] }>(`${this.apiUrl}/seguidos/${idUsuario}`)
       .pipe(map((res) => res.mensaje));
   }
+
+  /**
+   * @method obtenerCantidadSeguidores
+   * @description Obtiene la cantidad de seguidores de un usuario específico.
+   *
+   * @param idUsuario ID del usuario a consultar.
+   * @returns Un {@link Observable} que emite la cantidad de seguidores (number).
+   */
+  obtenerCantidadSeguidores(idUsuario: number): Observable<number> {
+    return this.http.get<MensajeDto<number>>(`${this.apiUrl}/seguidores/${idUsuario}`).pipe(
+      map((resp) => resp.mensaje) // Extraemos solo el número de seguidores
+    );
+  }
 }

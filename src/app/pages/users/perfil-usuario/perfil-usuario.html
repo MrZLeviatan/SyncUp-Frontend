@@ -1,68 +1,76 @@
 <div class="perfil-container">
-  <!-- FILA DE PERFIL -->
-  <div class="perfil-fila">
-    <!-- TARJETA IZQUIERDA -->
-    <div class="perfil-card info-card">
-      <div class="perfil-foto">
+  <div class="perfil-card rediseño-card-horizontal">
+    <!-- FOTO DE PERFIL IZQUIERDA -->
+    <div class="perfil-foto-lateral">
+      <img
+        *ngIf="usuario?.fotoPerfilUrl; else defaultFoto"
+        [src]="usuario!.fotoPerfilUrl"
+        alt="Foto de perfil"
+      />
+      <ng-template #defaultFoto>
         <i class="fa fa-user-circle"></i>
-      </div>
+      </ng-template>
+    </div>
 
-      <div class="info-usuario">
-        <p><strong>Nombre:</strong> {{ usuario?.nombre }}</p>
+    <!-- INFO Y FORMULARIOS DERECHA -->
+    <div class="perfil-info-form">
+      <!-- INFORMACIÓN DEL USUARIO -->
+      <!-- INFORMACIÓN DEL USUARIO -->
+      <div class="info-usuario-red">
+        <h2>
+          {{ usuario?.nombre || usuario?.username }}
+          <!-- Contador de seguidos -->
+          <span class="contador-seguidos" *ngIf="cantidadSeguidos !== null">
+            (Seguidos: {{ cantidadSeguidos }})
+          </span>
+        </h2>
         <p><strong>Username:</strong> {{ usuario?.username }}</p>
       </div>
 
-      <div class="acciones">
-        <button class="btn-accion" (click)="mostrarEditarNombre = !mostrarEditarNombre">
+      <!-- ACCIONES -->
+      <div class="acciones-red">
+        <button
+          class="btn-accion-red"
+          (click)="mostrarEditarNombre = !mostrarEditarNombre; mostrarEditarPassword = false"
+        >
           <i class="fa fa-edit"></i> Actualizar Perfil
         </button>
-
-        <button class="btn-accion rojo" (click)="mostrarEditarPassword = !mostrarEditarPassword">
-          <i class="fa fa-lock"></i> Actualizar Contraseña
+        <button
+          class="btn-accion-red rojo"
+          (click)="mostrarEditarPassword = !mostrarEditarPassword; mostrarEditarNombre = false"
+        >
+          <i class="fa fa-lock"></i> Cambiar Contraseña
         </button>
       </div>
-    </div>
 
-    <!-- TARJETA DERECHA -->
-    <div class="perfil-card form-card">
-      <!-- FORM ACTUALIZAR NOMBRE -->
-      <div *ngIf="mostrarEditarNombre">
-        <h3 class="subtitulo">Actualizar Nombre</h3>
-
-        <div class="form-group">
-          <label>Nuevo Nombre</label>
-          <input type="text" [(ngModel)]="nombreActualizado" />
+      <!-- FORMULARIOS -->
+      <div class="formularios-red">
+        <!-- FORM ACTUALIZAR NOMBRE -->
+        <div *ngIf="mostrarEditarNombre" class="formulario-red">
+          <h3>Actualizar Nombre</h3>
+          <div class="labels-nombre">
+            <input type="text" [(ngModel)]="nombreActualizado" placeholder="Nuevo nombre" />
+          </div>
+          <button class="btn-guardar-red" (click)="actualizarNombre()">
+            <i class="fa fa-save"></i> Guardar
+          </button>
         </div>
 
-        <button class="btn-guardar" (click)="actualizarNombre()">
-          <i class="fa fa-save"></i> Guardar
-        </button>
-
-        <hr />
-      </div>
-
-      <!-- FORM ACTUALIZAR PASSWORD -->
-      <div *ngIf="mostrarEditarPassword">
-        <h3 class="subtitulo">Cambiar Contraseña</h3>
-
-        <div class="form-group">
-          <label>Contraseña Actual</label>
-          <input type="password" [(ngModel)]="passwordAnterior" />
+        <!-- FORM ACTUALIZAR PASSWORD -->
+        <div *ngIf="mostrarEditarPassword" class="formulario-red">
+          <h3>Cambiar Contraseña</h3>
+          <div class="labels-nombre">
+            <input type="password" [(ngModel)]="passwordAnterior" placeholder="Contraseña actual" />
+            <input type="password" [(ngModel)]="nuevoPassword" placeholder="Nueva contraseña" />
+          </div>
+          <button class="btn-guardar-red rojo" (click)="actualizarPassword()">
+            <i class="fa fa-key"></i> Actualizar
+          </button>
         </div>
-
-        <div class="form-group">
-          <label>Nueva Contraseña</label>
-          <input type="password" [(ngModel)]="nuevoPassword" />
-        </div>
-
-        <button class="btn-guardar rojo" (click)="actualizarPassword()">
-          <i class="fa fa-key"></i> Actualizar
-        </button>
       </div>
     </div>
   </div>
 
-  <!-- SECCIÓN CANCIONES FAVORITAS -->
   <div class="perfil-favoritas">
     <h3 class="subtitulo">Mis Canciones Favoritas</h3>
 
@@ -98,62 +106,6 @@
       <button class="btn-azul-plateado" (click)="descargarCancionesCSV()">
         <i class="fa fa-download"></i> Descargar CSV
       </button>
-    </div>
-  </div>
-
-  <!-- SECCIÓN DE RED SOCIAL -->
-  <div class="social-wrapper">
-    <!-- MIS AMIGOS -->
-    <!-- MIS AMIGOS -->
-    <div class="social-card">
-      <h3 class="social-title">Mis Amigos</h3>
-
-      <app-lista-usuarios
-        [usuarios]="misAmigos"
-        [alturaLista]="250"
-        (usuarioSeleccionado)="onSeleccionarAmigo($event)"
-      ></app-lista-usuarios>
-
-      <!-- Botones para dejar de seguir -->
-      <div class="botones-sugerencia" *ngIf="usuarioAmigoSeleccionado">
-        <p>
-          <strong>¿Dejar de seguir a {{ usuarioAmigoSeleccionado.nombre }}?</strong>
-        </p>
-
-        <button class="btn-rojo" (click)="confirmarDejarSeguir()">
-          <i class="fa fa-user-times"></i> Dejar de seguir
-        </button>
-
-        <button class="btn-aceptacion" (click)="cancelarSeleccionAmigo()">
-          <i class="fa fa-times"></i> Cancelar
-        </button>
-      </div>
-    </div>
-
-    <!-- SUGERENCIAS DE AMIGOS -->
-    <div class="social-card">
-      <h3 class="social-title">Sugerencias de Seguidos</h3>
-
-      <app-lista-usuarios
-        [usuarios]="sugerenciasAmigos"
-        [alturaLista]="250"
-        (usuarioSeleccionado)="onSeleccionarSugerencia($event)"
-      ></app-lista-usuarios>
-
-      <!-- Botones de acción cuando se selecciona uno -->
-      <div class="botones-sugerencia" *ngIf="usuarioSugerenciaSeleccionado">
-        <p>
-          <strong>¿Seguir a {{ usuarioSugerenciaSeleccionado.username }}?</strong>
-        </p>
-
-        <button class="btn-aceptacion" (click)="confirmarSeguir()">
-          <i class="fa fa-user-plus"></i> Comenzar a Seguir
-        </button>
-
-        <button class="btn-rojo" (click)="cancelarSeleccionSugerencia()">
-          <i class="fa fa-times"></i> Cancelar
-        </button>
-      </div>
     </div>
   </div>
 </div>

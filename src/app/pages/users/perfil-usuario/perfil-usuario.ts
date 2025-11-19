@@ -64,6 +64,9 @@ export class PerfilUsuario implements OnInit {
   /** Usuario seleccionado dentro de la lista de amigos */
   usuarioAmigoSeleccionado: UsuarioDto | null = null;
 
+  /** Número de usuarios que sigue el usuario actual */
+  cantidadSeguidos: number | null = null;
+
   constructor(
     private tokenService: TokenService,
     private usuarioService: UsuarioService,
@@ -85,6 +88,14 @@ export class PerfilUsuario implements OnInit {
     this.cargarCancionesFavoritas();
     this.cargarSugerencias();
     this.cargarAmigos();
+
+    // Cargar contador de seguidos
+    if (this.idUsuarioLogueado) {
+      this.usuarioService.obtenerCantidadSeguidores(this.idUsuarioLogueado).subscribe({
+        next: (cantidad) => (this.cantidadSeguidos = cantidad),
+        error: () => (this.cantidadSeguidos = 0),
+      });
+    }
   }
 
   /**
