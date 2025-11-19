@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { AuthService } from '../../../core/services/auth.service';
 import { LoginDto } from '../../../core/models/dto/login.dto';
 import { RegistrarUsuarioDto } from '../../../core/models/dto/usuario/registrar-usuario.dto';
-import { ToastService } from '../../../components/toast/toast.service';
+import { ToastService } from '../../../layouts/public/avisos/toast.service';
 
 /**
  * @description
@@ -86,6 +86,11 @@ export class LoginComponente {
    */
   showLogin(): void {
     this.mostrarLogin = true;
+
+    // Resetear el formulario de login al cambiar de pestaña
+    this.loginForm.reset();
+    this.loginForm.markAsPristine();
+    this.loginForm.markAsUntouched();
   }
 
   /**
@@ -94,6 +99,14 @@ export class LoginComponente {
    */
   showRegister(): void {
     this.mostrarLogin = false;
+
+    // Resetear el formulario de registro al cambiar de pestaña
+    this.registerForm.reset();
+    this.registerForm.markAsPristine();
+    this.registerForm.markAsUntouched();
+
+    // Limpiar la vista previa de la imagen
+    this.previewImage = null;
   }
 
   /**
@@ -142,24 +155,29 @@ export class LoginComponente {
    * 3. En caso de éxito, notifica al usuario, limpia el formulario y cambia a la vista de Login.
    */
   onRegister(): void {
+    // Verificar campos obligatorios del formulario
     if (this.registerForm.invalid) {
-      // Muestra un toast informativo si faltan campos.
       this.toast.show('Debe llenar todos los campos', 'info');
       return;
     }
 
-    // Convierte el valor del formulario a un DTO de Registro.
+    // NUEVA VALIDACIÓN: Verificar que se haya seleccionado una imagen
+    if (!this.registerForm.get('fotoPerfil')?.value) {
+      this.toast.show('Debe seleccionar una imagen de perfil', 'info');
+      return;
+    }
+
+    // Convierte el valor del formulario a un DTO de Registro
     const registerDto: RegistrarUsuarioDto = this.registerForm.value;
 
-    // Llama al servicio de registro.
+    // Llamar al servicio de registro
     this.authService.registrarUsuario(registerDto).subscribe({
       next: (res) => {
-        // Manejo de éxito
         this.toast.show('Usuario registrado con éxito', 'success');
-        this.registerForm.reset(); // Limpia los campos del formulario.
-        this.showLogin(); // Cambia la vista automáticamente al formulario de Login.
+        this.registerForm.reset(); // Limpiar formulario
+        this.previewImage = null; // Limpiar preview de imagen
+        this.showLogin(); // Cambiar a Login
       },
-      // Nota: El manejo de errores (e.g., Elemento repetido) es gestionado por el Interceptor de Toast.
     });
   }
 

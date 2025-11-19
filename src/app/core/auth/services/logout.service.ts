@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastService } from '../../../components/toast/toast.service';
+import { ToastService } from '../../../layouts/public/avisos/toast.service';
 
 /**
  * @description

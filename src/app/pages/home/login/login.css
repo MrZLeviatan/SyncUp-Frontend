@@ -4,8 +4,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 32px;
-
+  padding: 20px; /* un poco más compacto */
+  overflow: hidden; /* NO page scroll - requested */
   background: radial-gradient(circle at top, #1f1f1f, #0f0f0f 70%);
   font-family: 'Segoe UI', sans-serif;
 }
@@ -13,11 +13,12 @@
 /* ===== WRAPPER ===== */
 .auth-wrapper {
   display: flex;
-  width: 1100px;
+  width: 980px; /* reducido respecto a 1100 */
   max-width: 95%;
-  border-radius: 26px;
+  border-radius: 22px;
   overflow: hidden;
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
 }
 
 /* ===== LEFT PANEL ===== */
@@ -27,44 +28,50 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px;
+  padding: 28px; /* menos padding para que no empuje */
+  overflow: hidden; /* evita scroll interno */
 }
 
 .auth-illustration {
-  width: 75%;
-  max-width: 380px;
+  width: 72%;
+  max-width: 320px;
   object-fit: contain;
   filter: drop-shadow(0 0 25px rgba(0, 0, 0, 0.45));
 }
 
 /* ===== RIGHT PANEL ===== */
 .auth-right {
-  flex: 1.1;
+  flex: 1.05;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px;
+  padding: 28px;
+  overflow: hidden;
 }
 
 /* ===== AUTH CARD ===== */
 .auth-card {
   width: 100%;
-  max-width: 460px;
+  max-width: 420px; /* ligeramente más compacto */
   background: #1c1c1c;
-  padding: 40px 34px;
-  border-radius: 22px;
+  padding: 28px 24px; /* espacio interior reducido */
+  border-radius: 18px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
   position: relative;
   color: #e6e6e6;
+
+  display: flex;
+  flex-direction: column;
+
+  height: 520px; /* altura fija: evita que la tarjeta cambie de tamaño */
+  overflow: hidden; /* nada puede “empujar” la tarjeta */
 }
 
 /* LOGO */
 .logo-corner {
-  width: 50px;
-  position: absolute;
-  top: 18px;
-  right: 18px;
-  opacity: 0.9;
+  width: 44px;
+  top: 14px;
+  right: 14px;
 }
 
 /* ===== TABS ===== */
@@ -98,7 +105,33 @@
 .auth-form {
   display: flex;
   flex-direction: column;
-  animation: fade 0.28s ease-out;
+  flex: 1; /* ⭐ mantiene proporción sin romper layout */
+  min-height: 0; /* ⭐ permite scroll correctamente sin empujar nada */
+}
+
+.form-scroll {
+  flex: 1 1 auto;
+  overflow-y: auto; /* <<-- only this scrolls */
+  padding-right: 8px;
+  -webkit-overflow-scrolling: touch;
+  min-height: 0; /* ⭐ evita que el contenido empuje la tarjeta */
+}
+
+.form-scroll .title {
+  margin-top: 4px;
+  margin-bottom: 18px;
+}
+
+.submit-btn {
+  margin-top: 12px;
+}
+
+.form-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+.form-scroll::-webkit-scrollbar-thumb {
+  background: rgba(154, 59, 191, 0.18);
+  border-radius: 8px;
 }
 
 /* TITLES */
@@ -200,4 +233,43 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@media (max-height: 720px) {
+  .auth-card {
+    height: 460px;
+  }
+}
+
+@media (max-width: 880px) {
+  .auth-wrapper {
+    flex-direction: column;
+    width: 92%;
+  }
+  .auth-left {
+    display: none;
+  }
+  .auth-right {
+    padding: 20px;
+  }
+  .auth-card {
+    max-width: 560px;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+}
+
+.auth-form label {
+  margin-top: 6px;
+}
+
+.auth-form label,
+.auth-form input {
+  display: block; /* Fuerza cada elemento a ocupar su propia línea */
+  width: 90%; /* Evita inputs flotando a la derecha */
+}
+
+.auth-form {
+  gap: 4px; /* Espaciado uniforme entre label e input */
 }

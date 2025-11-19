@@ -9,7 +9,7 @@ import { routes } from './app.routes';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { HttpToastInterceptor } from './core/auth/interceptors/toast-service';
-import { ToastService } from './components/toast/toast.service';
+import { ToastService } from './layouts/public/avisos/toast.service';
 import { provideClientHydration } from '@angular/platform-browser';
 import { JwtInterceptor } from './core/auth/interceptors/jwt.interceptor';
 

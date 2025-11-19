@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { TokenService } from '../../../core/auth/services/token.services';
 import { UsuarioDto } from '../../../core/models/dto/usuario/usuario.dto';
 import { UsuarioService } from '../../../core/services/usuario/usuario.service';
-import { ToastService } from '../../../components/toast/toast.service';
+import { ToastService } from '../../../layouts/public/avisos/toast.service';
 import { CancionDto } from '../../../core/models/dto/cancion/cancion.dto';
 import { CancionService } from '../../../core/services/canciones/cancion.service';
 import { ListaCanciones } from '../../../components/lista-canciones/lista-canciones';

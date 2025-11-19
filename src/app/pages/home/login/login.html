@@ -28,45 +28,52 @@
           </button>
         </div>
 
-        <!-- LOGIN FORM -->
+        <!-- LOGIN FORM (sin cambios en funcionalidad) -->
         <form *ngIf="mostrarLogin" [formGroup]="loginForm" (ngSubmit)="onLogin()" class="auth-form">
-          <h2 class="title">Bienvenido</h2>
+          <div class="form-scroll">
+            <h2 class="title">Bienvenido a Spookify!</h2>
 
-          <label>Username</label>
-          <input type="text" formControlName="username" placeholder="Tu usuario" />
+            <label>Username</label>
+            <input type="text" formControlName="username" placeholder="Tu usuario" />
 
-          <label>Password</label>
-          <input type="password" formControlName="password" placeholder="Tu contraseña" />
+            <label>Password</label>
+            <input type="password" formControlName="password" placeholder="Tu contraseña" />
+          </div>
 
           <button class="submit-btn" type="submit">Ingresar</button>
         </form>
 
-        <!-- REGISTER FORM -->
+        <!-- REGISTER FORM (solo este tendrá scroll interno) -->
         <form
           *ngIf="!mostrarLogin"
           [formGroup]="registerForm"
           (ngSubmit)="onRegister()"
           class="auth-form"
         >
-          <h2 class="title">Crear Cuenta</h2>
+          <div class="form-scroll">
+            <h2 class="title">Crear Tu Cuenta</h2>
 
-          <label>Imagen de perfil</label>
-          <div class="profile-upload">
-            <img *ngIf="previewImage" [src]="previewImage" class="profile-preview" />
-            <input type="file" accept="image/*" (change)="onImageSelected($event)" />
+            <label>Imagen de perfil</label>
+            <div class="profile-upload">
+              <img *ngIf="previewImage" [src]="previewImage" class="profile-preview" />
+              <input type="file" accept="image/*" (change)="onImageSelected($event)" />
+            </div>
+
+            <label>Nombre</label>
+            <input type="text" formControlName="nombre" placeholder="Tu nombre" />
+
+            <label>Username</label>
+            <input type="text" formControlName="username" placeholder="Usuario único" />
+
+            <label>Password</label>
+            <input type="password" formControlName="password" placeholder="Tu contraseña" />
+
+            <p class="terms">
+              Al registrarte aceptas ser poseido por tres tipos diferentes de espiritus.
+            </p>
           </div>
 
-          <label>Nombre</label>
-          <input type="text" formControlName="nombre" placeholder="Tu nombre" />
-
-          <label>Username</label>
-          <input type="text" formControlName="username" placeholder="Usuario único" />
-
-          <label>Password</label>
-          <input type="password" formControlName="password" placeholder="Tu contraseña" />
-
-          <p class="terms">Al registrarte aceptas nuestros términos y políticas.</p>
-
+          <!-- botón fuera del scroll para que esté siempre accesible -->
           <button class="submit-btn" type="submit">Crear cuenta</button>
         </form>
       </div>

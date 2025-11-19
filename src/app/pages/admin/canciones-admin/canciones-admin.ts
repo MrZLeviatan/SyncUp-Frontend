@@ -8,7 +8,7 @@ import { GeneroMusical } from '../../../core/models/enum/genero-musical.enum';
 import { FormsModule } from '@angular/forms';
 import { ArtistaService } from '../../../core/services/artista.service';
 import { RegistrarArtistasDto } from '../../../core/models/dto/artista/registrar-artista.dto';
-import { ToastService } from '../../../components/toast/toast.service';
+import { ToastService } from '../../../layouts/public/avisos/toast.service';
 import { RegistrarCancionDto } from '../../../core/models/dto/cancion/registrar-cancion.dto';
 import { EditarCancionDto } from '../../../core/models/dto/cancion/editar-cancion.dto';
 import { CancionArchivoService } from '../../../core/services/canciones/cancion-archivo.service';

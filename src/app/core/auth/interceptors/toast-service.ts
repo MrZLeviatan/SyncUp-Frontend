@@ -7,7 +7,7 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs'; // Necesitamos 'throwError' y tipar la salida de 'catchError'.
-import { ToastService } from '../../../components/toast/toast.service';
+import { ToastService } from '../../../layouts/public/avisos/toast.service';
 
 /**
  * @description
