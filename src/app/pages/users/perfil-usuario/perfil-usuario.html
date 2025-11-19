@@ -72,8 +72,18 @@
   </div>
 
   <div class="perfil-favoritas">
-    <h3 class="subtitulo">Mis Canciones Favoritas</h3>
+    <!-- Título centrado -->
+    <h3 class="subtitulo-favoritas">Mis Canciones Favoritas</h3>
 
+    <!-- Botón de descarga encima -->
+    <!-- Botón de descarga encima -->
+    <div class="favoritas-botones-superior">
+      <button class="btn-accion-csv" (click)="descargarCancionesCSV()">
+        <i class="fa fa-download"></i> Descargar CSV
+      </button>
+    </div>
+
+    <!-- Layout principal de la lista -->
     <div class="favoritas-layout">
       <!-- Lista de canciones -->
       <app-lista-canciones
@@ -91,21 +101,74 @@
         <p><strong>Duración:</strong> {{ cancionSeleccionada.duracion }} min</p>
 
         <div class="botones-cancion">
-          <button class="btn-rojo" (click)="quitarCancionFavorita()">
+          <!-- Botón rojo para quitar favorita -->
+          <button class="btn-accion-red rojo" (click)="quitarCancionFavorita()">
             <i class="fa fa-trash"></i> Quitar de Favoritas
           </button>
-          <button class="btn-aceptacion" (click)="cancionSeleccionada = null">
+          <!-- Botón de aceptación para cancelar -->
+          <button class="btn-guardar-red" (click)="cancionSeleccionada = null">
             <i class="fa fa-times"></i> Cancelar
           </button>
         </div>
       </div>
     </div>
+    <!-- SECCIÓN AMIGOS Y SUGERENCIAS -->
+    <div class="perfil-amigos">
+      <!-- MIS AMIGOS -->
+      <div class="seccion-amigos">
+        <h3 class="subtitulo-favoritas">Mis Amigos</h3>
 
-    <!-- Botón para descargar CSV debajo de la lista -->
-    <div class="favoritas-botones-inferior">
-      <button class="btn-azul-plateado" (click)="descargarCancionesCSV()">
-        <i class="fa fa-download"></i> Descargar CSV
-      </button>
+        <div class="amigos-layout">
+          <app-lista-usuarios
+            [alturaLista]="300"
+            [usuarios]="misAmigos"
+            (usuarioSeleccionado)="onSeleccionarAmigo($event)"
+          ></app-lista-usuarios>
+
+          <div class="usuario-info" *ngIf="usuarioAmigoSeleccionado">
+            <h4>Información del Amigo</h4>
+            <p><strong>Username:</strong> {{ usuarioAmigoSeleccionado.username }}</p>
+            <p><strong>Nombre:</strong> {{ usuarioAmigoSeleccionado.nombre }}</p>
+
+            <div class="botones-cancion">
+              <button class="btn-accion-red rojo" (click)="confirmarDejarSeguir()">
+                <i class="fa fa-user-times"></i> Dejar de Seguir
+              </button>
+              <button class="btn-guardar-red" (click)="cancelarSeleccionAmigo()">
+                <i class="fa fa-times"></i> Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUGERENCIAS DE AMIGOS -->
+      <div class="seccion-amigos">
+        <h3 class="subtitulo-favoritas">Sugerencias de Amigos</h3>
+
+        <div class="amigos-layout">
+          <app-lista-usuarios
+            [alturaLista]="300"
+            [usuarios]="sugerenciasAmigos"
+            (usuarioSeleccionado)="onSeleccionarSugerencia($event)"
+          ></app-lista-usuarios>
+
+          <div class="usuario-info" *ngIf="usuarioSugerenciaSeleccionado">
+            <h4>Información del Usuario</h4>
+            <p><strong>Username:</strong> {{ usuarioSugerenciaSeleccionado.username }}</p>
+            <p><strong>Nombre:</strong> {{ usuarioSugerenciaSeleccionado.nombre }}</p>
+
+            <div class="botones-cancion">
+              <button class="btn-accion-red" (click)="confirmarSeguir()">
+                <i class="fa fa-user-plus"></i> Seguir
+              </button>
+              <button class="btn-guardar-red rojo" (click)="cancelarSeleccionSugerencia()">
+                <i class="fa fa-times"></i> Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

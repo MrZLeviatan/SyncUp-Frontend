@@ -9,4 +9,5 @@ export interface SugerenciaUsuariosDto {
   id: number;
   nombre: string;
   username: string;
+  fotoPerfilUrl: string;
 }

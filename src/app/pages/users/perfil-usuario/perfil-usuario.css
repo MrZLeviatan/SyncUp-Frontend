@@ -111,6 +111,51 @@
   text-overflow: ellipsis;
 }
 
+/* ===== BOTÓN DESCARGAR CSV PROFESIONAL ===== */
+.btn-accion-csv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  min-width: 180px;
+  background: #1c1c1c;
+  color: #9a3bbf;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Efecto shine similar a otros botones */
+.btn-accion-csv::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 40%;
+  height: 100%;
+  background: rgba(154, 59, 191, 0.2);
+  transform: skewX(-20deg);
+  transition: all 0.4s ease;
+}
+
+.btn-accion-csv:hover::after {
+  left: 100%;
+}
+
+.btn-accion-csv:hover {
+  background: #3d0d50;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
 /* ===== INPUTS ELEGANTES ===== */
 .formulario-red input {
   width: 100%;
@@ -225,4 +270,126 @@
   font-weight: 500;
   color: rgba(255, 255, 255, 0.7);
   margin-left: 8px; /* separación del username */
+}
+
+/* ===== Título centrado ===== */
+.subtitulo-favoritas {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 12px;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+/* ===== Botón de descarga encima de la lista ===== */
+.favoritas-botones-superior {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+/* Layout principal de la sección de favoritas */
+.favoritas-layout {
+  display: flex;
+  gap: 25px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Información de la canción seleccionada */
+.cancion-info {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 18px 15px;
+  color: #fff;
+  width: 250px;
+  font-size: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(154, 59, 191, 0.4);
+}
+
+.cancion-info h4 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.botones-cancion {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.cancion-info {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 18px 15px;
+  color: #fff;
+  width: 250px;
+  font-size: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(154, 59, 191, 0.4);
+  transition: all 0.3s ease;
+}
+
+.cancion-info:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.55);
+  border-color: rgba(154, 59, 191, 0.6);
+}
+
+/* ===== SECCIÓN AMIGOS ===== */
+.perfil-amigos {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+}
+
+.seccion-amigos {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Layout principal de amigos y sugerencias */
+.amigos-layout {
+  display: flex;
+  gap: 25px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Tarjeta de info de usuario seleccionado */
+.usuario-info {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 18px 15px;
+  color: #fff;
+  width: 250px;
+  font-size: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(154, 59, 191, 0.4);
+  transition: all 0.3s ease;
+}
+
+.usuario-info:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.55);
+  border-color: rgba(154, 59, 191, 0.6);
+}
+
+.usuario-info h4 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.botones-cancion {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
 }

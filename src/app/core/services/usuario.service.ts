@@ -148,7 +148,7 @@ export class UsuarioService {
               nombre: sugerencia.nombre,
               username: sugerencia.username,
               password: '', // password por defecto vacío (no viene del backend)
-              fotoPerfilUrl: '',
+              fotoPerfilUrl: sugerencia.fotoPerfilUrl,
             })
           )
         )
