@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges, Output } from '@angular/core';
 import { CancionDto } from '../../core/models/dto/cancion/cancion.dto';
-import { ArtistaService } from '../../core/services/artista.service';
+import { ArtistaService } from '../../core/services/user/artista.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CancionBusquedaService } from '../../core/services/canciones/cancion-busqueda.service';

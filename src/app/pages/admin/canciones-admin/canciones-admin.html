@@ -1,211 +1,120 @@
-<!-- CONTENEDOR GENERAL DE LA VISTA DE ADMIN -->
-<div class="canciones-admin-layout">
+<!-- CONTENEDOR GENERAL DE LA VISTA ADMIN CON CATEGORÍAS -->
+<div class="admin-layout">
   <!-- ==============================
-       PANEL DERECHO: LISTA DE CANCIONES
+       BOTONES DE NAVEGACIÓN DE PANEL
        ============================== -->
-  <div class="panel-derecho">
-    <h2>Gestión de Canciones...</h2>
-
-    <!-- Componente que muestra la lista de canciones -->
-    <app-lista-canciones
-      [alturaLista]="alturaLista"
-      [canciones]="canciones"
-      (cancionSeleccionada)="recibirCancionSeleccionada($event)"
-    >
-    </app-lista-canciones>
-
-    <!-- Botón dinámico: descarga o elimina -->
-    <div class="boton-descargar-canciones">
-      <button type="button" *ngIf="!cancionSeleccionada" (click)="descargarCancionesTxt()">
-        <i class="fa fa-download"></i> Descargar Canciones TXT
-      </button>
-
-      <button
-        type="button"
-        *ngIf="cancionSeleccionada"
-        class="btn-eliminar"
-        (click)="eliminarCancionSeleccionada()"
-      >
-        <i class="fa fa-trash"></i> Eliminar Canción
-      </button>
-    </div>
+  <div class="panel-botones">
+    <button (click)="mostrarPanel = 'artista'" [class.active]="mostrarPanel === 'artista'">
+      Artistas
+    </button>
+    <button (click)="mostrarPanel = 'album'" [class.active]="mostrarPanel === 'album'">
+      Álbumes
+    </button>
+    <button (click)="mostrarPanel = 'cancion'" [class.active]="mostrarPanel === 'cancion'">
+      Canciones
+    </button>
   </div>
 
   <!-- ==============================
-       PANEL IZQUIERDO: FORMULARIO
+       PANEL ARTISTA
        ============================== -->
-  <div class="panel-izquierdo">
-    <h3>Registrar Canción</h3>
+  <div class="panel-izquierdo" *ngIf="mostrarPanel === 'artista'">
+    <h3>Registrar Artista</h3>
 
-    <!-- -------------------------------
-         SECCIÓN DRAG & DROP DE PORTADA
-         ------------------------------- -->
-    <div
-      class="drop-zone"
-      (drop)="onDropImagen($event)"
-      (dragover)="onDragOver($event)"
-      (dragleave)="onDragLeave($event)"
-      [class.dragover]="isDragOver"
-    >
-      <!-- Si NO hay imagen cargada se muestran instrucciones -->
-      <ng-container *ngIf="!previewImagen">
-        <p>Arrastra la portada de la canción aquí</p>
-        <span>ó</span>
-
-        <!-- Botón para seleccionar archivo manualmente -->
-        <label class="upload-btn" [class.disabled]="editarMode">
-          Seleccionar Portada
-          <input
-            type="file"
-            accept="image/*"
-            (change)="onImagenSeleccionada($event)"
-            hidden
-            [disabled]="editarMode"
-          />
-        </label>
-      </ng-container>
-
-      <!-- Vista previa cuando la imagen ya fue cargada -->
-      <div class="preview-wrapper" *ngIf="previewImagen">
-        <img [src]="previewImagen" alt="Portada" class="preview-img" />
-
-        <!-- Botón para eliminar la imagen cargada -->
-        <button class="btn-remove-img" [disabled]="editarMode" (click)="eliminarImagen()">✕</button>
-      </div>
-    </div>
-
-    <!-- -------------------------------
-         SUBIR MP3 + REPRODUCTOR
-         ------------------------------- -->
-    <div class="audio-row">
-      <!-- Botón para seleccionar archivo MP3 -->
-      <label class="upload-btn" [class.disabled]="editarMode">
-        Seleccionar MP3
-        <input
-          type="file"
-          accept="audio/mp3"
-          (change)="onAudioSeleccionado($event)"
-          hidden
-          [disabled]="editarMode"
-        />
-      </label>
-
-      <!-- Reproductor visible solo si hay un MP3 cargado -->
-      <audio *ngIf="audioURL" class="audio-player" controls [src]="audioURL"></audio>
-    </div>
-
-    <!-- ==============================
-         FORMULARIO PRINCIPAL
-         ============================== -->
-    <form class="formulario-cancion" #formCancion="ngForm">
-      <!-- Campo título -->
-      <label>Título de la Canción:</label>
+    <!-- Formulario Artista -->
+    <form class="formulario-cancion" #formArtista="ngForm">
+      <!-- Nombre Artístico -->
+      <label>Nombre Artístico:</label>
       <input
         type="text"
-        name="titulo"
-        [(ngModel)]="titulo"
+        name="nombreArtistico"
+        [(ngModel)]="nuevoArtista.nombreArtistico"
+        placeholder="Ej: Metallica, Ghost..."
         required
-        placeholder="Título de la canción"
       />
 
-      <!-- -------------------------------
-           ARTISTA + BUSCADOR
-           ------------------------------- -->
-      <label>Artista Principal:</label>
+      <!-- Descripción -->
+      <label>Descripción:</label>
+      <textarea
+        name="descripcion"
+        [(ngModel)]="nuevoArtista.descripcion"
+        placeholder="Descripción del artista..."
+      ></textarea>
 
-      <div class="fila-artista">
-        <!-- Input que busca artistas -->
-        <input
-          type="text"
-          name="artista"
-          ngModel
-          placeholder="Buscar artista..."
-          (input)="buscarArtistas($event)"
-          [(ngModel)]="textoArtista"
-          [disabled]="editarMode"
-        />
+      <!-- Miembros -->
+      <label>Miembros (separados por coma):</label>
+      <input
+        type="text"
+        name="miembros"
+        [(ngModel)]="nuevoArtista.miembrosString"
+        placeholder="Ej: James Hetfield, Lars Ulrich, Kirk Hammett"
+      />
 
-        <!-- Botón para abrir el modal de registrar un artista -->
-        <button
-          type="button"
-          class="btn-agregar-artista"
-          (click)="abrirModalArtista()"
-          [disabled]="editarMode"
-        >
-          Agregar Artista
-        </button>
-      </div>
+      <!-- Imagen de portada -->
+      <div
+        class="drop-zone"
+        (drop)="onDropImagenArtista($event)"
+        (dragover)="onDragOverArtista($event)"
+        (dragleave)="onDragLeaveArtista($event)"
+        [class.dragover]="isDragOverArtista"
+      >
+        <ng-container *ngIf="!previewImagenArtista">
+          <p>Arrastra la portada del artista aquí</p>
+          <span>ó</span>
+          <label class="upload-btn">
+            Seleccionar Imagen
+            <input
+              type="file"
+              accept="image/*"
+              (change)="onImagenSeleccionadaArtista($event)"
+              hidden
+            />
+          </label>
+        </ng-container>
 
-      <!-- Lista de sugerencias de artistas -->
-      <div class="lista-artistas" *ngIf="listaArtistas.length > 0">
-        <div class="item-artista" *ngFor="let a of listaArtistas" (click)="seleccionarArtista(a)">
-          {{ a.nombreArtistico }}
+        <div class="preview-wrapper" *ngIf="previewImagenArtista">
+          <img [src]="previewImagenArtista" alt="Portada" class="preview-img" />
+          <button class="btn-remove-img" (click)="eliminarImagenArtista()">✕</button>
         </div>
       </div>
 
-      <!-- -------------------------------
-           GÉNERO + FECHA DE LANZAMIENTO
-           ------------------------------- -->
-      <div class="fila-genero-fecha">
-        <!-- Selector de género -->
-        <div class="campo-genero">
-          <label>Género Musical:</label>
-          <select name="genero" [(ngModel)]="genero" required [disabled]="editarMode">
-            <option value="">Seleccione género</option>
-            <option *ngFor="let g of generos" [value]="g">{{ g }}</option>
-          </select>
-        </div>
-
-        <!-- Selección de fecha -->
-        <div class="campo-fecha">
-          <label>Fecha de Lanzamiento:</label>
-          <input type="date" name="fecha" [(ngModel)]="fecha" required />
-        </div>
-      </div>
-
-      <!-- -------------------------------
-           BOTONES DEL FORMULARIO
-           ------------------------------- -->
+      <!-- Botones Guardar / Cancelar -->
       <div class="fila-botones">
-        <button type="button" class="btn-cancelar" (click)="cancelarFormulario()">Cancelar</button>
+        <button type="button" class="btn-cancelar" (click)="cancelarFormularioArtista()">
+          Cancelar
+        </button>
         <button
           type="button"
           class="btn-guardar"
-          (click)="editarMode ? actualizarCancion(formCancion) : guardarCancion(formCancion)"
-          [disabled]="cargando || !formCancion.valid || !artistaSeleccionadoId"
+          (click)="registrarArtista()"
+          [disabled]="!formArtista.valid"
         >
-          <ng-container *ngIf="!cargando">
-            {{ editarMode ? 'Actualizar Canción' : 'Guardar Canción' }}
-          </ng-container>
-
-          <div *ngIf="cargando" class="spinner"></div>
+          Guardar Artista
         </button>
       </div>
     </form>
+  </div>
 
-    <!-- ==============================
-         MODAL PARA REGISTRAR ARTISTA
-         ============================== -->
-    <div class="modal-backdrop" *ngIf="mostrarModalArtista">
-      <div class="modal-artista">
-        <h3>Registrar Nuevo Artista</h3>
+  <div class="collage-artistas">
+    <h3>Artistas Registrados</h3>
 
-        <div class="modal-body">
-          <!-- Campo para nombre artístico -->
-          <label>Nombre Artístico:</label>
-          <input
-            type="text"
-            [(ngModel)]="nuevoArtista.nombreArtistico"
-            placeholder="Ej: Bad Bunny, Karol G..."
-          />
-        </div>
-
-        <!-- Botones del modal -->
-        <div class="modal-botones">
-          <button class="btn-cancelar" (click)="cerrarModalArtista()">Cancelar</button>
-          <button class="btn-guardar" (click)="registrarArtista()">Guardar</button>
-        </div>
+    <div class="collage-grid">
+      <div class="collage-item" *ngFor="let art of listaArtistasCollage">
+        <img [src]="art.urlImagen" alt="{{ art.nombreArtistico }}" />
+        <p>{{ art.nombreArtistico }}</p>
       </div>
     </div>
+  </div>
+  <!-- ==============================
+       OTROS PANELES (ÁLBUMES / CANCIONES)
+       ============================== -->
+  <div class="panel-derecho" *ngIf="mostrarPanel === 'album'">
+    <h2>Gestión de Álbumes</h2>
+    <!-- Aquí irá el contenido del panel de álbumes -->
+  </div>
+
+  <div class="panel-derecho" *ngIf="mostrarPanel === 'cancion'">
+    <h2>Gestión de Canciones</h2>
+    <!-- Aquí va el HTML de canciones que ya tienes -->
   </div>
 </div>

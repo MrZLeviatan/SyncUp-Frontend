@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { RegistrarArtistasDto } from '../models/dto/artista/registrar-artista.dto';
-import { MensajeDto } from '../models/dto/mensaje.dto';
-import { ArtistaDto } from '../models/dto/artista/artista.dto';
-import { API_URL } from '../../app.config';
+import { RegistrarArtistasDto } from '../../models/dto/artista/registrar-artista.dto';
+import { MensajeDto } from '../../models/dto/mensaje.dto';
+import { ArtistaDto } from '../../models/dto/artista/artista.dto';
+import { API_URL } from '../../../app.config';
 
 /**
  * @injectable
@@ -36,8 +36,22 @@ export class ArtistaService {
    * @returns Un {@link Observable} que emite la respuesta del backend, tipificada como {@link MensajeDto<string>}.
    */
   registrarArtista(registrarArtistasDto: RegistrarArtistasDto): Observable<MensajeDto<string>> {
-    // Petición POST al endpoint: /api/artistas/registrar
-    return this.http.post<MensajeDto<string>>(`${this.apiUrl}/registrar`, registrarArtistasDto);
+    const formData = new FormData();
+    formData.append('nombreArtistico', registrarArtistasDto.nombreArtistico);
+
+    if (registrarArtistasDto.descripcion) {
+      formData.append('descripcion', registrarArtistasDto.descripcion);
+    }
+
+    if (registrarArtistasDto.miembros) {
+      registrarArtistasDto.miembros.forEach((m) => formData.append('miembros', m));
+    }
+
+    if (registrarArtistasDto.imagenPortada) {
+      formData.append('imagenPortada', registrarArtistasDto.imagenPortada);
+    }
+
+    return this.http.post<MensajeDto<string>>(`${this.apiUrl}/registrar`, formData);
   }
 
   /**
@@ -52,6 +66,18 @@ export class ArtistaService {
   obtenerArtistaPorId(idArtista: number): Observable<MensajeDto<ArtistaDto>> {
     // Petición GET al endpoint: /api/artistas/{idArtista}
     return this.http.get<MensajeDto<ArtistaDto>>(`${this.apiUrl}/${idArtista}`);
+  }
+
+  /**
+   * @method listarArtistas
+   * @description Envía una petición GET para obtener la lista completa de artistas.
+   *
+   * Este endpoint requiere el rol 'USUARIO' o 'ADMIN' en el backend.
+   *
+   * @returns Un {@link Observable} que emite la lista de {@link ArtistaDto}s envuelta en {@link MensajeDto}.
+   */
+  listarArtistas(): Observable<MensajeDto<ArtistaDto[]>> {
+    return this.http.get<MensajeDto<ArtistaDto[]>>(`${this.apiUrl}/listar-artistas`);
   }
 
   /**

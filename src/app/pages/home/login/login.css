@@ -1,120 +1,121 @@
-/* ===== PAGE BACKGROUND ===== */
+/* ===== FONDO DE LA PÁGINA ===== */
 .auth-page {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px; /* un poco más compacto */
-  overflow: hidden; /* NO page scroll - requested */
-  background: radial-gradient(circle at top, #1f1f1f, #0f0f0f 70%);
-  font-family: 'Segoe UI', sans-serif;
+  height: 100vh; /* altura completa de la ventana */
+  display: flex; /* usa flex para centrar contenido */
+  justify-content: center; /* centra horizontalmente */
+  align-items: center; /* centra verticalmente */
+  padding: 20px; /* espacio interno alrededor */
+  overflow: hidden; /* evita scroll de página completo */
+  background: radial-gradient(circle at top, #1f1f1f, #0f0f0f 70%); /* degradado radial oscuro */
+  font-family: 'Segoe UI', sans-serif; /* tipografía moderna */
 }
 
-/* ===== WRAPPER ===== */
+/* ===== CONTENEDOR PRINCIPAL ===== */
 .auth-wrapper {
-  display: flex;
-  width: 980px; /* reducido respecto a 1100 */
-  max-width: 95%;
-  border-radius: 22px;
-  overflow: hidden;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  display: flex; /* layout en fila */
+  width: 980px; /* ancho fijo ligeramente reducido */
+  max-width: 95%; /* ancho máximo relativo a la pantalla */
+  border-radius: 22px; /* esquinas redondeadas */
+  overflow: hidden; /* evita que contenido sobresalga */
+  backdrop-filter: blur(10px); /* efecto de desenfoque */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45); /* sombra elegante */
 }
 
-/* ===== LEFT PANEL ===== */
+/* ===== PANEL IZQUIERDO - ILUSTRACIÓN ===== */
 .auth-left {
-  flex: 1;
-  background: linear-gradient(180deg, #b700ff, #a518dc15);
-  display: flex;
+  flex: 1; /* ocupa proporcionalmente */
+  background: linear-gradient(180deg, #b700ff, #a518dc15); /* degradado morado */
+  display: flex; /* centrado de imagen */
   justify-content: center;
   align-items: center;
-  padding: 28px; /* menos padding para que no empuje */
+  padding: 28px; /* espacio interno reducido */
   overflow: hidden; /* evita scroll interno */
 }
 
 .auth-illustration {
-  width: 72%;
-  max-width: 320px;
-  object-fit: contain;
-  filter: drop-shadow(0 0 25px rgba(0, 0, 0, 0.45));
+  width: 72%; /* ancho relativo al panel */
+  max-width: 320px; /* ancho máximo */
+  object-fit: contain; /* mantiene proporción */
+  filter: drop-shadow(0 0 25px rgba(0, 0, 0, 0.45)); /* sombra para profundidad */
 }
 
-/* ===== RIGHT PANEL ===== */
+/* ===== PANEL DERECHO - FORMULARIO ===== */
 .auth-right {
-  flex: 1.05;
+  flex: 1.05; /* ligeramente más ancho que el izquierdo */
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 28px;
-  overflow: hidden;
+  overflow: hidden; /* evita scroll interno no deseado */
 }
 
-/* ===== AUTH CARD ===== */
+/* ===== TARJETA DE AUTENTICACIÓN ===== */
 .auth-card {
   width: 100%;
-  max-width: 420px; /* ligeramente más compacto */
-  background: #1c1c1c;
-  padding: 28px 24px; /* espacio interior reducido */
-  border-radius: 18px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  max-width: 420px; /* tarjeta compacta */
+  background: #1c1c1c; /* fondo oscuro */
+  padding: 28px 24px; /* espacio interior */
+  border-radius: 18px; /* esquinas redondeadas */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35); /* sombra sutil */
   position: relative;
-  color: #e6e6e6;
+  color: #e6e6e6; /* color del texto */
 
-  display: flex;
+  display: flex; /* layout vertical */
   flex-direction: column;
 
-  height: 520px; /* altura fija: evita que la tarjeta cambie de tamaño */
-  overflow: hidden; /* nada puede “empujar” la tarjeta */
+  height: 520px; /* altura fija */
+  overflow: hidden; /* evita que contenido sobresalga */
 }
 
-/* LOGO */
+/* ===== LOGO EN ESQUINA ===== */
 .logo-corner {
-  width: 44px;
-  top: 14px;
-  right: 14px;
+  width: 44px; /* tamaño del logo */
+  top: 14px; /* distancia superior */
+  right: 14px; /* distancia derecha */
 }
 
-/* ===== TABS ===== */
+/* ===== PESTAÑAS (TABS) ===== */
 .auth-tabs {
   display: flex;
   justify-content: center;
-  gap: 12px;
-  margin-bottom: 32px;
+  gap: 12px; /* separación entre botones */
+  margin-bottom: 32px; /* margen inferior */
 }
 
 .tab-btn {
-  flex: 1;
-  padding: 12px;
-  border-radius: 12px;
-  background: #2a2a2a;
-  color: #cfcfcf;
-  border: 1px solid #383838;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.25s ease;
+  flex: 1; /* ocupa espacio igual */
+  padding: 12px; /* espacio interno */
+  border-radius: 12px; /* esquinas redondeadas */
+  background: #2a2a2a; /* color base del tab */
+  color: #cfcfcf; /* texto gris claro */
+  border: 1px solid #383838; /* borde oscuro */
+  cursor: pointer; /* cursor puntero */
+  font-weight: 600; /* peso de fuente */
+  transition: 0.25s ease; /* transición suave */
 }
 
 .tab-btn.active {
-  background: #640b88;
-  border-color: #640b88;
-  color: #fff;
-  box-shadow: 0 0 15px rgba(100, 11, 136, 0.35);
+  background: #640b88; /* morado intenso */
+  border-color: #640b88; /* borde coincide con fondo */
+  color: #fff; /* texto blanco */
+  box-shadow: 0 0 15px rgba(100, 11, 136, 0.35); /* sombra sutil de glow */
 }
 
-/* ===== FORM ===== */
+/* ===== FORMULARIO ===== */
 .auth-form {
   display: flex;
   flex-direction: column;
-  flex: 1; /* ⭐ mantiene proporción sin romper layout */
-  min-height: 0; /* ⭐ permite scroll correctamente sin empujar nada */
+  flex: 1; /* ocupa espacio vertical disponible */
+  min-height: 0; /* evita que empuje la tarjeta */
 }
 
+/* CONTENEDOR SCROLL INTERNO */
 .form-scroll {
-  flex: 1 1 auto;
-  overflow-y: auto; /* <<-- only this scrolls */
-  padding-right: 8px;
-  -webkit-overflow-scrolling: touch;
-  min-height: 0; /* ⭐ evita que el contenido empuje la tarjeta */
+  flex: 1 1 auto; /* ocupa todo el espacio disponible */
+  overflow-y: auto; /* scroll solo vertical */
+  padding-right: 8px; /* espacio para scrollbar */
+  -webkit-overflow-scrolling: touch; /* suaviza scroll en móviles */
+  min-height: 0; /* evita que el contenido empuje la tarjeta */
 }
 
 .form-scroll .title {
@@ -126,15 +127,16 @@
   margin-top: 12px;
 }
 
+/* SCROLLBAR PERSONALIZADO */
 .form-scroll::-webkit-scrollbar {
-  width: 8px;
+  width: 8px; /* ancho del scroll */
 }
 .form-scroll::-webkit-scrollbar-thumb {
-  background: rgba(154, 59, 191, 0.18);
-  border-radius: 8px;
+  background: rgba(154, 59, 191, 0.18); /* color del thumb */
+  border-radius: 8px; /* bordes redondeados */
 }
 
-/* TITLES */
+/* TITULOS */
 .title {
   font-size: 28px;
   font-weight: 900;

@@ -1,0 +1,12 @@
+<div
+  class="collage"
+  [ngClass]="[orientacion, size]"
+  [style.gridTemplateColumns]="'repeat(' + columnas + ', 1fr)'"
+>
+  <div class="artista-card" *ngFor="let artista of obtenerArtistasMostrados()">
+    <div class="img-wrapper">
+      <img [src]="artista.urlImagen" [alt]="artista.nombreArtistico" />
+    </div>
+    <p class="nombre">{{ artista.nombreArtistico }}</p>
+  </div>
+</div>

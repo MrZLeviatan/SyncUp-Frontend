@@ -6,7 +6,7 @@ import { CancionService } from '../../../core/services/canciones/cancion.service
 import { CommonModule } from '@angular/common';
 import { GeneroMusical } from '../../../core/models/enum/genero-musical.enum';
 import { FormsModule } from '@angular/forms';
-import { ArtistaService } from '../../../core/services/artista.service';
+import { ArtistaService } from '../../../core/services/user/artista.service';
 import { RegistrarArtistasDto } from '../../../core/models/dto/artista/registrar-artista.dto';
 import { ToastService } from '../../../layouts/public/avisos/toast.service';
 import { RegistrarCancionDto } from '../../../core/models/dto/cancion/registrar-cancion.dto';
@@ -16,11 +16,13 @@ import { CancionArchivoService } from '../../../core/services/canciones/cancion-
 @Component({
   selector: 'app-canciones-admin',
   standalone: true,
-  imports: [ListaCanciones, CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './canciones-admin.html',
   styleUrls: ['./canciones-admin.css'],
 })
 export class CancionesAdminComponent implements OnInit {
+  mostrarPanel: 'artista' | 'album' | 'cancion' = 'artista';
+
   /** Lista general de canciones cargadas desde backend */
   canciones: CancionDto[] = [];
 
@@ -56,11 +58,6 @@ export class CancionesAdminComponent implements OnInit {
   genero: string = '';
   fecha: string = '';
 
-  /** DTO temporal para registrar un artista */
-  nuevoArtista: RegistrarArtistasDto = {
-    nombreArtistico: '',
-  };
-
   /** Guarda el ID del artista elegido */
   artistaSeleccionadoId: number | null = null;
 
@@ -80,6 +77,17 @@ export class CancionesAdminComponent implements OnInit {
   cancionSeleccionada?: CancionDto;
 
   // =======================================================
+  // Sección Artista
+  // =======================================================
+
+  previewImagenArtista: string | null = null;
+  imagenArchivoArtista: File | null = null;
+  isDragOverArtista: boolean = false;
+  nuevoArtista: RegistrarArtistasDto & { miembrosString?: string } = { nombreArtistico: '' };
+
+  listaArtistasCollage: any[] = [];
+
+  // =======================================================
   // CONSTRUCTOR + ONINIT
   // =======================================================
 
@@ -95,6 +103,82 @@ export class CancionesAdminComponent implements OnInit {
    */
   ngOnInit(): void {
     this.cargarCancionesGenerales();
+    this.cargarArtistasCollage();
+  }
+
+  // =======================================================
+  // Sección Artista
+  // =======================================================
+
+  onDragOverArtista(event: DragEvent) {
+    event.preventDefault();
+    this.isDragOverArtista = true;
+  }
+  onDragLeaveArtista(event: DragEvent) {
+    event.preventDefault();
+    this.isDragOverArtista = false;
+  }
+  onDropImagenArtista(event: DragEvent) {
+    event.preventDefault();
+    this.isDragOverArtista = false;
+    const file = event.dataTransfer?.files[0];
+    if (file) this.cargarPreviewImagenArtista(file);
+  }
+  onImagenSeleccionadaArtista(event: any) {
+    const file = event.target.files[0];
+    if (file) this.cargarPreviewImagenArtista(file);
+  }
+  cargarPreviewImagenArtista(file: File) {
+    this.imagenArchivoArtista = file;
+    const reader = new FileReader();
+    reader.onload = () => (this.previewImagenArtista = reader.result as string);
+    reader.readAsDataURL(file);
+  }
+  eliminarImagenArtista() {
+    this.previewImagenArtista = null;
+    this.imagenArchivoArtista = null;
+  }
+
+  // Convertir miembrosString a array antes de enviar
+  registrarArtista() {
+    if (!this.nuevoArtista.nombreArtistico.trim()) return;
+
+    const dto: RegistrarArtistasDto = {
+      nombreArtistico: this.nuevoArtista.nombreArtistico,
+      descripcion: this.nuevoArtista.descripcion,
+      miembros: this.nuevoArtista.miembrosString?.split(',').map((m) => m.trim()),
+      imagenPortada: this.imagenArchivoArtista ?? undefined,
+    };
+
+    this.artistaService.registrarArtista(dto).subscribe({
+      next: () => {
+        this.toastService.show('Artista registrado correctamente', 'success');
+        this.cancelarFormularioArtista();
+        this.cargarArtistasCollage();
+      },
+      error: (err) => console.error(err),
+    });
+  }
+
+  cancelarFormularioArtista() {
+    this.nuevoArtista = { nombreArtistico: '' };
+    this.nuevoArtista.miembrosString = '';
+    this.previewImagenArtista = null;
+    this.imagenArchivoArtista = null;
+  }
+
+  cargarArtistasCollage() {
+    this.artistaService.listarArtistas().subscribe({
+      next: (res) => {
+        this.listaArtistasCollage = res.mensaje.map((a: any) => ({
+          nombreArtistico: a.nombreArtistico,
+          urlImagen: a.urlImagen,
+        }));
+      },
+      error: (err) => {
+        console.error('Error cargando artistas para collage', err);
+      },
+    });
   }
 
   // =======================================================
@@ -338,21 +422,6 @@ export class CancionesAdminComponent implements OnInit {
   cerrarModalArtista() {
     this.mostrarModalArtista = false;
     this.nuevoArtista = { nombreArtistico: '' };
-  }
-
-  /**
-   * Registra un nuevo artista usando el servicio.
-   */
-  registrarArtista() {
-    if (!this.nuevoArtista.nombreArtistico.trim()) return;
-
-    this.artistaService.registrarArtista(this.nuevoArtista).subscribe({
-      next: (res) => {
-        this.toastService.show('Artista registrado correctamente', 'success');
-        this.cerrarModalArtista();
-      },
-      error: (err) => console.error(err),
-    });
   }
 
   // =======================================================

@@ -1,9 +1,9 @@
-import { API_URL } from '../../app.config';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { MensajeDto } from '../models/dto/mensaje.dto';
-import { AdminDto } from '../models/dto/admin/admin.dto';
+import { API_URL } from '../../../app.config';
+import { AdminDto } from '../../models/dto/admin/admin.dto';
+import { MensajeDto } from '../../models/dto/mensaje.dto';
 
 /**
  * @injectable

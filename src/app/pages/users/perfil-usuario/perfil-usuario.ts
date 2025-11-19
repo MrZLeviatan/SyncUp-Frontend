@@ -11,7 +11,7 @@ import { CancionDto } from '../../../core/models/dto/cancion/cancion.dto';
 import { CancionService } from '../../../core/services/canciones/cancion.service';
 import { ListaCanciones } from '../../../components/lista-canciones/lista-canciones';
 import { ArtistaDto } from '../../../core/models/dto/artista/artista.dto';
-import { ArtistaService } from '../../../core/services/artista.service';
+import { ArtistaService } from '../../../core/services/user/artista.service';
 import { ListaUsuarios } from '../../../components/lista-usuarios/lista-usuarios';
 import { UsuarioSocialService } from '../../../core/services/usuario/usuario-social.service';
 import { SugerenciaUsuariosDto } from '../../../core/models/dto/usuario/sugerencia-usuario.dto';

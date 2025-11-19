@@ -1,10 +1,12 @@
 /**
  * @interface RegistrarArtistasDto
- * @description Data Transfer Object (DTO) utilizado exclusivamente para enviar la información
- * necesaria para **registrar un nuevo Artista** en el sistema.
+ * @description DTO utilizado para enviar la información necesaria para registrar un nuevo Artista.
  *
- * Contiene únicamente el campo requerido para la creación de la entidad.
+ * Contiene todos los datos que se reciben en el backend desde el formulario, excepto el ID.
  */
 export interface RegistrarArtistasDto {
   nombreArtistico: string;
+  descripcion?: string;
+  miembros?: string[]; // conjunto de integrantes opcional
+  imagenPortada?: File; // para manejar la imagen seleccionada en el formulario
 }

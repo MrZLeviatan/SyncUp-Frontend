@@ -1,33 +1,30 @@
-<!-- Barra superior del panel de administración -->
+<!-- Barra superior profesional del panel de administración -->
 <div class="top-bar">
-  <!-- Sección de información del usuario -->
+  <!-- Información del usuario -->
   <div class="user-info">
-    <!-- Icono de perfil del usuario -->
-    <i class="fa fa-user-circle user-icon"></i>
-    <!-- Nombre de usuario dinámico -->
-    <span class="username">{{ username }}</span>
+    <div class="user-avatar">
+      <i class="fa fa-user-circle user-icon"></i>
+    </div>
+    <span class="username">Panel Admin</span>
   </div>
 
   <!-- Botones de navegación central -->
   <div class="nav-buttons">
-    <!-- Botón para ir a la gestión de canciones -->
     <button class="nav-btn" (click)="goToCanciones()">
       <i class="fa fa-music"></i> Gestión Canciones
     </button>
-    <!-- Botón para ir a la gestión de usuarios -->
     <button class="nav-btn" (click)="goToUsuarios()">
-      <i class="fa fa-users"></i> Gestión Usuarios
+      <i class="fa fa-users"></i> Usuarios del Sistema
     </button>
-    <!-- Nuevo botón para métricas -->
     <button class="nav-btn" (click)="verMetricas()">
-      <i class="fa fa-chart-line"></i> Ver Métricas
+      <i class="fa fa-chart-line"></i> Ver Métricas del Sistema
     </button>
   </div>
 
-  <!-- Botón de cerrar sesión alineado a la derecha -->
+  <!-- Botón de cerrar sesión circular -->
   <div class="logout-btn-container">
-    <button class="nav-btn logout-btn" (click)="cerrarSesion()">
-      <i class="fa fa-sign-out-alt"></i> Cerrar Sesión
+    <button class="logout-btn" (click)="cerrarSesion()">
+      <i class="fa fa-sign-out-alt"></i>
     </button>
   </div>
 </div>
