@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { API_URL } from '../../../app.config';
-import { RegistrarCancionDto } from '../../models/dto/cancion/registrar-cancion.dto';
-import { EditarCancionDto } from '../../models/dto/cancion/editar-cancion.dto';
-import { CancionDto } from '../../models/dto/cancion/cancion.dto';
+import { API_URL } from '../../app.config';
+import { RegistrarCancionDto } from '../models/dto/cancion/registrar-cancion.dto';
+import { EditarCancionDto } from '../models/dto/cancion/editar-cancion.dto';
+import { CancionDto } from '../models/dto/cancion/cancion.dto';
 
 /**
  * @injectable
@@ -148,5 +148,110 @@ export class CancionService {
   obtenerMetricas(): Observable<Map<string, any>> {
     // Petición GET al endpoint: /api/cancion/metricas
     return this.http.get<Map<string, any>>(`${this.apiUrl}/metricas`);
+  }
+
+  /**
+   * @method autocompletarCanciones
+   * @description Realiza una búsqueda rápida de canciones cuyos títulos coinciden con el prefijo dado.
+   *
+   * Utiliza la funcionalidad de autocompletado implementada con un Trie en el backend.
+   *
+   * @param prefijo Texto parcial ingresado por el usuario.
+   * @returns Un {@link Observable} que emite una lista de {@link CancionDto}s coincidentes.
+   */
+  autocompletarCanciones(prefijo: string): Observable<CancionDto[]> {
+    const url = `${this.apiUrl}/autocompletar`;
+    // Configura el parámetro de consulta 'prefijo'.
+    const params = new HttpParams().set('prefijo', prefijo);
+    // Petición GET al endpoint: /api/cancion/autocompletar?prefijo={prefijo}
+    return this.http.get<CancionDto[]>(url, { params });
+  }
+
+  /**
+   * @method listarCancionesFiltro
+   * @description Obtiene una lista de canciones aplicando filtros dinámicos y paginación.
+   *
+   * Los filtros se combinan con lógica AND y OR en el backend.
+   *
+   * @param artista (Opcional) Nombre del artista para filtrar.
+   * @param genero (Opcional) Género musical para filtrar.
+   * @param anioLanzamiento (Opcional) Año de lanzamiento para filtrar.
+   * @param pagina Número de página a recuperar (por defecto 0).
+   * @param size Cantidad de elementos por página (por defecto 10).
+   * @returns Un {@link Observable} que emite una lista de {@link CancionDto}s filtradas.
+   */
+  listarCancionesFiltro(
+    artista?: string,
+    genero?: string,
+    anioLanzamiento?: number,
+    pagina: number = 0,
+    size: number = 10
+  ): Observable<CancionDto[]> {
+    // 1. Inicializa los parámetros de consulta con los valores de paginación.
+    let params = new HttpParams().set('pagina', pagina.toString()).set('size', size.toString());
+
+    // 2. Agrega los filtros opcionales si están presentes.
+    if (artista) params = params.set('artista', artista);
+    if (genero) params = params.set('genero', genero);
+    if (anioLanzamiento) params = params.set('anioLanzamiento', anioLanzamiento.toString());
+
+    const url = `${this.apiUrl}/filtrar`;
+
+    // 3. Petición GET al endpoint: /api/cancion/filtrar?param1=valor1&...
+    return this.http.get<CancionDto[]>(url, { params });
+  }
+
+  /**
+   * @method descargarReporteFavoritos
+   * @description Envía una petición GET para descargar el reporte CSV de las canciones favoritas de un usuario.
+   *
+   * @param usuarioId ID único del usuario del cual se generará el reporte.
+   * @returns Un {@link Observable} que emite el contenido del archivo como un objeto {@link Blob}.
+   */
+  descargarReporteFavoritos(usuarioId: number): Observable<Blob> {
+    const url = `${this.apiUrl}/reporte-favoritos/${usuarioId}`;
+    // Se especifica responseType: 'blob' para recibir datos binarios (el archivo CSV).
+    return this.http.get(url, { responseType: 'blob' });
+  }
+
+  /**
+   * @method descargarReporteGeneralCanciones
+   * @description Envía una petición GET para descargar el reporte TXT de todas las canciones registradas.
+   *
+   * @returns Un {@link Observable} que emite el contenido del archivo como un objeto {@link Blob}.
+   */
+  descargarReporteGeneralCanciones(): Observable<Blob> {
+    const url = `${this.apiUrl}/reporte-general`;
+    // Se especifica responseType: 'blob' para recibir datos binarios (el archivo TXT).
+    return this.http.get(url, { responseType: 'blob' });
+  }
+
+  /**
+   * @method descargarArchivo
+   * @description Función auxiliar para iniciar la descarga de un archivo en el navegador
+   * a partir de un objeto Blob y un nombre de archivo.
+   *
+   * @param data El objeto {@link Blob} que contiene el contenido binario del archivo.
+   * @param filename El nombre de archivo que se le asignará al archivo descargado (ej: reporte.csv).
+   */
+  descargarArchivo(data: Blob, filename: string): void {
+    // 1. Crea un nuevo Blob, asegurando el tipo de contenido.
+    const blob = new Blob([data], { type: data.type });
+
+    // 2. Crea una URL temporal del objeto Blob.
+    const url = window.URL.createObjectURL(blob);
+
+    // 3. Crea un elemento <a> invisible en el documento.
+    const a = document.createElement('a');
+
+    // 4. Configura el enlace con la URL temporal y el nombre de archivo.
+    a.href = url;
+    a.download = filename;
+
+    // 5. Simula un clic en el enlace para iniciar la descarga.
+    a.click();
+
+    // 6. Libera la URL temporal para liberar recursos del navegador.
+    window.URL.revokeObjectURL(url);
   }
 }

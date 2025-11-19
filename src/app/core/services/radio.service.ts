@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { API_URL } from '../../../app.config';
-import { RadioDto } from '../../models/dto/playList/radio.dto';
-import { PlayListDto } from '../../models/dto/playList/play-list.dto';
+import { API_URL } from '../../app.config';
+import { RadioDto } from '../models/dto/playList/radio.dto';
+import { PlayListDto } from '../models/dto/playList/play-list.dto';
 
 /**
  * @injectable

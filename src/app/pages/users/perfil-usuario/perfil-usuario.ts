@@ -1,20 +1,18 @@
-import { CancionArchivoService } from './../../../core/services/canciones/cancion-archivo.service';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 
 import { TokenService } from '../../../core/auth/services/token.services';
 import { UsuarioDto } from '../../../core/models/dto/usuario/usuario.dto';
-import { UsuarioService } from '../../../core/services/usuario/usuario.service';
+import { UsuarioService } from '../../../core/services/usuario.service';
 import { ToastService } from '../../../layouts/public/avisos/toast.service';
 import { CancionDto } from '../../../core/models/dto/cancion/cancion.dto';
-import { CancionService } from '../../../core/services/canciones/cancion.service';
 import { ListaCanciones } from '../../../components/lista-canciones/lista-canciones';
 import { ArtistaDto } from '../../../core/models/dto/artista/artista.dto';
-import { ArtistaService } from '../../../core/services/user/artista.service';
+import { ArtistaService } from '../../../core/services/artista.service';
 import { ListaUsuarios } from '../../../components/lista-usuarios/lista-usuarios';
-import { UsuarioSocialService } from '../../../core/services/usuario/usuario-social.service';
 import { SugerenciaUsuariosDto } from '../../../core/models/dto/usuario/sugerencia-usuario.dto';
+import { CancionService } from '../../../core/services/cancion.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-perfil-usuario',
@@ -71,9 +69,7 @@ export class PerfilUsuario implements OnInit {
     private usuarioService: UsuarioService,
     private toast: ToastService,
     private cancionService: CancionService,
-    private cancionArchivoService: CancionArchivoService,
-    private artistaService: ArtistaService,
-    private usuarioSocial: UsuarioSocialService
+    private artistaService: ArtistaService
   ) {}
 
   /**
@@ -221,7 +217,7 @@ export class PerfilUsuario implements OnInit {
   descargarCancionesCSV(): void {
     if (!this.idUsuarioLogueado) return;
 
-    this.cancionArchivoService.descargarReporteFavoritos(this.idUsuarioLogueado).subscribe({
+    this.cancionService.descargarReporteFavoritos(this.idUsuarioLogueado).subscribe({
       next: (blob) => {
         const filename = 'canciones_favoritas.csv';
         const a = document.createElement('a');
@@ -265,7 +261,7 @@ export class PerfilUsuario implements OnInit {
    */
   cargarSugerencias() {
     if (!this.idUsuarioLogueado) return;
-    this.usuarioSocial.obtenerSugerencias(this.idUsuarioLogueado).subscribe({
+    this.usuarioService.obtenerSugerencias(this.idUsuarioLogueado).subscribe({
       next: (lista: UsuarioDto[]) => {
         this.sugerenciasAmigos = lista;
       },
@@ -278,7 +274,7 @@ export class PerfilUsuario implements OnInit {
    */
   cargarAmigos() {
     if (!this.idUsuarioLogueado) return;
-    this.usuarioSocial.obtenerUsuariosSeguidos(this.idUsuarioLogueado).subscribe({
+    this.usuarioService.obtenerUsuariosSeguidos(this.idUsuarioLogueado).subscribe({
       next: (lista: UsuarioDto[]) => {
         this.misAmigos = lista;
       },
@@ -308,7 +304,7 @@ export class PerfilUsuario implements OnInit {
       idUsuarioObjetivo: this.usuarioSugerenciaSeleccionado.id,
     };
 
-    this.usuarioSocial.seguirUsuario(dto).subscribe({
+    this.usuarioService.seguirUsuario(dto).subscribe({
       next: () => {
         this.toast.show('Has empezado a seguir al usuario', 'success');
         this.cargarSugerencias();
@@ -343,7 +339,7 @@ export class PerfilUsuario implements OnInit {
       idUsuarioObjetivo: this.usuarioAmigoSeleccionado.id,
     };
 
-    this.usuarioSocial.dejarDeSeguirUsuario(dto).subscribe({
+    this.usuarioService.dejarDeSeguirUsuario(dto).subscribe({
       next: () => {
         this.toast.show('Has dejado de seguir al usuario', 'success');
 

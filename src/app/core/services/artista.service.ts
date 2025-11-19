@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { RegistrarArtistasDto } from '../../models/dto/artista/registrar-artista.dto';
-import { MensajeDto } from '../../models/dto/mensaje.dto';
-import { ArtistaDto } from '../../models/dto/artista/artista.dto';
-import { API_URL } from '../../../app.config';
+import { RegistrarArtistasDto } from '../models/dto/artista/registrar-artista.dto';
+import { MensajeDto } from '../models/dto/mensaje.dto';
+import { ArtistaDto } from '../models/dto/artista/artista.dto';
+import { API_URL } from '../../app.config';
 
 /**
  * @injectable

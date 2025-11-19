@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CancionDto } from '../../../core/models/dto/cancion/cancion.dto';
 import { ListaCanciones } from '../../../components/lista-canciones/lista-canciones';
-import { CancionService } from '../../../core/services/canciones/cancion.service';
 import { ArtistaDto } from '../../../core/models/dto/artista/artista.dto';
-import { ArtistaService } from '../../../core/services/user/artista.service';
+import { ArtistaService } from '../../../core/services/artista.service';
 import { TokenService } from '../../../core/auth/services/token.services';
-import { RecomendacionService } from '../../../core/services/canciones/recomendacion.service';
+import { RecomendacionService } from '../../../core/services/radio.service';
+import { CancionService } from '../../../core/services/cancion.service';
 
 /**
  * Componente principal del menú de usuario.

@@ -1,18 +1,13 @@
-<div class="lista-usuarios-container">
-  <!-- Contenedor de la tabla scrollable -->
-  <!-- Scrollable table container -->
-  <div class="lista" [style.max-height.px]="alturaLista">
-    <!-- CABECERA -->
-    <div class="tabla-cabecera">
-      <span class="col username">Username</span>
-      <span class="col nombre">Nombre</span>
-    </div>
+<div class="usuarios-scroll-container">
+  <div class="usuarios-wrapper">
+    <div class="usuario-card" *ngFor="let u of usuariosFiltrados" (click)="seleccionarUsuario(u)">
+      <img
+        class="usuario-avatar"
+        [src]="u.fotoPerfilUrl || 'assets/img/default-user.png'"
+        alt="usuario"
+      />
 
-    <!-- FILAS DE USUARIOS -->
-    <div class="usuario-item" *ngFor="let u of usuariosFiltrados" (click)="seleccionarUsuario(u)">
-      <span class="col username">{{ u.username }}</span>
-
-      <span class="col nombre">{{ u.nombre }}</span>
+      <p class="usuario-username">{{ u.username }}</p>
     </div>
   </div>
 </div>

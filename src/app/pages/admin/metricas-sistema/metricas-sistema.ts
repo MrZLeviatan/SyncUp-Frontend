@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartData } from 'chart.js';
-import { CancionService } from '../../../core/services/canciones/cancion.service';
 import { CommonModule } from '@angular/common';
+import { CancionService } from '../../../core/services/cancion.service';
 
 @Component({
   selector: 'app-metricas-sistema',

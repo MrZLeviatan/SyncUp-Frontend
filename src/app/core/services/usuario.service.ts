@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { API_URL } from '../../../app.config';
-import { UsuarioDto } from '../../models/dto/usuario/usuario.dto';
-import { EditarUsuarioDto } from '../../models/dto/usuario/editar-usuario.dto';
-import { EditarPasswordDto } from '../../models/dto/usuario/editar-password.dto';
+import { API_URL } from '../../app.config';
+import { UsuarioDto } from '../models/dto/usuario/usuario.dto';
+import { EditarUsuarioDto } from '../models/dto/usuario/editar-usuario.dto';
+import { EditarPasswordDto } from '../models/dto/usuario/editar-password.dto';
 import { map } from 'rxjs/operators';
-import { MensajeDto } from '../../models/dto/mensaje.dto';
+import { MensajeDto } from '../models/dto/mensaje.dto';
+import { SugerenciaUsuariosDto } from '../models/dto/usuario/sugerencia-usuario.dto';
+import { UsuarioConexionDto } from '../models/dto/usuario/usuario.conexion.dto';
 
 /**
  * @injectable
@@ -101,5 +103,68 @@ export class UsuarioService {
     return this.http.get<any>(`${this.apiUrl}/listar`).pipe(
       map((resp) => resp.mensaje) // ← EXTRAEMOS SOLO LA LISTA
     );
+  }
+
+  /**
+   * @method seguirUsuario
+   * @description Permite que un usuario siga a otro enviando los IDs correspondientes.
+   *
+   * @param dto DTO con los IDs del usuario principal y del usuario a seguir {@link UsuarioConexionDto}.
+   * @returns Un {@link Observable} que emite la respuesta del backend.
+   */
+  seguirUsuario(dto: UsuarioConexionDto): Observable<any> {
+    return this.http.post(`${this.apiUrl}/seguir`, dto);
+  }
+
+  /**
+   * @method dejarDeSeguirUsuario
+   * @description Permite que un usuario deje de seguir a otro enviando los IDs correspondientes.
+   *
+   * @param dto DTO con los IDs del usuario principal y del usuario a dejar de seguir {@link UsuarioConexionDto}.
+   * @returns Un {@link Observable} que emite la respuesta del backend.
+   */
+  dejarDeSeguirUsuario(dto: UsuarioConexionDto): Observable<any> {
+    return this.http.post(`${this.apiUrl}/dejar-de-seguir`, dto);
+  }
+
+  /**
+   * @method obtenerSugerencias
+   * @description Obtiene sugerencias de usuarios a seguir para un usuario dado.
+   *
+   * @param idUsuario ID del usuario para el cual se generan las sugerencias.
+   * @returns Un {@link Observable} que emite un array de {@link SugerenciaUsuariosDto}.
+   */
+  obtenerSugerencias(idUsuario: number): Observable<UsuarioDto[]> {
+    return this.http
+      .get<{ error: boolean; mensaje: SugerenciaUsuariosDto[] }>(
+        `${this.apiUrl}/sugerencias/${idUsuario}`
+      )
+      .pipe(
+        // mapeamos cada sugerencia a UsuarioDto
+        map((res) =>
+          res.mensaje.map(
+            (sugerencia): UsuarioDto => ({
+              id: sugerencia.id,
+              nombre: sugerencia.nombre,
+              username: sugerencia.username,
+              password: '', // password por defecto vacío (no viene del backend)
+              fotoPerfilUrl: '',
+            })
+          )
+        )
+      );
+  }
+
+  /**
+   * @method obtenerUsuariosSeguidos
+   * @description Obtiene la lista de usuarios que el usuario especificado está siguiendo.
+   *
+   * @param idUsuario ID del usuario que realiza la consulta.
+   * @returns Un {@link Observable} que emite un array de {@link UsuarioDto}.
+   */
+  obtenerUsuariosSeguidos(idUsuario: number): Observable<UsuarioDto[]> {
+    return this.http
+      .get<{ error: boolean; mensaje: UsuarioDto[] }>(`${this.apiUrl}/seguidos/${idUsuario}`)
+      .pipe(map((res) => res.mensaje));
   }
 }

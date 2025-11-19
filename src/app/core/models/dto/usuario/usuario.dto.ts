@@ -12,4 +12,5 @@ export interface UsuarioDto {
   nombre: string;
   username: string;
   password: string;
+  fotoPerfilUrl: string;
 }

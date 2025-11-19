@@ -1,23 +1,25 @@
 <div class="contenedor-principal">
-  <div class="contenedor-interno">
-    <!-- Componente que muestra la lista de usuarios.
-         Se envía la altura deseada y la lista de usuarios para mostrar.
-         También emite el evento "usuarioSeleccionado" cuando el usuario hace clic. -->
+  <div class="seccion-lista">
+    <!-- Lista de usuarios centrada -->
     <app-lista-usuarios
-      [alturaLista]="550"
+      [alturaLista]="0"
       [usuarios]="listaUsuarios"
       (usuarioSeleccionado)="mostrarDetalles($event)"
     >
     </app-lista-usuarios>
+  </div>
 
-    <!-- Botón para eliminar al usuario actualmente seleccionado.
-         Solo aparece si existe un usuario seleccionado en el padre. -->
-    <button
-      type="button"
-      *ngIf="usuarioSeleccionadoPadre"
-      class="btn-eliminar"
-      (click)="eliminarUsuarioSeleccionado()"
-    >
+  <!-- Tarjeta de información del usuario seleccionado -->
+  <div class="seccion-detalles" *ngIf="usuarioSeleccionadoPadre">
+    <div class="tarjeta-detalle">
+      <img class="avatar" [src]="usuarioSeleccionadoPadre.fotoPerfilUrl" alt="perfil" />
+
+      <h2>{{ usuarioSeleccionadoPadre.username }}</h2>
+      <p>{{ usuarioSeleccionadoPadre.nombre }}</p>
+    </div>
+
+    <!-- Botón de eliminar -->
+    <button type="button" class="btn-eliminar" (click)="eliminarUsuarioSeleccionado()">
       <i class="fa fa-trash"></i> Eliminar Usuario
     </button>
   </div>

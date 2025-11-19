@@ -61,21 +61,6 @@
           </div>
 
           <!-- ============================== -->
-          <!-- FILTRO DE AÑO (Icono de reloj) -->
-          <!-- ============================== -->
-          <div class="dropdown">
-            <!-- Botón para mostrar/esconder lista de años -->
-            <button class="btn-icono" (click)="toggleAnios()">⧖</button>
-
-            <!-- Lista dinámica de años generada desde el componente -->
-            <div class="dropdown-menu" *ngIf="mostrarAnios">
-              <div class="dropdown-item" *ngFor="let y of anios" (click)="seleccionarAnio(y)">
-                {{ y }}
-              </div>
-            </div>
-          </div>
-
-          <!-- ============================== -->
           <!-- BOTÓN APLICAR FILTROS -->
           <!-- ============================== -->
           <button class="btn-icono" (click)="aplicarFiltros()">✓</button>
@@ -101,40 +86,28 @@
     </div>
 
     <!-- ========================================================= -->
-    <!-- CABECERA DE LA TABLA DE CANCIONES -->
-    <!-- ========================================================= -->
-    <div class="tabla-cabecera">
-      <span class="col portada">Portada</span>
-      <span class="col titulo">Título</span>
-      <span class="col artista">Artista</span>
-      <span class="col genero">Género</span>
-      <span class="col duracion">Duración</span>
-    </div>
-
-    <!-- ========================================================= -->
-    <!-- LISTA DE CANCIONES (UNA FILA POR CADA CANCIÓN) -->
+    <!-- LISTA DE CANCIONES (ESTILO SPOTIFY MOBILE) -->
     <!-- ========================================================= -->
     <div class="cancion-item" *ngFor="let c of canciones" (click)="seleccionarCancion(c)">
-      <!-- Portada de la canción -->
-      <span class="col portada">
+      <!-- Portada -->
+      <div class="col-portada">
         <img
           [src]="c.urlPortada || 'assets/placeholder.png'"
           alt="Portada {{ c.titulo }}"
           class="imagen-portada"
         />
-      </span>
+      </div>
 
-      <!-- Título -->
-      <span class="col titulo">{{ c.titulo }}</span>
+      <!-- Info de la canción -->
+      <div class="col-info">
+        <div class="titulo">{{ c.titulo }}</div>
+        <div class="artista">{{ artistasMap[c.idArtista] || 'Cargando...' }}</div>
+      </div>
 
-      <!-- Nombre del artista desde el mapa cargado -->
-      <span class="col artista">{{ artistasMap[c.idArtista] || 'Cargando...' }}</span>
-
-      <!-- Género musical -->
-      <span class="col genero">{{ c.generoMusical }}</span>
-
-      <!-- Duración formateada -->
-      <span class="col duracion">{{ c.duracion }}</span>
+      <!-- Duración -->
+      <div class="col-duracion">
+        {{ c.duracion }}
+      </div>
     </div>
   </div>
 </div>

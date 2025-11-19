@@ -1,12 +1,12 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges, Output } from '@angular/core';
 import { CancionDto } from '../../core/models/dto/cancion/cancion.dto';
-import { ArtistaService } from '../../core/services/user/artista.service';
+import { ArtistaService } from '../../core/services/artista.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { CancionBusquedaService } from '../../core/services/canciones/cancion-busqueda.service';
 import { ArtistaDto } from '../../core/models/dto/artista/artista.dto';
 import { GeneroMusical } from '../../core/models/enum/genero-musical.enum';
 import { EventEmitter } from '@angular/core';
+import { CancionService } from '../../core/services/cancion.service';
 
 /**
  * Componente encargado de mostrar y administrar la lista de canciones,
@@ -69,10 +69,7 @@ export class ListaCanciones implements OnInit, OnChanges {
    * @param artistaService Servicio para obtener información de artistas.
    * @param busquedaService Servicio para búsquedas y filtros de canciones.
    */
-  constructor(
-    private artistaService: ArtistaService,
-    private busquedaService: CancionBusquedaService
-  ) {}
+  constructor(private artistaService: ArtistaService, private cancionesService: CancionService) {}
 
   /**
    * Método del ciclo de vida de Angular que se ejecuta al inicializar el componente.
@@ -130,7 +127,7 @@ export class ListaCanciones implements OnInit, OnChanges {
       return;
     }
 
-    this.busquedaService.autocompletarCanciones(texto).subscribe({
+    this.cancionesService.autocompletarCanciones(texto).subscribe({
       next: (res: any) => {
         const lista = res?.mensaje || [];
         this.canciones = this.filtrarContraListaPadre(lista);
@@ -210,7 +207,7 @@ export class ListaCanciones implements OnInit, OnChanges {
     const genero = this.generoSeleccionado || undefined;
     const anio = this.anioSeleccionado || undefined;
 
-    this.busquedaService.listarCancionesFiltro(artista, genero, anio, 0, 20).subscribe({
+    this.cancionesService.listarCancionesFiltro(artista, genero, anio, 0, 20).subscribe({
       next: (res: any) => {
         const lista = res || [];
         this.canciones = this.filtrarContraListaPadre(lista);

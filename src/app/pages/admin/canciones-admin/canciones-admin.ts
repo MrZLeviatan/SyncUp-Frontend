@@ -1,22 +1,20 @@
-import { CancionBusquedaService } from './../../../core/services/canciones/cancion-busqueda.service';
 import { Component, OnInit } from '@angular/core';
 import { ListaCanciones } from '../../../components/lista-canciones/lista-canciones';
 import { CancionDto } from '../../../core/models/dto/cancion/cancion.dto';
-import { CancionService } from '../../../core/services/canciones/cancion.service';
 import { CommonModule } from '@angular/common';
 import { GeneroMusical } from '../../../core/models/enum/genero-musical.enum';
 import { FormsModule } from '@angular/forms';
-import { ArtistaService } from '../../../core/services/user/artista.service';
+import { ArtistaService } from '../../../core/services/artista.service';
 import { RegistrarArtistasDto } from '../../../core/models/dto/artista/registrar-artista.dto';
 import { ToastService } from '../../../layouts/public/avisos/toast.service';
 import { RegistrarCancionDto } from '../../../core/models/dto/cancion/registrar-cancion.dto';
 import { EditarCancionDto } from '../../../core/models/dto/cancion/editar-cancion.dto';
-import { CancionArchivoService } from '../../../core/services/canciones/cancion-archivo.service';
+import { CancionService } from '../../../core/services/cancion.service';
 
 @Component({
   selector: 'app-canciones-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ListaCanciones],
   templateUrl: './canciones-admin.html',
   styleUrls: ['./canciones-admin.css'],
 })
@@ -94,8 +92,7 @@ export class CancionesAdminComponent implements OnInit {
   constructor(
     private cancionService: CancionService,
     private artistaService: ArtistaService,
-    private toastService: ToastService,
-    private cancionArchivoService: CancionArchivoService
+    private toastService: ToastService
   ) {}
 
   /**
@@ -149,6 +146,12 @@ export class CancionesAdminComponent implements OnInit {
       miembros: this.nuevoArtista.miembrosString?.split(',').map((m) => m.trim()),
       imagenPortada: this.imagenArchivoArtista ?? undefined,
     };
+
+    // Validar que la imagen esté seleccionada
+    if (!this.imagenArchivoArtista) {
+      this.toastService.show('Selecciona una imagen de portada para el artista', 'error');
+      return;
+    }
 
     this.artistaService.registrarArtista(dto).subscribe({
       next: () => {
@@ -507,10 +510,10 @@ export class CancionesAdminComponent implements OnInit {
   }
 
   descargarCancionesTxt() {
-    this.cancionArchivoService.descargarReporteGeneralCanciones().subscribe({
+    this.cancionService.descargarReporteGeneralCanciones().subscribe({
       next: (blob) => {
         // Llama a la función auxiliar del servicio para iniciar descarga
-        this.cancionArchivoService.descargarArchivo(blob, 'canciones.txt');
+        this.cancionService.descargarArchivo(blob, 'canciones.txt');
       },
       error: (err) => {
         console.error('Error descargando el archivo', err);

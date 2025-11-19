@@ -7,9 +7,6 @@
     <button (click)="mostrarPanel = 'artista'" [class.active]="mostrarPanel === 'artista'">
       Artistas
     </button>
-    <button (click)="mostrarPanel = 'album'" [class.active]="mostrarPanel === 'album'">
-      Álbumes
-    </button>
     <button (click)="mostrarPanel = 'cancion'" [class.active]="mostrarPanel === 'cancion'">
       Canciones
     </button>
@@ -95,7 +92,7 @@
     </form>
   </div>
 
-  <div class="collage-artistas">
+  <div class="collage-artistas" *ngIf="mostrarPanel === 'artista'">
     <h3>Artistas Registrados</h3>
 
     <div class="collage-grid">
@@ -105,16 +102,166 @@
       </div>
     </div>
   </div>
+
   <!-- ==============================
-       OTROS PANELES (ÁLBUMES / CANCIONES)
-       ============================== -->
-  <div class="panel-derecho" *ngIf="mostrarPanel === 'album'">
-    <h2>Gestión de Álbumes</h2>
-    <!-- Aquí irá el contenido del panel de álbumes -->
+ PANEL CANCIÓN
+ ============================== -->
+  <div class="panel-izquierdo" *ngIf="mostrarPanel === 'cancion'">
+    <h3>Registrar Canción</h3>
+
+    <form class="formulario-cancion" #formCancion="ngForm">
+      <!-- TÍTULO -->
+      <div class="campo-grupo">
+        <label>Título de la Canción:</label>
+        <input
+          type="text"
+          name="titulo"
+          [(ngModel)]="titulo"
+          required
+          placeholder="Título de la canción"
+        />
+      </div>
+
+      <!-- ARTISTA + BUSCADOR -->
+      <div class="campo-grupo">
+        <label>Artista Principal:</label>
+        <div class="fila-artista">
+          <input
+            type="text"
+            name="artista"
+            placeholder="Buscar artista..."
+            (input)="buscarArtistas($event)"
+            [(ngModel)]="textoArtista"
+            [disabled]="editarMode"
+          />
+        </div>
+      </div>
+
+      <!-- Lista de sugerencias -->
+      <div class="lista-artistas" *ngIf="listaArtistas.length > 0">
+        <div class="item-artista" *ngFor="let a of listaArtistas" (click)="seleccionarArtista(a)">
+          {{ a.nombreArtistico }}
+        </div>
+      </div>
+
+      <!-- GÉNERO + FECHA -->
+      <div class="fila-doble">
+        <div class="campo-grupo">
+          <label>Género Musical:</label>
+          <select name="genero" [(ngModel)]="genero" required [disabled]="editarMode">
+            <option value="">Seleccione género</option>
+            <option *ngFor="let g of generos" [value]="g">{{ g }}</option>
+          </select>
+        </div>
+
+        <div class="campo-grupo">
+          <label>Fecha de Lanzamiento:</label>
+          <input type="date" name="fecha" [(ngModel)]="fecha" required />
+        </div>
+      </div>
+
+      <!-- MP3 -->
+      <div class="campo-grupo">
+        <label>Archivo MP3:</label>
+
+        <div class="audio-row mp3-adjust">
+          <label class="upload-btn" [class.disabled]="editarMode">
+            Seleccionar MP3
+            <input
+              type="file"
+              accept="audio/mp3"
+              (change)="onAudioSeleccionado($event)"
+              hidden
+              [disabled]="editarMode"
+            />
+          </label>
+
+          <audio *ngIf="audioURL" class="audio-player" controls [src]="audioURL"></audio>
+        </div>
+      </div>
+
+      <!-- PORTADA -->
+      <div class="campo-grupo">
+        <label>Imagen de Portada:</label>
+
+        <div
+          class="drop-zone"
+          (drop)="onDropImagen($event)"
+          (dragover)="onDragOver($event)"
+          (dragleave)="onDragLeave($event)"
+          [class.dragover]="isDragOver"
+        >
+          <ng-container *ngIf="!previewImagen">
+            <p>Arrastra la portada aquí</p>
+            <span>ó</span>
+
+            <label class="upload-btn" [class.disabled]="editarMode">
+              Seleccionar Portada
+              <input
+                type="file"
+                accept="image/*"
+                (change)="onImagenSeleccionada($event)"
+                hidden
+                [disabled]="editarMode"
+              />
+            </label>
+          </ng-container>
+
+          <div class="preview-wrapper" *ngIf="previewImagen">
+            <img [src]="previewImagen" alt="Portada" class="preview-img" />
+            <button class="btn-remove-img" [disabled]="editarMode" (click)="eliminarImagen()">
+              ✕
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTONES -->
+      <div class="fila-botones">
+        <button type="button" class="btn-cancelar" (click)="cancelarFormulario()">Cancelar</button>
+
+        <button
+          type="button"
+          class="btn-guardar"
+          (click)="editarMode ? actualizarCancion(formCancion) : guardarCancion(formCancion)"
+          [disabled]="cargando || !formCancion.valid || !artistaSeleccionadoId"
+        >
+          <ng-container *ngIf="!cargando">
+            {{ editarMode ? 'Actualizar Canción' : 'Guardar Canción' }}
+          </ng-container>
+
+          <div *ngIf="cargando" class="spinner"></div>
+        </button>
+      </div>
+    </form>
   </div>
 
-  <div class="panel-derecho" *ngIf="mostrarPanel === 'cancion'">
-    <h2>Gestión de Canciones</h2>
-    <!-- Aquí va el HTML de canciones que ya tienes -->
+  <!-- ==============================
+       PANEL DERECHO: LISTA DE CANCIONES
+       ============================== -->
+  <div class="lista-canciones-panel" *ngIf="mostrarPanel === 'cancion'">
+    <!-- Componente que muestra la lista de canciones -->
+    <app-lista-canciones
+      [alturaLista]="alturaLista"
+      [canciones]="canciones"
+      (cancionSeleccionada)="recibirCancionSeleccionada($event)"
+    >
+    </app-lista-canciones>
+
+    <!-- Botón dinámico: descarga o elimina -->
+    <div class="boton-descargar-canciones">
+      <button type="button" *ngIf="!cancionSeleccionada" (click)="descargarCancionesTxt()">
+        <i class="fa fa-download"></i> Descargar Canciones TXT
+      </button>
+
+      <button
+        type="button"
+        *ngIf="cancionSeleccionada"
+        class="btn-eliminar"
+        (click)="eliminarCancionSeleccionada()"
+      >
+        <i class="fa fa-trash"></i> Eliminar Canción
+      </button>
+    </div>
   </div>
 </div>

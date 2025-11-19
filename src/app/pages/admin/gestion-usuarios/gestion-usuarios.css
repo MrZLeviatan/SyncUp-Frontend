@@ -1,11 +1,48 @@
-/* Mantiene la tabla arriba y el botón debajo */
-.contenedor-interno {
+/* Contenedor general centrado */
+.contenedor-principal {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+/* Contenedor donde va la lista */
+.seccion-lista {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Tarjeta donde aparece la info del usuario seleccionado */
+.seccion-detalles {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Estilo del botón igual al de eliminar canción */
+/* Tarjeta de información */
+.tarjeta-detalle {
+  width: 260px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Imagen del perfil */
+.avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 12px;
+}
+
+/* Botón de eliminar */
 .btn-eliminar {
   background-color: #d9534f;
   color: white;
@@ -14,7 +51,6 @@
   border-radius: 6px;
   cursor: pointer;
   font-size: 15px;
-  margin-top: 20px;
   display: flex;
   align-items: center;
   gap: 6px;

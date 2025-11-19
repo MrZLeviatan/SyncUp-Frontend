@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioDto } from '../../../core/models/dto/usuario/usuario.dto';
 import { ListaUsuarios } from '../../../components/lista-usuarios/lista-usuarios';
-import { UsuarioService } from '../../../core/services/usuario/usuario.service';
+import { UsuarioService } from '../../../core/services/usuario.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
