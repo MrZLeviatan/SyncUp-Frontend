@@ -12,21 +12,38 @@ import { CancionService } from '../../../core/services/cancion.service';
   styleUrls: ['./metricas-sistema.css'],
 })
 export class MetricasSistema implements OnInit {
+  // ES: métricas simples
+  // EN: simple metrics
   totalCanciones = 0;
   artistaTop = '';
+
+  // ES: datos por género
   cancionesPorGeneroLabels: string[] = [];
   cancionesPorGeneroData: number[] = [];
+
+  // ES: top 5 artistas
+  top5Labels: string[] = [];
+  top5Data: number[] = [];
 
   pieChartData: ChartData<'pie'> = {
     labels: [],
     datasets: [
-      { data: [], backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'] },
+      {
+        data: [],
+        backgroundColor: ['#ff5900ff', '#10cd65ff', '#04afc2ff', '#6946e7ff', '#7d0808ff'],
+      },
     ],
   };
 
   barChartData: ChartData<'bar'> = {
     labels: [],
-    datasets: [{ label: 'Canciones por género', data: [], backgroundColor: '#36A2EB' }],
+    datasets: [{ label: 'Canciones por género', data: [], backgroundColor: '#35be0fff' }],
+  };
+
+  // ES: gráfico top 5 artistas
+  barTop5Data: ChartData<'bar'> = {
+    labels: [],
+    datasets: [{ label: 'Top 5 artistas', data: [], backgroundColor: '#9a3bbf' }],
   };
 
   constructor(private cancionService: CancionService) {}
@@ -40,6 +57,7 @@ export class MetricasSistema implements OnInit {
       this.totalCanciones = metricas.totalCanciones;
       this.artistaTop = metricas.artistaTop;
 
+      /* === Canciones por género === */
       const porGenero = metricas.cancionesPorGenero;
       this.cancionesPorGeneroLabels = Object.keys(porGenero);
       this.cancionesPorGeneroData = Object.values(porGenero);
@@ -49,6 +67,16 @@ export class MetricasSistema implements OnInit {
 
       this.barChartData.labels = this.cancionesPorGeneroLabels;
       this.barChartData.datasets[0].data = this.cancionesPorGeneroData;
+
+      /* === Top 5 Artistas === */
+      const top5 = metricas.top5Artistas || [];
+
+      this.top5Labels = top5.map((item: any) => item.key);
+      this.top5Data = top5.map((item: any) => item.value);
+
+      this.barTop5Data.labels = this.top5Labels;
+      console.log('Top 5 Labels:', this.top5Labels);
+      this.barTop5Data.datasets[0].data = this.top5Data;
     });
   }
 }

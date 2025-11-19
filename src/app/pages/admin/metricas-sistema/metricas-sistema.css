@@ -1,122 +1,124 @@
-.metricas-container {
-  padding: 40px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #f5f6fa 0%, #e1e4f0 100%);
-  min-height: 100vh;
+/* ===== DASHBOARD CONTAINER ===== */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #0a0a0a;
+  border-radius: 25px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+  font-family: 'Segoe UI', sans-serif;
+  color: #eee;
 }
 
-h2 {
+/* ===== TITULO ===== */
+.dashboard-title {
   text-align: center;
-  margin-bottom: 30px;
-  font-size: 2rem;
-  background: linear-gradient(90deg, #273c75, #192a56);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-size: 36px;
+  font-weight: 900;
+  margin-bottom: 40px;
+  color: #9a3bbf;
+  text-shadow: 0 0 15px rgba(154, 59, 191, 0.8);
 }
 
-.loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 250px;
+/* ===== LOADING ===== */
+.dashboard-loading {
+  text-align: center;
+  padding: 60px 0;
 }
 
-.spinner {
-  border: 6px solid #f3f3f3;
-  border-top: 6px solid #273c75;
-  border-radius: 50%;
+.dashboard-spinner {
   width: 60px;
   height: 60px;
-  animation: spin 1s linear infinite;
-  margin-bottom: 15px;
+  border: 6px solid #640b88cc;
+  border-top-color: #9a3bbf;
+  border-radius: 50%;
+  margin: 0 auto 15px;
+  animation: spin 0.8s linear infinite;
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
+  to {
     transform: rotate(360deg);
   }
 }
 
-.metricas-content {
-  animation: fadeIn 1s ease-in-out;
+.dashboard-loading p {
+  font-size: 16px;
+  color: #bbb;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.metricas-resumen {
+/* ===== METRICS GRID ===== */
+.metrics-grid {
   display: flex;
+  gap: 20px;
   justify-content: center;
-  gap: 25px;
   flex-wrap: wrap;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 }
 
-.resumen-card {
-  background: #fff;
-  padding: 25px 35px;
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  min-width: 220px;
-  flex: 1 1 220px;
-  transition: transform 0.3s, box-shadow 0.3s;
+/* ===== METRIC CARD ===== */
+.metric-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: linear-gradient(135deg, #3d0d50, #640b88, #9a3bbf);
+  border-radius: 20px;
+  padding: 20px 30px;
+  min-width: 250px;
+  flex: 1 1 250px;
+  box-shadow: 0 12px 30px rgba(154, 59, 191, 0.5);
+  transition: all 0.3s ease;
 }
 
-.resumen-card:hover {
+.metric-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 40px rgba(154, 59, 191, 0.7);
 }
 
-.resumen-card h3 {
-  margin-bottom: 12px;
-  color: #192a56;
-  font-size: 1.2rem;
+.metric-icon {
+  font-size: 36px;
 }
 
-.resumen-card p {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #273c75;
+.metric-info h2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #fff;
 }
 
-.charts-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 35px;
-  justify-content: center;
+.metric-info p {
+  font-size: 28px;
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 0 8px rgba(154, 59, 191, 0.7);
+}
+
+/* ===== CHARTS GRID ===== */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 30px;
 }
 
 .chart-card {
-  background: #fff;
+  background: #1b1b1b;
+  border-radius: 20px;
   padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  flex: 1 1 420px;
-  max-width: 520px;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.chart-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+  position: relative;
+  transition: all 0.3s ease;
 }
 
 .chart-card h3 {
+  font-size: 18px;
+  font-weight: 700;
   text-align: center;
+  color: #d8baf7;
   margin-bottom: 20px;
-  color: #273c75;
-  font-size: 1.2rem;
+  text-shadow: 0 0 6px rgba(154, 59, 191, 0.6);
+}
+
+canvas {
+  width: 100% !important;
+  height: auto !important;
 }
